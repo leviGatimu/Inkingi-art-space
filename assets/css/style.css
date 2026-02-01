@@ -1,0 +1,919 @@
+/* --- RESET --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* --- VARIABLES --- */
+:root {
+    --yellow: #FDB913;
+    --green: #8BC34A;
+    --red: #ED1C24;
+}
+
+/* --- NAVBAR (FIXED FONT) --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* MARKER FONT FOR LOGO TEXT */
+
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.nav-logo-icon {
+    width: 35px;
+    height: auto;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    margin-left: 500px;
+
+}
+
+/* FIX: Force Marker Font on Menu Links */
+.nav-links a {
+    text-decoration: none;
+    color: #000;
+    font-family: 'Groovy', cursive;
+    font-size: 19px;
+    /* KEY CHANGE */
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--red);
+}
+
+/* Dashed Contact Button */
+.contacts-link {
+    border: 2px dashed #000;
+    padding: 5px 15px;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    /* Hand-drawn look */
+}
+
+.contacts-link:hover {
+    background: #f9f9f9;
+}
+
+/* Join Now Button */
+.btn-join {
+    background-color: var(--yellow);
+    padding: 10px 30px;
+    border-radius: 50px;
+    color: #000 !important;
+    text-decoration: none;
+    font-family: 'Permanent Marker', cursive;
+    /* KEY CHANGE */
+    font-size: 1rem;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.btn-join:hover {
+    transform: translateY(-2px);
+}
+
+/* --- HERO SECTION --- */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: -1;
+}
+
+.hero-title {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 4.5rem;
+    margin-bottom: 20px;
+    text-shadow: 4px 4px 0 #fff;
+    /* White shadow to pop against BG */
+    position: relative;
+    z-index: 10;
+}
+
+.text-yellow {
+    color: var(--yellow);
+}
+
+.text-green {
+    color: var(--green);
+}
+
+.text-red {
+    color: var(--red);
+}
+
+/* --- CLEAN LOGO (No Box) --- */
+.logo-center {
+    position: relative;
+    z-index: 10;
+    margin-top: 10px;
+}
+
+.logo-center img {
+    width: 250px;
+    /* Adjusted size */
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 4rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 20;
+}
+
+.arrow-left {
+    left: 40px;
+}
+
+.arrow-right {
+    right: 40px;
+}
+
+.wave-bottom {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    z-index: 5;
+}
+
+.wave-bottom svg {
+    width: 100%;
+    height: 140px;
+}
+
+/* --- MAIN CONTENT --- */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 100px 20px;
+    position: relative;
+}
+
+.content-row {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    z-index: 5;
+    /* Keep content above lines */
+    margin-bottom: 50px;
+}
+
+.content-row.reverse {
+    flex-direction: row-reverse;
+}
+
+.image-col,
+.text-col {
+    flex: 1;
+}
+
+.square-frame {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s;
+}
+
+.square-frame:hover {
+    transform: scale(1.03);
+}
+
+.square-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Reveal Animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: 1s all ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    /* Hide menu items on mobile for now */
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .logo-center img {
+        width: 180px;
+    }
+
+    .content-row,
+    .content-row.reverse {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .drawing-canvas {
+        display: none;
+    }
+}
+
+/* --- NEW QUOTE & BASKET SECTION --- */
+.quote-section {
+    margin-top: 150px;
+    /* Space from previous section */
+    position: relative;
+    z-index: 5;
+    padding-bottom: 50px;
+    /* Extra space for the floating box */
+    /* Push slightly to the right to align with the flow, or keep centered */
+    width: 90%;
+    margin-left: auto;
+}
+
+.basket-image-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 20px;
+}
+
+.basket-image-wrapper img {
+    width: 100%;
+    height: 450px;
+    /* Landscape height */
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* The Yellow Floating Card */
+.quote-card {
+    position: absolute;
+    bottom: -40px;
+    /* Hangs off the bottom */
+    left: -60px;
+    /* Hangs off the left */
+
+    background-color: var(--yellow);
+    padding: 40px;
+    width: 450px;
+    /* Width of the yellow box */
+
+    border-radius: 20px;
+    box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.15);
+
+    /* Font Styling to match screenshot */
+    font-family: 'Permanent Marker', cursive;
+    color: #111;
+}
+
+.quote-card p {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.quote-card .author {
+    display: block;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+    text-transform: uppercase;
+}
+
+/* Mobile Fix for the Quote Box */
+@media (max-width: 900px) {
+    .quote-section {
+        width: 100%;
+        margin-top: 100px;
+    }
+
+    .quote-card {
+        position: relative;
+        /* Stacks below image on mobile */
+        bottom: auto;
+        left: auto;
+        width: 100%;
+        margin-top: -20px;
+        border-radius: 0 0 20px 20px;
+    }
+}
+
+
+
+
+
+/* --- NEW SECTIONS CSS --- */
+
+/* 1. PROGRAMS SECTION */
+.programs-section {
+    margin-bottom: 150px;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+/* --- ARTISTIC FOOTER --- */
+.main-footer {
+    background-color: #1a1a1a;
+    /* Dark background */
+    color: #fff;
+    position: relative;
+    margin-top: 150px;
+    /* Distance from content above */
+    padding-top: 150px;
+    /* Space inside for wave to sit */
+}
+
+/* The Wave Transition */
+.footer-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    z-index: 1;
+}
+
+.footer-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+    /* Matches padding-top of footer approximately */
+}
+
+/* Ensure the fill matches the footer background exactly */
+.footer-wave path {
+    fill: #1a1a1a;
+}
+
+/* Footer Content Grid */
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 0 20px 40px 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* Brand Styles */
+.footer-logo {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.t-yellow {
+    color: var(--yellow);
+}
+
+.footer-col p {
+    color: #aaa;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Headings */
+.footer-col h3 {
+    font-family: 'Permanent Marker', cursive;
+    color: var(--yellow);
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+/* Links */
+.footer-menu {
+    list-style: none;
+}
+
+.footer-menu li {
+    margin-bottom: 12px;
+}
+
+.footer-menu a {
+    text-decoration: none;
+    color: #ccc;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-menu a:hover {
+    color: var(--green);
+    transform: translateX(10px);
+}
+
+/* Social Icons */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: #333;
+    border-radius: 50%;
+    color: #fff;
+    transition: 0.3s;
+    border: 2px solid transparent;
+}
+
+.social-icon:hover {
+    background: var(--red);
+    border-color: #fff;
+    transform: translateY(-5px);
+}
+
+/* Bottom Bar */
+.footer-bottom {
+    background: #111;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #333;
+    font-size: 0.8rem;
+    color: #777;
+    position: relative;
+    z-index: 2;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+}
+
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.program-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+    border-bottom: 5px solid var(--yellow);
+    /* Brand accent */
+    text-align: left;
+}
+
+.program-card:hover {
+    transform: translateY(-10px);
+}
+
+.program-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.program-card h3 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+/* 2. MINI GALLERY */
+.gallery-section {
+    margin-bottom: 150px;
+    position: relative;
+    z-index: 5;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 columns */
+    gap: 15px;
+    height: 400px;
+    /* Fixed height for the mosaic look */
+}
+
+.gallery-item {
+    overflow: hidden;
+    border-radius: 12px;
+    position: relative;
+}
+
+/* Make some images span 2 columns or rows for variety */
+.gallery-item:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item:nth-child(2) {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.gallery-item:nth-child(3) {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.gallery-item:nth-child(4) {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+/* 3. FOUNDER SECTION */
+.founder-section {
+    background-color: #f9f9f9;
+    /* Light contrast bg */
+    border-radius: 30px;
+    padding: 60px;
+    margin-bottom: 150px;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    z-index: 5;
+}
+
+.founder-img-wrapper {
+    flex: 0 0 350px;
+    /* Fixed width */
+    position: relative;
+}
+
+.founder-img {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    /* Circle */
+    object-fit: cover;
+    border: 8px solid #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+/* Decorative circle behind founder */
+.founder-img-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--green);
+    z-index: 1;
+}
+
+.founder-text h3 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.founder-role {
+    color: var(--red);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* Mobile Responsiveness for new sections */
+@media (max-width: 900px) {
+    .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        /* 2 cols on mobile */
+        height: auto;
+    }
+
+    .gallery-item:nth-child(1) {
+        grid-column: span 2;
+        height: 250px;
+    }
+
+    .founder-section {
+        flex-direction: column;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .founder-img-wrapper::before {
+        top: 10px;
+        left: 10px;
+    }
+}
+
+/* --- NEW SECTIONS CSS --- */
+
+/* 1. PROGRAMS SECTION */
+.programs-section {
+    margin-bottom: 150px;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.program-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+    border-bottom: 5px solid var(--yellow);
+    /* Brand accent */
+    text-align: left;
+}
+
+.program-card:hover {
+    transform: translateY(-10px);
+}
+
+.program-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.program-card h3 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+/* 2. MINI GALLERY */
+.gallery-section {
+    margin-bottom: 150px;
+    position: relative;
+    z-index: 5;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 columns */
+    gap: 15px;
+    height: 400px;
+    /* Fixed height for the mosaic look */
+}
+
+.gallery-item {
+    overflow: hidden;
+    border-radius: 12px;
+    position: relative;
+}
+
+/* Make some images span 2 columns or rows for variety */
+.gallery-item:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item:nth-child(2) {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.gallery-item:nth-child(3) {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.gallery-item:nth-child(4) {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+/* 3. FOUNDER SECTION */
+.founder-section {
+    background-color: #f9f9f9;
+    /* Light contrast bg */
+    border-radius: 30px;
+    padding: 60px;
+    margin-bottom: 150px;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    z-index: 5;
+}
+
+.founder-img-wrapper {
+    flex: 0 0 350px;
+    /* Fixed width */
+    position: relative;
+}
+
+.founder-img {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    /* Circle */
+    object-fit: cover;
+    border: 8px solid #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+/* Decorative circle behind founder */
+.founder-img-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--green);
+    z-index: 1;
+}
+
+.founder-text h3 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.founder-role {
+    color: var(--red);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* Mobile Responsiveness for new sections */
+@media (max-width: 900px) {
+    .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        /* 2 cols on mobile */
+        height: auto;
+    }
+
+    .gallery-item:nth-child(1) {
+        grid-column: span 2;
+        height: 250px;
+    }
+
+    .founder-section {
+        flex-direction: column;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .founder-img-wrapper::before {
+        top: 10px;
+        left: 10px;
+    }
+}
