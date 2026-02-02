@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INkingi Arts Space | Where Culture Lives</title>
-    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <title>Inkingi Arts Space | Where Culture Lives</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.svg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -152,7 +152,7 @@
         }
         .arrow {
             position: absolute; top: 50%; transform: translateY(-50%); color: white; font-size: 1.5rem; cursor: pointer; z-index: 20;
-            background: rgba(255,255,255,0.05); width: 70px; height: 70px; border-radius: 50%;
+            background: rgba(255,255,255,0.05); width: 100px; height: 100px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; transition: var(--transition-bouncy);
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
         }
@@ -381,7 +381,7 @@
                 <span class="text-green">ARTS</span>
                 <span class="text-red">SPACE</span>
             </h1>
-            <p style="font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 300;">The Heartbeat of Creativity in Kigali</p>
+            <p style="font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 300; color:white;">The Heartbeat of Creativity in Kigali</p>
         </div>
 
         <div class="hero-progress-container">
