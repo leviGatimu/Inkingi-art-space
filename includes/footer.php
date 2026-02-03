@@ -45,6 +45,7 @@
                 <li><a href="programs.php">Programs & Workshops</a></li>
                 <li><a href="about.php">Our Story</a></li>
                 <li><a href="contact.php">Visit Us</a></li>
+                 <li><a href="../admin/dashboard.php">Admin login</a></li>
             </ul>
         </div>
 

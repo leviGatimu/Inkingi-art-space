@@ -161,7 +161,7 @@
         
         /* Hero Progress Bar */
         .hero-progress-container {
-            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: 270px; left: 50%; transform: translateX(-50%);
             width: 200px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; z-index: 20; overflow: hidden;
         }
         .hero-progress-bar {
