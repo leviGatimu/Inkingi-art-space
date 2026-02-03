@@ -318,7 +318,7 @@
         }
     </style>
 </head>
-
+<?php include_once 'tracker.php'; ?>
 <body>
 
     <div id="preloader">
