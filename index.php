@@ -161,7 +161,7 @@
         
         /* Hero Progress Bar */
         .hero-progress-container {
-            position: absolute; bottom: 160px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
             width: 200px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; z-index: 20; overflow: hidden;
         }
         .hero-progress-bar {
@@ -390,7 +390,7 @@
 
         <div class="wave-bottom">
             <svg viewBox="0 0 1440 320" preserveAspectRatio="none" style="width: 100%; height: 140px;">
-                <path fill="#FAFAFA" fill-opacity="1" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,181.3C672,192,768,160,864,138.7C960,117,1056,107,1152,117.3C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,576,320,480,320C384,320,288,320,0,320Z"></path>
+                <path fill="#ffffff" fill-opacity="1" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,181.3C672,192,768,160,864,138.7C960,117,1056,107,1152,117.3C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,576,320,480,320C384,320,288,320,0,320Z"></path>
             </svg>
         </div>
     </header>
