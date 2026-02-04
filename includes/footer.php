@@ -1,64 +1,56 @@
-<footer class="main-footer">
-    <link rel="stylesheet" href="assets/css/style.css">
+<footer class="main-footer" style="background: #111; color: #aaa; position: relative; margin-top: 100px; padding-bottom: 20px;">
     
-    <div class="footer-wave">
-        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="#1a1a1a" fill-opacity="1"
-                d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-            </path>
+    <div style="position: absolute; top: -100px; left: 0; width: 100%; overflow: hidden; line-height: 0;">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none" style="display: block; width: 100%; height: 100px;">
+            <path fill="#111" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192V320H1392C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
     </div>
 
-    <div class="footer-container">
-        <div class="footer-col brand-col">
-            <h2 class="footer-logo">IKINGI <span class="t-yellow">ARTS</span></h2>
-            <p>Where culture meets creativity. Join us to experience the heartbeat of Rwandan art.</p>
-            <div class="social-links">
-                <a href="https://www.instagram.com/inkingiarts_space/?hl=en" class="social-icon" aria-label="Instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                </a>
-                <a href="https://x.com/inkingiarts_kgl" class="social-icon" aria-label="Twitter">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
-                        </path>
-                    </svg>
-                </a>
-                <a href="https://www.facebook.com/kigaliarts/" class="social-icon" aria-label="Facebook">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                    </svg>
-                </a>
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 50px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; position: relative; z-index: 2;">
+        
+        <div>
+            <h2 style="color: white; font-family: 'Permanent Marker', cursive; font-size: 2rem;">IKINGI <span style="color: #FDB913;">ARTS</span></h2>
+            <p style="line-height: 1.8; margin-bottom: 20px; font-size: 0.9rem;">
+                Where culture meets creativity. Join us to experience the heartbeat of Rwandan art.
+            </p>
+            <div style="display: flex; gap: 15px;">
+                <a href="https://www.instagram.com/inkingiarts_space/?hl=en" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/inkingiarts_kgl" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.facebook.com/kigaliarts/" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-facebook-f"></i></a>
             </div>
         </div>
 
-        <div class="footer-col">
-            <h3>Explore</h3>
-            <ul class="footer-menu">
-                <li><a href="artwork.php">Artwork Gallery</a></li>
-                <li><a href="programs.php">Programs & Workshops</a></li>
-                <li><a href="about.php">Our Story</a></li>
-                <li><a href="contact.php">Visit Us</a></li>
-                <li><a href="admin/login.php">Admin Login</a></li>
+        <div>
+            <h3 style="color: white; margin-bottom: 20px;">Explore</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px;"><a href="index.php" style="color: #aaa; text-decoration: none; transition: 0.3s;">Home</a></li>
+                <li style="margin-bottom: 10px;"><a href="programs.php" style="color: #aaa; text-decoration: none; transition: 0.3s;">Programs</a></li>
+                <li style="margin-bottom: 10px;"><a href="gallery.php" style="color: #aaa; text-decoration: none; transition: 0.3s;">Gallery</a></li>
+                <li style="margin-bottom: 10px;"><a href="contact.php" style="color: #aaa; text-decoration: none; transition: 0.3s;">Contact Us</a></li>
+                <li><a href="admin/login.php" style="color: #aaa; text-decoration: none; transition: 0.3s;">Admin Login</a></li>
             </ul>
         </div>
 
-        <div class="footer-col">
-            <h3>Find Us</h3>
-            <p><strong>Location:</strong><br>Kigali, Rwanda<br>24 KG 550 St, Kacyiru</p>
-             <p style="margin-top: 15px;"><strong>Contact us: </strong><br>+250 787 177 805</p>
-            <p style="margin-top: 15px;"><strong>Email:</strong><br>yamawanba01@gmail.com</p>
+        <div>
+            <h3 style="color: white; margin-bottom: 20px;">Find Us</h3>
+            <p style="color: #aaa; line-height: 1.6; margin-bottom: 15px;">
+                <strong style="color:white;">Location:</strong><br>
+                24 KG 550 St, Kacyiru<br>
+                Kigali, Rwanda
+            </p>
+            <p style="color: #aaa; line-height: 1.6; margin-bottom: 15px;">
+                <strong style="color:white;">Contact:</strong><br>
+                +250 787 177 805
+            </p>
+            <p style="color: #aaa; line-height: 1.6;">
+                <strong style="color:white;">Email:</strong><br>
+                yamwamba01@gmail.com
+            </p>
         </div>
+
     </div>
 
-    <div style="margin-left: 540px;">
-        <p>&copy; <?php echo date("Y"); ?> Ikingi Arts Space. All Rights Reserved.</p>
+    <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.9rem; margin-top: 20px;">
+        &copy; <?php echo date('Y'); ?> Ikingi Arts Space. All Rights Reserved.
     </div>
 </footer>
