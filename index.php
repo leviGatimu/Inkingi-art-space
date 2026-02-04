@@ -501,7 +501,7 @@
         <section class="section-padding reveal" id="events" style="background: white; border-top: 1px solid rgba(0,0,0,0.05);">
             <div class="section-header">
                  <span class="section-subtitle stagger-1">Join Us</span>
-                <h2 class="section-title stagger-2">Upcoming <span class="text-red">Events</span></h2>
+                <h2 class="section-title stagger-2">Our <span class="text-red">Programs</span></h2>
             </div>
             <div class="events-grid stagger-3">
                 <div class="event-card">
