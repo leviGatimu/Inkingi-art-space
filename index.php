@@ -318,45 +318,10 @@
         }
     </style>
 </head>
-<?php include_once 'tracker.php'; ?>
+
 <body>
 
-    <div id="preloader">
-        <div class="loader-text">
-            <span class="text-yellow">I</span><span class="text-green">K</span><span class="text-red">S</span>
-        </div>
-    </div>
-
-    <nav class="main-nav">
-        <a href="index.php" class="nav-logo">
-            <img src="assets/images/logo.svg" alt="Ikingi Arts">
-        </a>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#programs">Programs</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="hamburger" id="hamburgerBtn">
-            <i class="fas fa-bars"></i>
-        </div>
-    </nav>
-
-    <div class="menu-overlay" id="menuOverlay"></div>
-    <div class="mobile-menu" id="mobileMenu">
-        <div style="text-align: right; margin-bottom: 40px;">
-            <i class="fas fa-times" id="closeMenuBtn" style="color: white; font-size: 2rem; cursor: pointer;"></i>
-        </div>
-        <ul>
-            <li><a href="index.php" class="mobile-link">Home</a></li>
-            <li><a href="#about" class="mobile-link">About Us</a></li>
-            <li><a href="#programs" class="mobile-link">Programs</a></li>
-            <li><a href="#gallery" class="mobile-link">Gallery</a></li>
-            <li><a href="#events" class="mobile-link">Events</a></li>
-            <li><a href="#contact" class="mobile-link">Contact</a></li>
-        </ul>
-    </div>
+   <?php include('includes/header.php');    ?>
 
     <svg class="floating-shape" style="top: 15%; left: 5%; width: 120px;" viewBox="0 0 200 200">
         <path fill="#FDB913" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.2,-19.2,95.8,-5.2C93.5,8.9,82,22.1,70.8,33.4C59.6,44.7,48.7,54.1,36.6,62.3C24.5,70.5,11.2,77.5,-2.9,82.5C-17,87.5,-32,90.5,-44.6,84.9C-57.2,79.3,-67.5,65.1,-75.7,50.7C-83.9,36.3,-90.1,21.7,-90.7,6.8C-91.3,-8.1,-86.3,-23.3,-77.2,-36.4C-68.1,-49.5,-54.9,-60.5,-41.3,-68.1C-27.7,-75.7,-13.9,-79.9,0.5,-80.7C14.8,-81.6,29.7,-79,44.7,-76.4Z" transform="translate(100 100)" />
@@ -381,7 +346,7 @@
                 <span class="text-green">ARTS</span>
                 <span class="text-red">SPACE</span>
             </h1>
-            <p style="font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 300; color:white;">The Heartbeat of Creativity in Kigali</p>
+            <p style="font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 300; color:white;">"Our strength , Our creativity"</p>
         </div>
 
         <div class="hero-progress-container">
@@ -407,9 +372,9 @@
                 <div class="text-col">
                     <span class="section-subtitle stagger-1">Welcome Home</span>
                     <h2 class="stagger-2">A Pillar for <span class="text-yellow">Creatives</span></h2>
-                    <p class="stagger-3"><strong>"Inkingi"</strong> implies a pillar—a support structure. We are the foundation for the next generation of Rwandan artists.</p>
-                    <p class="stagger-3">Located in the heart of Kigali, we are a creative hub where art, culture, and community collide. From vibrant exhibitions to intimate open mic nights, we provide the space for artists to stand tall and stories to be told.</p>
-                    <a href="about.php" class="btn-main btn-magnetic stagger-3">Discover Our Story <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                    <p class="stagger-3"><strong>"Inkingi"</strong> implies a pillar , a support structure. We are the foundation for the next generation of Rwandan artists.</p>
+                    <p class="stagger-3">Located in kacyiru, we are a creative hub where art, culture, and community collide. From vibrant exhibitions to intimate open mic nights, we provide the space for artists to stand tall and stories to be told.</p>
+                    <a href="about.php" class="btn-main">Discover Our Story <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
                 </div>
             </div>
         </section>
@@ -423,9 +388,9 @@
                 </div>
                 <div class="text-col">
                     <span class="section-subtitle stagger-1">Our Legacy</span>
-                    <h2 class="stagger-2">Bridging <span class="text-red">Tradition</span> & Future</h2>
+                    <h2 class="stagger-2">What <span class="text-red">We </span> Do ?</h2>
                     <p class="stagger-3">Founded with a vision to preserve and evolve Rwandan storytelling, Ikingi Arts Space started as a small gathering of painters and poets. Today, it stands as a testament to the resilience of our culture.</p>
-                    <p class="stagger-3">We bridge the gap between traditional craftsmanship and contemporary digital art, ensuring that the history of Rwanda is not just remembered, but recreated daily.</p>
+                    <p class="stagger-3">We are very enthusiastic to hand made art, every art piece is well thought and made with love, ensuring that the history of Rwanda is not just remembered, but recreated daily.</p>
                 </div>
             </div>
         </section>
@@ -439,12 +404,12 @@
                 </div>
                 <div class="stat-item stagger-2">
                     <i class="fas fa-users stat-icon text-green"></i>
-                    <span class="stat-number" data-target="150">0</span>
+                    <span class="stat-number" data-target="15">0</span>
                     <span class="stat-label">Active Artists</span>
                 </div>
                 <div class="stat-item stagger-3">
                     <i class="fas fa-shoe-prints stat-icon text-red"></i>
-                    <span class="stat-number" data-target="1200">0</span>
+                    <span class="stat-number" data-target="150">0</span>
                     <span class="stat-label">Monthly Visitors</span>
                 </div>
             </div>
@@ -572,27 +537,7 @@
     </div>
 
     <script>
-        // --- 1. PRELOADER & MOBILE MENU ---
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            preloader.style.opacity = '0'; preloader.style.visibility = 'hidden';
-        });
-
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const closeMenuBtn = document.getElementById('closeMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-
-        function toggleMenu() {
-            mobileMenu.classList.toggle('active');
-            menuOverlay.classList.toggle('active');
-        }
-        hamburgerBtn.addEventListener('click', toggleMenu);
-        closeMenuBtn.addEventListener('click', toggleMenu);
-        menuOverlay.addEventListener('click', toggleMenu);
-        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
-
+       
 
         // --- 2. HERO AUTOPLAY SLIDER WITH PROGRESS ---
         const bgElement = document.getElementById('hero-bg');
