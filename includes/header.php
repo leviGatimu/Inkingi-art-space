@@ -12,7 +12,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#programs">Programs</a></li>
             <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#events">Events</a></li>
+            <li><a href="#events">Events & News</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="hamburger" id="hamburgerBtn">
@@ -40,7 +40,10 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 5%; position: absolute; top: 0; left: 0; width: 100%; z-index: 100;
         }
-        .nav-logo img { height: 50px; }
+        .nav-logo img { 
+            cursor: pointer;
+            transform: scale(1.4);
+        }
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a {
             color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; transition: var(--transition-soft);
