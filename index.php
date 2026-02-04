@@ -152,11 +152,11 @@
         }
         .arrow {
             position: absolute; top: 50%; transform: translateY(-50%); color: white; font-size: 1.5rem; cursor: pointer; z-index: 20;
-            background: rgba(255,255,255,0.05); width: 100px; height: 100px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; transition: var(--transition-bouncy);
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+           width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: var(--transition-bouncy); transform: scale(0.7);
+         
         }
-        .arrow:hover { transform: translateY(-50%) scale(1.1); border-color: var(--accent-yellow); color: var(--accent-yellow); background: rgba(253, 185, 19, 0.1); }
+        .arrow:hover { transform: translateY(-50%) scale(1.1);  color: var(--accent-yellow); }
         .arrow-left { left: 40px; } .arrow-right { right: 40px; }
         
         /* Hero Progress Bar */
@@ -347,8 +347,8 @@
         <div class="hero-bg" id="hero-bg" style="background-image: url('https://images.mindtrip.ai/attractions/96d2/b5fa/9bab/f527/e4a8/29d8/2bd6/ad03');"></div>
         <div class="hero-overlay"></div>
 
-        <div class="arrow arrow-left btn-magnetic" id="btn-prev"><i class="fas fa-chevron-left"></i></div>
-        <div class="arrow arrow-right btn-magnetic" id="btn-next"><i class="fas fa-chevron-right"></i></div>
+        <div class="arrow arrow-left" id="btn-prev"><i class="fas fa-chevron-left"></i></div>
+        <div class="arrow arrow-right" id="btn-next"><i class="fas fa-chevron-right"></i></div>
 
         <div class="hero-content">
             <div class="logo-center">
@@ -404,6 +404,7 @@
                     <h2 class="stagger-2">What <span class="text-red">We </span> Do ?</h2>
                     <p class="stagger-3">Founded with a vision to preserve and evolve Rwandan storytelling, Ikingi Arts Space started as a small gathering of painters and poets. Today, it stands as a testament to the resilience of our culture.</p>
                     <p class="stagger-3">We are very enthusiastic to hand made art, every art piece is well thought and made with love, ensuring that the history of Rwanda is not just remembered, but recreated daily.</p>
+                     <a href="about.php" class="btn-main">Discover more <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
                 </div>
             </div>
         </section>
@@ -494,7 +495,7 @@
             </div>
             
             <div class="stagger-3" style="text-align: center; margin-top: 60px;">
-                <a href="artwork.php" class="btn-main btn-magnetic">View Full Gallery <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                <a href="about.php" class="btn-main">Discover Our Story <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
             </div>
         </section>
 

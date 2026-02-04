@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="footer-bottom">
+    <div style="margin-left: 540px;">
         <p>&copy; <?php echo date("Y"); ?> Ikingi Arts Space. All Rights Reserved.</p>
     </div>
 </footer>

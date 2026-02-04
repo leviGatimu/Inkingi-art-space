@@ -426,17 +426,7 @@ p {
     transform: translateY(-5px);
 }
 
-/* Bottom Bar */
-.footer-bottom {
-    background: #111;
-    text-align: center;
-    padding: 20px;
-    border-top: 1px solid #333;
-    font-size: 0.8rem;
-    color: #777;
-    position: relative;
-    z-index: 2;
-}
+
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
