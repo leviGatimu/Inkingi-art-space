@@ -469,9 +469,9 @@
                         </div>
                     </div>
                     <div class="text-col stagger-2">
-                        <span class="section-subtitle" style="color: rgba(255,255,255,0.7);">Meet The Creative Director</span>
+                        <span class="section-subtitle" style="color: rgb(255, 204, 0);">Meet The Creative Director</span>
                         <h2 style="color: white; margin-bottom: 20px;">Olivier <span?>Kwitonda</span></h2>
-                        <p style="color: rgba(255,255,255,0.9); font-style: italic; font-size: 1.3rem; font-weight: 300; line-height: 1.6;">"I created Ikingi to be a home. A place where the walls talk through color and the people connect through culture. We are not just a gallery; we are a movement."</p>
+                        <p style="color: rgba(255,255,255,0.9); font-style: italic; font-size: 1.3rem; font-weight: 300; line-height: 1.6;">"I founded Inkingi arts from the money i got from <b>sale</b> i made of my own paitings. It started as a dream yet not its one of the key places to visit to learn about Rwandas history , learn how to paint etc.. <b>.</b> I'm really grateful that i didnt quit earlier on , my story should inspire many."</p>
                         <div class="stagger-3" style="margin-top: 30px;">
                              
                         </div>
