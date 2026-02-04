@@ -35,10 +35,9 @@ while ($row = $stmt->fetch()) {
         <div class="brand">INKINGI <span>CMS</span></div>
         <nav>
             <a href="dashboard.php" class="nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
-            <a href="edit_home.php" class="nav-link"><i class="fas fa-home"></i> Edit Home</a>
             <a href="edit_footer.php" class="nav-link active"><i class="fas fa-map-marker-alt"></i> Edit Footer</a>
-            <a href="programs.php" class="nav-link"><i class="fas fa-calendar-check"></i> Programs</a>
             <a href="../index.php" target="_blank" class="nav-link"><i class="fas fa-external-link-alt"></i> View Site</a>
+                       <a href="logout.php" class="nav-link" style="margin-top:auto; color:#ff5f57;"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
     </aside>
 
