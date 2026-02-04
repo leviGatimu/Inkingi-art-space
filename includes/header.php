@@ -1,4 +1,5 @@
   
+    <?php include_once __DIR__ . '/tracker.php';?>
     <div id="preloader">
         <div class="loader-text">
             <span class="text-yellow">I</span><span class="text-green">K</span><span class="text-red">S</span>
