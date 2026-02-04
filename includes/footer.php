@@ -1,3 +1,17 @@
+<?php
+// Ensure DB connection is available
+if (!isset($pdo)) {
+    require_once __DIR__ . '/db_connect.php';
+}
+
+// Fetch Footer Data
+$stmt = $pdo->query("SELECT section_key, content_value FROM content_blocks");
+$fData = [];
+while ($row = $stmt->fetch()) {
+    $fData[$row['section_key']] = $row['content_value'];
+}
+?>
+
 <footer class="main-footer" style="background: #111; color: #aaa; position: relative; margin-top: 100px; padding-bottom: 20px;">
     
     <div style="position: absolute; top: -100px; left: 0; width: 100%; overflow: hidden; line-height: 0;">
@@ -11,12 +25,12 @@
         <div>
             <h2 style="color: white; font-family: 'Permanent Marker', cursive; font-size: 2rem;">IKINGI <span style="color: #FDB913;">ARTS</span></h2>
             <p style="line-height: 1.8; margin-bottom: 20px; font-size: 0.9rem;">
-                Where culture meets creativity. Join us to experience the heartbeat of Rwandan art.
+                <?= $fData['footer_about'] ?? 'Where culture meets creativity.' ?>
             </p>
             <div style="display: flex; gap: 15px;">
-                <a href="https://www.instagram.com/inkingiarts_space/?hl=en" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-instagram"></i></a>
-                <a href="https://x.com/inkingiarts_kgl" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.facebook.com/kigaliarts/" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-facebook-f"></i></a>
+                <a href="<?= $fData['social_instagram'] ?>" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-instagram"></i></a>
+                <a href="<?= $fData['social_twitter'] ?>" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-twitter"></i></a>
+                <a href="<?= $fData['social_facebook'] ?>" target="_blank" style="color: white; font-size: 1.2rem; transition: 0.3s;"><i class="fab fa-facebook-f"></i></a>
             </div>
         </div>
 
@@ -35,16 +49,15 @@
             <h3 style="color: white; margin-bottom: 20px;">Find Us</h3>
             <p style="color: #aaa; line-height: 1.6; margin-bottom: 15px;">
                 <strong style="color:white;">Location:</strong><br>
-                24 KG 550 St, Kacyiru<br>
-                Kigali, Rwanda
+                <?= $fData['footer_location'] ?>
             </p>
             <p style="color: #aaa; line-height: 1.6; margin-bottom: 15px;">
                 <strong style="color:white;">Contact:</strong><br>
-                +250 787 177 805
+                <?= $fData['footer_phone'] ?>
             </p>
             <p style="color: #aaa; line-height: 1.6;">
                 <strong style="color:white;">Email:</strong><br>
-                yamwamba01@gmail.com
+                <?= $fData['footer_email'] ?>
             </p>
         </div>
 
