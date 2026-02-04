@@ -52,8 +52,9 @@
 
         <div class="footer-col">
             <h3>Find Us</h3>
-            <p><strong>Location:</strong><br>Kigali, Rwanda<br>KG 123 St, Kiyovu</p>
-            <p style="margin-top: 15px;"><strong>Email:</strong><br>hello@ikingiart.rw</p>
+            <p><strong>Location:</strong><br>Kigali, Rwanda<br>24 KG 550 St, Kacyiru</p>
+             <p style="margin-top: 15px;"><strong>Contact us: </strong><br>+250 787 177 805</p>
+            <p style="margin-top: 15px;"><strong>Email:</strong><br>yamawanba01@gmail.com</p>
         </div>
     </div>
 
