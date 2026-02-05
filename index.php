@@ -86,40 +86,7 @@
         .loader-text span:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* --- 4. NAVIGATION (Desktop & Mobile) --- */
-        .main-nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; position: absolute; top: 0; left: 0; width: 100%; z-index: 100;
-        }
-        .nav-logo img { height: 50px; }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a {
-            color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; transition: var(--transition-soft);
-            position: relative;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent-yellow); transition: width 0.3s ease;
-        }
-        .nav-links a:hover::after { width: 100%; }
-        .hamburger { display: none; color: white; font-size: 1.8rem; cursor: pointer; z-index: 101; }
-
-        /* Mobile Menu Drawer */
-        .mobile-menu {
-            position: fixed; top: 0; right: -100%; width: 80%; max-width: 400px; height: 100vh;
-            background: var(--primary); z-index: 100; padding: 100px 40px;
-            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.2);
-        }
-        .mobile-menu.active { right: 0; }
-        .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 25px; }
-        .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 700; }
-        .menu-overlay {
-            position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 99;
-            opacity: 0; visibility: hidden; transition: 0.3s;
-        }
-        .menu-overlay.active { opacity: 1; visibility: visible; }
-
-
+       
         /* --- 5. HERO SECTION (Updated with Auto-Scroll & Progress) --- */
         .hero {
             height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; perspective: 1000px;
