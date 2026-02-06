@@ -6,12 +6,12 @@
 require 'includes/db_connect.php';
 require 'includes/header.php';
 
-// FETCH PROGRAMS FROM DB (preferred)
+// FETCH PROGRAMS FROM DB (preferred) - Admin can input via separate admin panel (e.g., insert into 'programs' table with columns: title, category, price, schedule, description, image_path)
 try {
     $stmt = $pdo->query("SELECT id, title, category, price, schedule, description, image_path FROM programs ORDER BY id DESC");
     $programs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    // FALLBACK STATIC DATA (for development or if table is empty)
+    // FALLBACK STATIC DATA (for development or if table is empty) - Updated with real Rwandan art-inspired images
     $programs = [
         [
             'title' => 'Art Painting Class',
@@ -19,7 +19,7 @@ try {
             'price' => '20,000 Rwf',
             'schedule' => 'Daily: 10am - 6pm',
             'description' => 'Open every day to kids and adults. We provide the canvas, paint, and brushes. Take your masterpiece home.',
-            'image_path' => 'assets/images/image_49929b.jpg'
+            'image_path' => 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=900&h=500&s=1' // Real image example
         ],
         [
             'title' => 'Saturday Pottery',
@@ -27,7 +27,7 @@ try {
             'price' => '25,000 Rwf',
             'schedule' => 'Saturdays: 10am - 5pm',
             'description' => 'A tactile experience in clay. Learn wheel throwing and hand-building techniques from master potters.',
-            'image_path' => 'assets/images/image_49929b.jpg'
+            'image_path' => 'https://mindtrip.ai/attractions/ee8a/0069/df4a/7290/dd06/9631/4be1/8414' // Real image example
         ],
         [
             'title' => 'Rwandan Cooking',
@@ -35,7 +35,7 @@ try {
             'price' => '20,000 Rwf',
             'schedule' => 'Daily (Booking Req)',
             'description' => 'Interactive cooking session with Ikoma Art. Learn to prepare authentic dishes and enjoy the shared meal.',
-            'image_path' => 'assets/images/image_49929b.jpg'
+            'image_path' => 'https://images.mindtrip.ai/attractions/4ef2/2dc8/a855/4b57/a0dc/9298/eca1/8017' // Real image example
         ]
     ];
 }
@@ -87,7 +87,7 @@ foreach ($programs as $p) {
 
     /* Hero Header (Inspired by museum sites with immersive intros) */
     .hero-header {
-        background: url('assets/images/art-hero.jpg') no-repeat center/cover; /* Replace with actual hero image */
+        background: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=900&h=500&s=1') no-repeat center/cover; /* Real Inkingi-inspired hero image */
         color: white;
         text-align: center;
         padding: 120px 20px 80px;
@@ -184,7 +184,7 @@ foreach ($programs as $p) {
     }
 
     .search-input {
-        width: 100%;
+        width: 70%;
         padding: 14px 14px 14px 48px;
         border: 1px solid #ddd;
         border-radius: 50px;
@@ -422,7 +422,6 @@ foreach ($programs as $p) {
         }
         .sidebar {
             position: static;
-            top: 0;
         }
         .hero-header {
             padding: 80px 20px 60px;

@@ -108,6 +108,17 @@ try {
                 <a href="edit_footer.php" class="btn-edit" style="width: 100%; text-align: center;">Edit Footer</a>
             </div>
 
+            <div class="page-card" style="border-color: #64ffda;">
+                <div style="margin-bottom: 20px;">
+                    <i class="fas fa-paint-brush" style="font-size: 2.5rem; color: #64ffda;"></i>
+                </div>
+                <h3>Manage Programs</h3>
+                <p style="color: #8892b0; margin-bottom: 20px; font-size: 0.9rem;">
+                    Add, edit, or delete programs, workshops, and experiences.
+                </p>
+                <a href="programs.php" class="btn-edit" style="width: 100%; text-align: center;">Manage Programs</a>
+            </div>
+
         </div>
 
     </main>
