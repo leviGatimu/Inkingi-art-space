@@ -67,3 +67,29 @@ while ($row = $stmt->fetch()) {
         &copy; <?php echo date('Y'); ?> Ikingi Arts Space. All Rights Reserved.
     </div>
 </footer>
+
+<style>
+    /* Enhanced Footer Styles with Interactivity & Animations (added without changing base code) */
+    .main-footer a:hover, .main-footer i:hover { color: var(--accent-yellow); transform: scale(1.1); }
+    .main-footer ul li a { transition: var(--transition-soft); }
+    .main-footer ul li a:hover { padding-left: 10px; }
+    .main-footer p:hover { color: white; }
+    .main-footer h2, .main-footer h3 { transition: var(--transition-soft); }
+    .main-footer h2:hover, .main-footer h3:hover { color: var(--accent-yellow); }
+    .main-footer .social-icon i { transition: var(--transition-bouncy); }
+    .main-footer .social-icon i:hover { transform: rotate(360deg); }
+    .main-footer .container > div { opacity: 0; transform: translateY(20px); transition: var(--transition-soft); }
+    .main-footer.loaded .container > div { opacity: 1; transform: translateY(0); }
+    .main-footer .container > div:nth-child(1) { transition-delay: 0.1s; }
+    .main-footer .container > div:nth-child(2) { transition-delay: 0.2s; }
+    .main-footer .container > div:nth-child(3) { transition-delay: 0.3s; }
+    .main-footer .footer-bottom { transition: var(--transition-soft); }
+    .main-footer .footer-bottom:hover { color: white; }
+</style>
+
+<script>
+    // Add 'loaded' class for animations on footer load
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('.main-footer').classList.add('loaded');
+    });
+</script>

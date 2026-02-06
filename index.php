@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         /* --- 1. CORE VARIABLES & RESET --- */
@@ -71,6 +73,14 @@
             100% { transform: translate(0, 0) rotate(360deg) scale(1); }
         }
 
+        /* Parallax Effect */
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
         /* --- 3. PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -78,14 +88,6 @@
             display: flex; justify-content: center; align-items: center;
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
-        .loader-text span {
-            font-family: var(--font-marker); font-size: 4rem;
-            display: inline-block; animation: bounce 1.5s infinite;
-        }
-        .loader-text span:nth-child(2) { animation-delay: 0.2s; }
-        .loader-text span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-
        
         /* --- 5. HERO SECTION (Updated with Auto-Scroll & Progress) --- */
         .hero {
@@ -111,8 +113,13 @@
         .hero-title {
             font-size: clamp(3.5rem, 9vw, 7rem); font-weight: 800; line-height: 0.9; letter-spacing: -3px;
             text-shadow: 0 15px 30px rgba(0,0,0,0.4); margin-bottom: 20px;
+            transition: var(--transition-bouncy);
         }
-        .logo-center { margin-bottom: 30px; perspective: 1000px; display: inline-block; }
+        .hero-title:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+        .logo-center { margin-bottom: 30px; perspective: 1000px; display: inline-block; transition: var(--transition-soft); }
+        .logo-center:hover { transform: rotate(5deg); }
         .logo-tilt-box {
             width: 140px; height: auto; transition: transform 0.1s ease-out;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
@@ -130,7 +137,9 @@
         .hero-progress-container {
             position: absolute; bottom: 270px; left: 50%; transform: translateX(-50%);
             width: 200px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; z-index: 20; overflow: hidden; margin-bottom: 100px;
+            transition: var(--transition-soft);
         }
+        .hero-progress-container:hover { transform: translateX(-50%) scale(1.1); }
         .hero-progress-bar {
             height: 100%; width: 0%; background: var(--accent-yellow); border-radius: 2px;
         }
@@ -140,49 +149,70 @@
         }
         @keyframes fillProgress { from { width: 0%; } to { width: 100%; } }
 
-        .wave-bottom { position: absolute; bottom: -2px; left: 0; width: 100%; line-height: 0; z-index: 5; filter: drop-shadow(0 -10px 10px rgba(0,0,0,0.05)); }
+        .wave-bottom { position: absolute; bottom: -2px; left: 0; width: 100%; line-height: 0; z-index: 5; filter: drop-shadow(0 -10px 10px rgba(0,0,0,0.05)); 
+            transition: transform 0.5s ease; }
+        .wave-bottom:hover { transform: translateY(5px); }
 
         /* --- 6. SECTIONS GENERAL --- */
         .section-padding { padding: 120px 5%; position: relative; }
-        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-header { text-align: center; margin-bottom: 80px; transition: var(--transition-bouncy); }
+        .section-header:hover { transform: scale(1.05); }
         .section-subtitle {
             font-family: var(--font-marker); color: var(--accent-yellow); font-size: 1.3rem; display: block; margin-bottom: 15px; letter-spacing: 1px;
+            transition: color 0.3s ease;
         }
+        .section-subtitle:hover { color: var(--accent-red); }
         .section-title {
             font-family: var(--font-serif); font-size: 3.5rem; font-weight: 700; position: relative; display: inline-block;
+            transition: var(--transition-soft);
         }
+        .section-title:hover { color: var(--accent-green); }
         .section-title::after {
             content: ''; position: absolute; bottom: 10px; left: 5%; width: 90%; height: 15px; background: rgba(253, 185, 19, 0.2); z-index: -1; transform: skewX(-10deg);
+            transition: height 0.3s ease;
         }
+        .section-title:hover::after { height: 20px; }
 
         /* --- 7. SPLIT CONTENT & FRAMES --- */
-        .content-row { display: flex; align-items: center; gap: 80px; position: relative; margin-bottom: 120px; }
+        .content-row { display: flex; align-items: center; gap: 80px; position: relative; margin-bottom: 120px; transition: var(--transition-soft); }
+        .content-row:hover { transform: translateY(-5px); }
         .content-row.reverse { flex-direction: row-reverse; }
-        .image-col { flex: 1; position: relative; perspective: 1000px; }
-        .text-col { flex: 1; }
+        .image-col { flex: 1; position: relative; perspective: 1000px; transition: var(--transition-bouncy); }
+        .image-col:hover { transform: rotate(3deg); }
+        .text-col { flex: 1; transition: var(--transition-soft); }
+        .text-col:hover { color: var(--accent-yellow); }
         .square-frame {
             position: relative; border-radius: 20px; outline: 20px solid var(--accent-yellow); outline-offset: -20px;
             transition: var(--transition-bouncy); overflow: hidden; transform-style: preserve-3d;
         }
         .square-frame:hover { outline-color: var(--accent-green); outline-width: 10px; outline-offset: 10px; transform: rotateX(5deg) rotateY(-5deg); }
         .square-frame img { width: 100%; display: block; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1); border-radius: 20px; }
-        .square-frame:hover img { transform: scale(1.08); }
-        .text-col h2 { font-family: var(--font-serif); font-size: 2.8rem; margin-bottom: 25px; line-height: 1.2; }
-        .text-col p { font-size: 1.15rem; line-height: 1.9; color: var(--text-gray); margin-bottom: 25px; }
+        .square-frame:hover img { transform: scale(1.08) rotate(2deg); }
+        .text-col h2 { font-family: var(--font-serif); font-size: 2.8rem; margin-bottom: 25px; line-height: 1.2; transition: color 0.3s ease; }
+        .text-col h2:hover { color: var(--accent-red); }
+        .text-col p { font-size: 1.15rem; line-height: 1.9; color: var(--text-gray); margin-bottom: 25px; transition: transform 0.3s ease; }
+        .text-col p:hover { transform: translateX(5px); }
 
         /* --- 8. IMPACT STATS --- */
         .stats-container {
             background: white; border-radius: 30px; margin-bottom: 100px; box-shadow: 0 20px 50px rgba(0,0,0,0.08);
             display: flex; justify-content: space-around; flex-wrap: wrap; padding: 60px 30px; position: relative; overflow: hidden;
+            transition: var(--transition-bouncy);
         }
+        .stats-container:hover { transform: scale(1.02); }
         .stats-container::before {
             content: ''; position: absolute; top:0; left:0; width:100%; height:5px; background: linear-gradient(90deg, var(--accent-yellow), var(--accent-green), var(--accent-red));
+            transition: height 0.3s ease;
         }
+        .stats-container:hover::before { height: 10px; }
         .stat-item { text-align: center; padding: 20px; flex: 1 1 250px; transition: transform 0.3s ease; }
-        .stat-item:hover { transform: translateY(-10px); }
-        .stat-icon { font-size: 3.5rem; margin-bottom: 20px; display: inline-block; }
-        .stat-number { font-size: 3.5rem; font-weight: 800; display: block; line-height: 1; margin-bottom: 10px; }
-        .stat-label { font-size: 1.1rem; font-weight: 600; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-item:hover { transform: translateY(-10px) rotate(2deg); }
+        .stat-icon { font-size: 3.5rem; margin-bottom: 20px; display: inline-block; transition: color 0.3s ease, transform 0.3s ease; }
+        .stat-icon:hover { color: var(--accent-red); transform: rotate(360deg); }
+        .stat-number { font-size: 3.5rem; font-weight: 800; display: block; line-height: 1; margin-bottom: 10px; transition: color 0.3s ease; }
+        .stat-number:hover { color: var(--accent-green); }
+        .stat-label { font-size: 1.1rem; font-weight: 600; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; transition: letter-spacing 0.3s ease; }
+        .stat-label:hover { letter-spacing: 2px; }
 
         /* --- 9. PROGRAMS GRID (With Read More) --- */
         .programs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
@@ -191,33 +221,39 @@
             transition: var(--transition-soft); border: 2px solid transparent; position: relative; overflow: hidden; text-align: left;
             display: flex; flex-direction: column; align-items: flex-start;
         }
-        .program-card:hover { transform: translateY(-15px); box-shadow: 0 25px 50px rgba(0,0,0,0.1); border-color: #FDB91333; }
+        .program-card:hover { transform: translateY(-15px) rotate(1deg); box-shadow: 0 25px 50px rgba(0,0,0,0.1); border-color: #FDB91333; }
         .program-icon {
             font-size: 4rem; margin-bottom: 25px; display: block;
             background: linear-gradient(45deg, var(--accent-yellow), var(--accent-red)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+            transition: transform 0.5s ease;
         }
-        .program-card h3 { font-size: 1.8rem; margin-bottom: 15px; font-weight: 700; }
-        .program-card p { margin-bottom: 25px; flex-grow: 1; }
+        .program-icon:hover { transform: scale(1.2) rotate(15deg); }
+        .program-card h3 { font-size: 1.8rem; margin-bottom: 15px; font-weight: 700; transition: color 0.3s ease; }
+        .program-card h3:hover { color: var(--accent-green); }
+        .program-card p { margin-bottom: 25px; flex-grow: 1; transition: opacity 0.3s ease; }
+        .program-card p:hover { opacity: 0.7; }
         .read-more-link {
             color: var(--primary); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: var(--transition-soft);
         }
         .read-more-link i { transition: transform 0.3s ease; }
         .read-more-link:hover { color: var(--accent-red); }
-        .read-more-link:hover i { transform: translateX(5px); }
+        .read-more-link:hover i { transform: translateX(5px) rotate(45deg); }
 
 
         /* --- 10. GALLERY & EVENTS --- */
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 300px); gap: 20px; }
         .gallery-item {
             overflow: hidden; border-radius: 15px; position: relative; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: var(--transition-bouncy);
         }
+        .gallery-item:hover { transform: scale(1.05) rotate(-2deg); }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1); }
         .gallery-item::after {
             content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease;
         }
         .gallery-item:hover::after { opacity: 1; }
-        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-item:hover img { transform: scale(1.1) rotate(3deg); }
         .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
         .gallery-item:nth-child(2) { grid-column: span 2; grid-row: span 1; }
         .gallery-item:nth-child(3) { grid-column: span 1; grid-row: span 1; }
@@ -227,16 +263,24 @@
         .event-card {
             background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: var(--transition-soft); display: flex;
         }
-        .event-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .event-card:hover { transform: translateY(-5px) rotate(1deg); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         .event-date {
             background: var(--accent-green); color: white; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 100px; text-align: center;
+            transition: background 0.3s ease;
         }
-        .event-date .day { font-size: 2rem; font-weight: 800; line-height: 1; }
-        .event-date .month { font-size: 1rem; text-transform: uppercase; font-weight: 600; }
-        .event-details { padding: 25px; flex: 1; }
-        .event-details h4 { font-size: 1.3rem; margin-bottom: 10px; }
-        .event-meta { color: var(--text-gray); font-size: 0.9rem; display: flex; gap: 15px; }
-        .event-meta i { color: var(--accent-yellow); }
+        .event-date:hover { background: var(--accent-yellow); }
+        .event-date .day { font-size: 2rem; font-weight: 800; line-height: 1; transition: transform 0.3s ease; }
+        .event-date .day:hover { transform: scale(1.2); }
+        .event-date .month { font-size: 1rem; text-transform: uppercase; font-weight: 600; transition: letter-spacing 0.3s ease; }
+        .event-date .month:hover { letter-spacing: 2px; }
+        .event-details { padding: 25px; flex: 1; transition: background 0.3s ease; }
+        .event-details:hover { background: #f8f9fa; }
+        .event-details h4 { font-size: 1.3rem; margin-bottom: 10px; transition: color 0.3s ease; }
+        .event-details h4:hover { color: var(--accent-red); }
+        .event-meta { color: var(--text-gray); font-size: 0.9rem; display: flex; gap: 15px; transition: gap 0.3s ease; }
+        .event-meta:hover { gap: 20px; }
+        .event-meta i { color: var(--accent-yellow); transition: transform 0.3s ease; }
+        .event-meta i:hover { transform: rotate(360deg); }
 
         /* --- 11. REFINED MAGNETIC BUTTONS --- */
         .btn-main, .btn-magnetic {
@@ -251,6 +295,7 @@
             border-color: var(--accent-yellow);
             color: var(--text-dark);
             box-shadow: 0 10px 25px -5px rgba(253, 185, 19, 0.6);
+            transform: scale(1.1) rotate(-5deg);
         }
 
         /* --- 12. ANIMATION TRIGGERS --- */
@@ -311,7 +356,7 @@
     </svg>
 
     <header class="hero">
-        <div class="hero-bg" id="hero-bg" style="background-image: url('https://images.mindtrip.ai/attractions/96d2/b5fa/9bab/f527/e4a8/29d8/2bd6/ad03');"></div>
+        <div class="hero-bg" id="hero-bg" style="background-image: url('https://images.mindtrip.ai/attractions/ee8a/0069/df4a/7290/dd06/9631/4be1/8414');"></div>
         <div class="hero-overlay"></div>
 
         <div class="arrow arrow-left" id="btn-prev"><i class="fas fa-chevron-left"></i></div>
@@ -342,14 +387,14 @@
 
     <main class="container" style="max-width: 1300px; margin: 0 auto; position: relative; z-index: 10;">
 
-        <section class="section-padding reveal" id="about">
+        <section class="section-padding" id="about" data-aos="fade-up" data-aos-duration="1000">
             <div class="content-row">
-                <div class="image-col">
+                <div class="image-col" data-aos="zoom-in" data-aos-delay="200">
                     <div class="square-frame" data-tilt>
-                        <img src="https://images.mindtrip.ai/attractions/0edf/62ec/d36d/49fd/1a22/4e79/36ab/8d2c" alt="Bonfire Culture">
+                        <img src="https://images.mindtrip.ai/attractions/ee8a/0069/df4a/7290/dd06/9631/4be1/8414" alt="Inkingi Arts Gallery View">
                     </div>
                 </div>
-                <div class="text-col">
+                <div class="text-col" data-aos="fade-left" data-aos-delay="400">
                     <span class="section-subtitle stagger-1">Welcome Home</span>
                     <h2 class="stagger-2">A Pillar for <span class="text-yellow">Creatives</span></h2>
                     <p class="stagger-3"><strong>"Inkingi"</strong> implies a pillar , a support structure. We are the foundation for the next generation of Rwandan artists.</p>
@@ -359,14 +404,14 @@
             </div>
         </section>
 
-        <section class="section-padding reveal">
+        <section class="section-padding" data-aos="fade-up" data-aos-duration="1000">
             <div class="content-row reverse">
-                <div class="image-col">
+                <div class="image-col" data-aos="zoom-in" data-aos-delay="200">
                     <div class="square-frame" style="outline-color: var(--accent-red);" data-tilt>
-                        <img src="https://images.mindtrip.ai/attractions/e3ac/3f38/43c7/bcc8/090c/817c/cbc6/4ebf" alt="Art Gallery">
+                        <img src="https://mindtrip.ai/cdn-cgi/image/format=webp,w=720/https://tcdn.mindtrip.ai/images/556448/13nqp5p.png" alt="Inkingi Arts Event Space">
                     </div>
                 </div>
-                <div class="text-col">
+                <div class="text-col" data-aos="fade-right" data-aos-delay="400">
                     <span class="section-subtitle stagger-1">Our Legacy</span>
                     <h2 class="stagger-2">What <span class="text-red">We </span> Do ?</h2>
                     <p class="stagger-3">Founded with a vision to preserve and evolve Rwandan storytelling, Ikingi Arts Space started as a small gathering of painters and poets. Today, it stands as a testament to the resilience of our culture.</p>
@@ -376,19 +421,19 @@
             </div>
         </section>
 
-        <section class="reveal" style="padding: 0 5%;">
-            <div class="stats-container">
-                <div class="stat-item stagger-1">
+        <section style="padding: 0 5%;" data-aos="flip-up" data-aos-duration="1000">
+            <div class="stats-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-item stagger-1" data-aos="bounce-in" data-aos-delay="300">
                     <i class="fas fa-palette stat-icon text-yellow"></i>
                     <span class="stat-number" data-target="500">0</span>
                     <span class="stat-label">Art Pieces Created</span>
                 </div>
-                <div class="stat-item stagger-2">
+                <div class="stat-item stagger-2" data-aos="bounce-in" data-aos-delay="400">
                     <i class="fas fa-users stat-icon text-green"></i>
                     <span class="stat-number" data-target="15">0</span>
                     <span class="stat-label">Active Artists</span>
                 </div>
-                <div class="stat-item stagger-3">
+                <div class="stat-item stagger-3" data-aos="bounce-in" data-aos-delay="500">
                     <i class="fas fa-shoe-prints stat-icon text-red"></i>
                     <span class="stat-number" data-target="150">0</span>
                     <span class="stat-label">Monthly Visitors</span>
@@ -396,26 +441,26 @@
             </div>
         </section>
 
-        <section class="section-padding reveal" id="programs">
-            <div class="section-header">
+        <section class="section-padding" id="programs" data-aos="fade-down" data-aos-duration="1000">
+            <div class="section-header" data-aos="zoom-in" data-aos-delay="200">
                 <span class="section-subtitle stagger-1">What We Do</span>
                 <h2 class="section-title stagger-2">Our <span class="text-green">Programs</span></h2>
             </div>
 
             <div class="programs-grid stagger-3">
-                <div class="program-card">
+                <div class="program-card" data-aos="fade-up" data-aos-delay="300">
                     <i class="fas fa-paint-brush program-icon" style="-webkit-text-fill-color: transparent; -webkit-background-clip: text; background-image: linear-gradient(45deg, var(--accent-yellow), var(--accent-red));"></i>
                     <h3>Workshops</h3>
                     <p>From traditional basket weaving (Agaseke) to modern acrylic painting. Our workshops are open to kids and adults every weekend.</p>
                     <a href="programs.php#workshops" class="read-more-link">Read More <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="program-card">
+                <div class="program-card" data-aos="fade-up" data-aos-delay="400">
                     <i class="fas fa-microphone-alt program-icon" style="-webkit-text-fill-color: transparent; -webkit-background-clip: text; background-image: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));"></i>
                     <h3>Cultural Nights</h3>
                     <p>Poetry, acoustic music, and storytelling around the fire. Join us every Friday for "Ikingi Vibes."</p>
                     <a href="programs.php#cultural" class="read-more-link">Read More <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="program-card">
+                <div class="program-card" data-aos="fade-up" data-aos-delay="500">
                     <i class="fas fa-image program-icon" style="-webkit-text-fill-color: transparent; -webkit-background-clip: text; background-image: linear-gradient(45deg, var(--accent-red), var(--accent-green));"></i>
                     <h3>Exhibitions</h3>
                     <p>Monthly rotating art showcases featuring emerging Rwandan artists. Support local talent and buy original art.</p>
@@ -424,55 +469,56 @@
             </div>
         </section>
 
-        <section class="section-padding reveal">
+        <section class="section-padding" data-aos="fade-up" data-aos-duration="1000">
             <div style="background: var(--primary); color: white; border-radius: 30px; padding: 80px 60px; position: relative; overflow: hidden; box-shadow: 0 30px 60px rgba(44, 62, 80, 0.3);">
-                <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(253,185,19,0.2) 0%, rgba(255,255,255,0) 70%); border-radius: 50%;"></div>
-                <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,158,96,0.2) 0%, rgba(255,255,255,0) 70%); border-radius: 50%;"></div>
+                <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(253,185,19,0.2) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; transition: transform 0.5s ease;"></div>
+                <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,158,96,0.2) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; transition: transform 0.5s ease;"></div>
                 
-                <div class="content-row" style="margin-bottom: 0; align-items: flex-start;">
-                    <div class="image-col stagger-1" style="flex: 0 0 350px;">
+                <div class="content-row" style="margin-bottom: 0; align-items: flex-start;" data-aos="zoom-out" data-aos-delay="200">
+                    <div class="image-col stagger-1" style="flex: 0 0 350px;" data-aos="flip-left" data-aos-delay="300">
                         <div style="position: relative;">
-                             <img src="https://miro.medium.com/v2/1*0IWFbOo0PXroBB_gIm9Iew.jpeg" alt="Sarah Uwera" style="width: 100%; border-radius: 20px; border: 5px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.2);" class="founder">
-                             <div style="position: absolute; bottom: -20px; right: -20px; background: var(--accent-yellow); color: var(--primary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;"><i class="fas fa-quote-right"></i></div>
+                             <img src="http://niyoartscenter.com/wp-content/uploads/2021/06/Olivier.jpeg" alt="Olivier Kwitonda" style="width: 100%; border-radius: 20px; border: 5px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.2);" class="founder">
+                             <div style="position: absolute; bottom: -20px; right: -20px; background: var(--accent-yellow); color: var(--primary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: transform 0.3s ease;"><i class="fas fa-quote-right"></i></div>
                         </div>
                     </div>
-                    <div class="text-col stagger-2">
+                    <div class="text-col stagger-2" data-aos="fade-right" data-aos-delay="400">
                         <span class="section-subtitle" style="color: rgb(255, 204, 0);">Meet The Creative Director</span>
-                        <h2 style="color: white; margin-bottom: 20px;">Olivier <span?>Kwitonda</span></h2>
+                        <h2 style="color: white; margin-bottom: 20px;">Olivier <span>Kwitonda</span></h2>
                         <p style="color: rgba(255,255,255,0.9); font-style: italic; font-size: 1.3rem; font-weight: 300; line-height: 1.6;">"I founded Inkingi arts from the money i got from <b>sale</b> i made of my own paitings. It started as a dream yet not its one of the key places to visit to learn about Rwandas history , learn how to paint etc.. <b>.</b> I'm really grateful that i didnt quit earlier on , my story should inspire many."</p>
-                        <div class="stagger-3" style="margin-top: 30px;">
-                             
+                        <p style="color: rgba(255,255,255,0.9); font-size: 1.1rem; line-height: 1.6; margin-top: 20px;">Olivier Kwitonda is the visionary owner and artist behind Inkingi Arts Space. With a passion for contemporary Rwandan art, he has created a space that celebrates cultural narratives and supports emerging talents. Follow his journey on Instagram @inkingiarts_space.</p>
+                        <div class="stagger-3" style="margin-top: 30px;" data-aos="fade-up" data-aos-delay="500">
+                            <a href="https://www.instagram.com/arts_olivierkwitonda/" class="btn-main" target="_blank">Follow on Instagram <i class="fab fa-instagram" style="margin-left: 10px;"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section-padding reveal" id="gallery">
-            <div class="section-header">
+        <section class="section-padding" id="gallery" data-aos="fade-up" data-aos-duration="1000">
+            <div class="section-header" data-aos="zoom-in" data-aos-delay="200">
                 <span class="section-subtitle stagger-1">Visual Journey</span>
                 <h2 class="section-title stagger-2">Latest <span class="text-yellow">Masterpieces</span></h2>
             </div>
             
             <div class="gallery-grid stagger-3">
-                <div class="gallery-item"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/02/2c/ac/social-community-living.jpg?w=1200&h=-1&s=1" alt="Art 1"></div>
-                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80" alt="Art 2"></div>
-                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80" alt="Art 3"></div>
-                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&q=80" alt="Art 4"></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300"><img src="https://images.mindtrip.ai/attractions/ee8a/0069/df4a/7290/dd06/9631/4be1/8414" alt="Inkingi Art Exhibition"></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="400"><img src="https://mindtrip.ai/cdn-cgi/image/format=webp,w=720/https://tcdn.mindtrip.ai/images/556448/13nqp5p.png" alt="Inkingi Arts Event Setup"></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="500"><img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80" alt="Art 3"></div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="600"><img src="https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&q=80" alt="Art 4"></div>
             </div>
             
-            <div class="stagger-3" style="text-align: center; margin-top: 60px;">
+            <div class="stagger-3" style="text-align: center; margin-top: 60px;" data-aos="fade-up" data-aos-delay="700">
                 <a href="about.php" class="btn-main">Discover Our Story <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
             </div>
         </section>
 
-        <section class="section-padding reveal" id="events" style="background: white; border-top: 1px solid rgba(0,0,0,0.05);">
-            <div class="section-header">
+        <section class="section-padding" id="events" style="background: white; border-top: 1px solid rgba(0,0,0,0.05);" data-aos="fade-down" data-aos-duration="1000">
+            <div class="section-header" data-aos="zoom-in" data-aos-delay="200">
                  <span class="section-subtitle stagger-1">Join Us</span>
                 <h2 class="section-title stagger-2">Our <span class="text-red">Programs</span></h2>
             </div>
             <div class="events-grid stagger-3">
-                <div class="event-card">
+                <div class="event-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="event-date">
                         <span class="day">15</span><span class="month">OCT</span>
                     </div>
@@ -484,7 +530,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="event-card">
+                <div class="event-card" data-aos="fade-up" data-aos-delay="400">
                      <div class="event-date" style="background: var(--accent-yellow); color: var(--text-dark);">
                         <span class="day">22</span><span class="month">OCT</span>
                     </div>
@@ -496,7 +542,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="event-card">
+                <div class="event-card" data-aos="fade-up" data-aos-delay="500">
                      <div class="event-date" style="background: var(--primary);">
                         <span class="day">01</span><span class="month">NOV</span>
                     </div>
@@ -517,27 +563,39 @@
         <?php include 'includes/footer.php'; ?>
     </div>
 
-    <script>
-       
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-image" src="" alt="">
+    </div>
 
-        // --- 2. HERO AUTOPLAY SLIDER WITH PROGRESS ---
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Hero Slider
         const bgElement = document.getElementById('hero-bg');
         const prevBtn = document.getElementById('btn-prev');
         const nextBtn = document.getElementById('btn-next');
         const progressBar = document.getElementById('heroProgressBar');
         
         const images = [
-            'url("https://images.mindtrip.ai/attractions/96d2/b5fa/9bab/f527/e4a8/29d8/2bd6/ad03")',
-            'url("https://images.mindtrip.ai/attractions/4ef2/2dc8/a855/4b57/a0dc/9298/eca1/8017")',
-            'url("https://images.mindtrip.ai/attractions/ee8a/0069/df4a/7290/dd06/9631/4be1/8414")'
+            'url("https://images.mindtrip.ai/attractions/ee8a/0069/df4a/7290/dd06/9631/4be1/8414")',
+            'url("https://mindtrip.ai/cdn-cgi/image/format=webp,w=720/https://tcdn.mindtrip.ai/images/556448/13nqp5p.png")',
+            'url("https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=900&h=500&s=1")'
         ];
         let currentSlide = 0;
         let slideInterval;
-        const autoplaySpeed = 5000; // 5 seconds
+        const autoplaySpeed = 5000;
 
         function resetProgress() {
             progressBar.classList.remove('filling');
-            void progressBar.offsetWidth; // Trigger reflow to restart animation
+            void progressBar.offsetWidth;
             progressBar.classList.add('filling');
         }
 
@@ -546,8 +604,8 @@
             setTimeout(() => {
                 bgElement.style.backgroundImage = images[currentSlide];
                 bgElement.classList.remove('fade-out');
-                resetProgress(); // Restart progress bar on slide change
-            }, 800); // Match the CSS transition time
+                resetProgress();
+            }, 800);
         }
 
         function nextSlide() {
@@ -560,28 +618,37 @@
             updateBackground();
         }
 
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            clearInterval(slideInterval); slideInterval = setInterval(nextSlide, autoplaySpeed);
-        });
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            clearInterval(slideInterval); slideInterval = setInterval(nextSlide, autoplaySpeed);
-        });
+        nextBtn.addEventListener('click', () => { nextSlide(); clearInterval(slideInterval); slideInterval = setInterval(nextSlide, autoplaySpeed); });
+        prevBtn.addEventListener('click', () => { prevSlide(); clearInterval(slideInterval); slideInterval = setInterval(nextSlide, autoplaySpeed); });
 
-        // Init Autoplay & Progress
         resetProgress();
         slideInterval = setInterval(nextSlide, autoplaySpeed);
 
-        // Parallax on scroll
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            requestAnimationFrame(() => {
-                 bgElement.style.transform = `translate3d(0, ${scrollY * 0.4}px, 0) scale(1.15)`;
-            });
+        // Gallery Lightbox
+        function openLightbox(src) {
+            document.getElementById('lightbox-image').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', () => openLightbox(img.src));
+        });
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
         });
 
-        // --- 3. INTERACTIVE 3D TILT LOGO ---
+        // Preloader (if exists in header.php)
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => { preloader.style.visibility = 'hidden'; }, 600);
+            }
+        });
+
+        // Tilt Logo
         const tiltLogo = document.getElementById('tiltLogo');
         const heroSection = document.querySelector('.hero');
         heroSection.addEventListener('mousemove', (e) => {
@@ -593,49 +660,21 @@
             tiltLogo.style.transform = `rotateY(0deg) rotateX(0deg)`;
         });
 
-        // --- 4. MAGNETIC BUTTONS (STABLE HOVER) ---
-        const magneticBtns = document.querySelectorAll('.btn-magnetic');
-        magneticBtns.forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const position = btn.getBoundingClientRect();
-                const x = e.pageX - position.left - position.width / 2;
-                const y = e.pageY - position.top - position.height / 2;
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0px, 0px)';
-            });
-        });
-
-        // --- 5. ANIMATED STATS ---
-        const statsSection = document.querySelector('.stats-container');
-        let statsAnimated = false;
+        // Animate Stats on Load
         function animateStats() {
-             const counters = document.querySelectorAll('.stat-number');
-             const speed = 200;
-             counters.forEach(counter => {
-                 const target = +counter.getAttribute('data-target');
-                 let count = 0; const inc = target / speed;
-                 const updateCount = () => {
-                     if(count < target) { count += inc; counter.innerText = Math.ceil(count) + "+"; setTimeout(updateCount, 1); }
-                     else { counter.innerText = target + "+"; }
-                 }
-                 updateCount();
-             });
-        }
-
-        // --- 6. SCROLL REVEAL ---
-        const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -100px 0px" };
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    if(entry.target.contains(statsSection) && !statsAnimated) { animateStats(); statsAnimated = true; }
-                    observer.unobserve(entry.target);
-                }
+            const numbers = document.querySelectorAll('.stat-number');
+            numbers.forEach(number => {
+                const target = parseInt(number.dataset.target);
+                let count = 0;
+                const increment = target / 200; // Smooth animation
+                const timer = setInterval(() => {
+                    count += increment;
+                    number.textContent = Math.ceil(count) + '+';
+                    if (count >= target) clearInterval(timer);
+                }, 10);
             });
-        }, observerOptions);
-        document.querySelectorAll('.reveal').forEach(el => { observer.observe(el); });
+        }
+        animateStats();
     </script>
 
 </body>

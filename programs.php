@@ -1,321 +1,655 @@
 <?php
-// 1. SETUP
+// programs.php - Enhanced Professional Programs Listing Page
+// Inspired by sites like Path with Art (linear but card-like listings with images, clear details), Workhouse Arts Center (explore classes with filters), and MoMA (clean course lists with register buttons).
+// Improvements: Added hero background for visual appeal, improved card meta with icons, added sorting by price/title, enhanced PDF styling, subtle animations, masonry grid option (via CSS), culturally relevant touches (Rwandan color accents).
+
 require 'includes/db_connect.php';
 require 'includes/header.php';
 
-// 2. FETCH PROGRAMS (Database or Fallback)
+// FETCH PROGRAMS FROM DB (preferred)
 try {
-    $stmt = $pdo->query("SELECT * FROM programs ORDER BY id DESC");
-    $programs = $stmt->fetchAll();
+    $stmt = $pdo->query("SELECT id, title, category, price, schedule, description, image_path FROM programs ORDER BY id DESC");
+    $programs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    // FALLBACK DATA
+    // FALLBACK STATIC DATA (for development or if table is empty)
     $programs = [
         [
             'title' => 'Art Painting Class',
-            'category' => 'Daily Class',
+            'category' => 'Class',
             'price' => '20,000 Rwf',
-            'schedule' => 'Open Every Day',
-            'description' => 'Open to kids and adults. Includes all materials and you take your own masterpiece home.',
+            'schedule' => 'Daily: 10am - 6pm',
+            'description' => 'Open every day to kids and adults. We provide the canvas, paint, and brushes. Take your masterpiece home.',
             'image_path' => 'assets/images/image_49929b.jpg'
         ],
         [
             'title' => 'Saturday Pottery',
-            'category' => 'Weekly Workshop',
+            'category' => 'Workshop',
             'price' => '25,000 Rwf',
-            'schedule' => 'Saturdays 10am - 5pm',
-            'description' => 'Two hours session to mold your creativity. Open to everyone. Learn wheel and hand techniques.',
+            'schedule' => 'Saturdays: 10am - 5pm',
+            'description' => 'A tactile experience in clay. Learn wheel throwing and hand-building techniques from master potters.',
             'image_path' => 'assets/images/image_49929b.jpg'
         ],
         [
             'title' => 'Rwandan Cooking',
-            'category' => 'Cultural Experience',
+            'category' => 'Experience',
             'price' => '20,000 Rwf',
-            'schedule' => 'Available Daily',
+            'schedule' => 'Daily (Booking Req)',
             'description' => 'Interactive cooking session with Ikoma Art. Learn to prepare authentic dishes and enjoy the shared meal.',
             'image_path' => 'assets/images/image_49929b.jpg'
         ]
     ];
 }
+
+// For dynamic category counts
+$categories = ['Class' => 0, 'Workshop' => 0, 'Experience' => 0, 'Other' => 0];
+foreach ($programs as $p) {
+    $cat = $p['category'] ?? 'Other';
+    $categories[$cat] = ($categories[$cat] ?? 0) + 1;
+}
 ?>
 
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- Fonts & Libraries (consistent) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script> <!-- For masonry grid -->
 
 <style>
-    /* =========================================
-       1. CRITICAL FIXES (LOGO & LAYOUT)
-       ========================================= */
-    body, html { margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
-    
-    /* NUCLEAR LOGO FIX: Force logo to stay small */
-    .nav-logo img, header img, nav img {
-        max-height: 60px !important;
-        width: auto !important;
-        max-width: 180px !important;
-        object-fit: contain !important;
-    }
-
-    /* =========================================
-       2. HIGH-END VARIABLES
-       ========================================= */
     :root {
-        --navy: #0a192f;
-        --navy-light: #112240;
-        --gold: #FDB913;
-        --green: #64ffda;
-        --white: #e6f1ff;
-        --slate: #8892b0;
+        --primary: #2C3E50;
+        --accent: #FDB913;
+        --green: #009E60;
+        --red: #C8102E;
+        --light: #f8f9fa;
+        --gray: #6c757d;
+        --dark: #212529;
+        --radius: 16px;
+        --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+        --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+        --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* =========================================
-       3. IMMERSIVE HERO SECTION
-       ========================================= */
-    .prog-hero {
-        position: relative;
-        height: 100vh; /* FILLS WHOLE SCREEN */
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+    }
+
+    main {
+        padding: 0 0 100px;
+    }
+
+    /* Hero Header (Inspired by museum sites with immersive intros) */
+    .hero-header {
+        background: url('assets/images/art-hero.jpg') no-repeat center/cover; /* Replace with actual hero image */
+        color: white;
         text-align: center;
-        margin-top: -80px; /* Pulls behind fixed header */
-        padding-top: 80px;
-        /* Background Image with Fallback */
-        background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.7)), 
-                    url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1920&auto=format&fit=crop'); 
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed; /* Parallax Effect */
+        padding: 120px 20px 80px;
+        position: relative;
+    }
+
+    .hero-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(44, 62, 80, 0.7); /* Overlay for readability */
     }
 
     .hero-content {
-        max-width: 900px;
-        padding: 0 20px;
-        z-index: 2;
+        position: relative;
+        z-index: 1;
     }
 
-    .hero-label {
-        color: var(--gold);
-        font-family: 'Permanent Marker', cursive;
-        font-size: 1.5rem;
-        letter-spacing: 2px;
-        display: block;
-        margin-bottom: 20px;
-    }
-
-    .hero-title {
-        color: var(--white);
+    .page-title {
         font-family: 'Playfair Display', serif;
-        font-size: clamp(3.5rem, 6vw, 6rem);
-        line-height: 1.1;
-        margin-bottom: 30px;
-        text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        font-size: 3.2rem;
+        margin-bottom: 16px;
     }
 
-    .hero-desc {
-        color: var(--slate);
+    .page-subtitle {
         font-size: 1.2rem;
-        line-height: 1.8;
-        max-width: 700px;
-        margin: 0 auto 50px;
+        opacity: 0.9;
+        max-width: 720px;
+        margin: 0 auto 32px;
     }
 
-    /* Polished Buttons */
-    .btn-group { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-    
-    .btn-gold {
-        background: var(--gold); color: var(--navy); padding: 18px 45px;
-        border-radius: 4px; font-weight: 700; text-decoration: none;
-        letter-spacing: 1px; transition: 0.3s; border: 2px solid var(--gold);
-        text-transform: uppercase; font-size: 0.9rem;
-    }
-    .btn-gold:hover { background: transparent; color: var(--gold); transform: translateY(-5px); }
-
-    .btn-outline {
-        background: transparent; color: var(--gold); padding: 18px 45px;
-        border-radius: 4px; font-weight: 700; text-decoration: none;
-        letter-spacing: 1px; transition: 0.3s; border: 2px solid var(--gold);
-        text-transform: uppercase; font-size: 0.9rem; cursor: pointer;
-    }
-    .btn-outline:hover { background: rgba(253, 185, 19, 0.1); transform: translateY(-5px); }
-
-    /* =========================================
-       4. SECTIONS & CARDS
-       ========================================= */
-    .section { padding: 120px 5%; background: #fff; }
-    .section-alt { background: #f8f9fa; }
-
-    .sec-header { text-align: center; margin-bottom: 80px; }
-    .sec-header h2 { font-size: 3rem; color: var(--navy); font-family: 'Playfair Display', serif; margin: 0; }
-    .sec-header span { color: var(--gold); font-family: 'Permanent Marker', cursive; font-size: 1.2rem; }
-
-    /* Polished Card */
-    .prog-card {
-        display: grid; grid-template-columns: 1.5fr 2fr;
-        background: white; border-radius: 0;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.05);
-        margin-bottom: 60px; overflow: hidden;
-        transition: 0.4s ease; border: 1px solid rgba(0,0,0,0.05);
-    }
-    .prog-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
-    
-    .prog-img-wrap { overflow: hidden; height: 100%; min-height: 350px; }
-    .prog-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-    .prog-card:hover .prog-img { transform: scale(1.05); }
-
-    .prog-info { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
-    .prog-cat { color: var(--gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 10px; }
-    .prog-title { font-size: 2.2rem; margin: 0 0 20px; color: var(--navy); font-family: 'Playfair Display', serif; }
-    .prog-meta { display: flex; gap: 30px; margin-bottom: 25px; color: #666; font-size: 0.95rem; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 0; }
-    .prog-desc { color: #555; line-height: 1.8; margin-bottom: 30px; font-size: 1rem; }
-
-    /* Mobile Responsive */
-    @media (max-width: 900px) {
-        .prog-card { grid-template-columns: 1fr; }
-        .prog-img-wrap { height: 300px; }
-        .prog-info { padding: 40px 30px; }
-        .hero-title { font-size: 3rem; }
+    .hero-cta {
+        background: var(--accent);
+        color: var(--primary);
+        padding: 12px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
     }
 
-    /* PDF Template (Hidden) */
-    #printable-area { display: none; }
+    .hero-cta:hover {
+        background: #e6a50a;
+        transform: translateY(-3px);
+    }
+
+    /* Layout */
+    .programs-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 40px 20px 0;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 40px;
+    }
+
+    /* Sidebar (Sticky, with enhanced filters) */
+    .sidebar {
+        position: sticky;
+        top: 100px;
+        align-self: start;
+    }
+
+    .sidebar-widget {
+        background: white;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+
+    .widget-title {
+        font-size: 1.25rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #eee;
+    }
+
+    /* Search */
+    .search-box {
+        position: relative;
+    }
+
+    .search-box i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 14px 14px 14px 48px;
+        border: 1px solid #ddd;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        transition: var(--transition);
+    }
+
+    .search-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(253,185,19,0.12);
+    }
+
+    /* Categories (Clickable, active state) */
+    .category-list {
+        list-style: none;
+    }
+
+    .category-item {
+        padding: 12px 0;
+        color: var(--gray);
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .category-item:hover,
+    .category-item.active {
+        color: var(--primary);
+        font-weight: 600;
+        padding-left: 8px;
+    }
+
+    .category-item.active {
+        background: linear-gradient(to right, rgba(253,185,19,0.1), transparent);
+        border-left: 4px solid var(--accent);
+    }
+
+    .count-badge {
+        background: #f0f0f0;
+        color: var(--gray);
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+
+    .category-item.active .count-badge {
+        background: var(--accent);
+        color: white;
+    }
+
+    /* PDF Widget (Gradient bg for appeal) */
+    .pdf-widget {
+        background: linear-gradient(135deg, var(--primary), var(--green));
+        color: white;
+        text-align: center;
+        padding: 32px 24px;
+        border-radius: var(--radius);
+    }
+
+    .pdf-btn {
+        background: var(--accent);
+        color: var(--primary);
+        border: none;
+        font-weight: 600;
+        padding: 14px 32px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 16px;
+        width: 100%;
+    }
+
+    .pdf-btn:hover {
+        background: #e6a50a;
+        transform: scale(1.05);
+    }
+
+    /* Main Content */
+    .grid-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .results-count {
+        font-weight: 500;
+        color: var(--gray);
+    }
+
+    .sort-select {
+        padding: 10px 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: white;
+        font-size: 0.95rem;
+        cursor: pointer;
+    }
+
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 32px;
+        /* For masonry: Use Masonry JS below */
+    }
+
+    /* Card (Enhanced: More meta icons, better hover) */
+    .program-card {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .program-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--shadow-md);
+    }
+
+    .card-image-container {
+        height: 240px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s ease;
+    }
+
+    .program-card:hover .card-image {
+        transform: scale(1.12);
+    }
+
+    .card-category {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: var(--accent);
+        color: white;
+        font-weight: 600;
+        font-size: 0.8rem;
+        padding: 6px 14px;
+        border-radius: 50px;
+        text-transform: uppercase;
+    }
+
+    .card-body {
+        padding: 28px 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        color: var(--primary);
+        line-height: 1.25;
+    }
+
+    .card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 16px;
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .meta-item i {
+        color: var(--green);
+        font-size: 1.1rem;
+    }
+
+    .card-description {
+        color: #555;
+        font-size: 0.96rem;
+        line-height: 1.65;
+        margin-bottom: 24px;
+        flex: 1;
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--red);
+    }
+
+    .btn-book {
+        background: linear-gradient(to right, var(--primary), #34495e);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: var(--transition);
+    }
+
+    .btn-book:hover {
+        background: linear-gradient(to right, #1e2a38, #2c3e50);
+        transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .programs-container {
+            grid-template-columns: 1fr;
+        }
+        .sidebar {
+            position: static;
+            top: 0;
+        }
+        .hero-header {
+            padding: 80px 20px 60px;
+        }
+    }
+
+    #printable-area {
+        display: none;
+    }
 </style>
 
-<section class="prog-hero">
-    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
-        <span class="hero-label">Inkingi Arts Space</span>
-        <h1 class="hero-title">Master Your Craft</h1>
-        <p class="hero-desc">
-            Immerse yourself in a world of creativity. Join our daily workshops lead by Rwanda's finest resident artists. Materials included.
-        </p>
-        <div class="btn-group">
-            <a href="#sessions" class="btn-gold">View Sessions</a>
-            <button onclick="downloadPDF()" class="btn-outline">
-                <i class="fas fa-arrow-down"></i> Program Guide
-            </button>
+<main>
+    <!-- Hero Header -->
+    <header class="hero-header">
+        <div class="hero-content">
+            <h1 class="page-title">Programs & Workshops</h1>
+            <p class="page-subtitle">Immerse yourself in Rwandan creativity through our art classes, workshops, and cultural experiences at Inkingi Arts Space.</p>
+            <a href="#programs" class="hero-cta">Explore Now</a>
         </div>
-    </div>
-    
-    <div style="position: absolute; bottom: 40px; animation: bounce 2s infinite; color: white; opacity: 0.7;">
-        <i class="fas fa-chevron-down fa-2x"></i>
-    </div>
-</section>
+    </header>
 
-<section class="section section-alt">
-    <div class="sec-header" data-aos="fade-up">
-        <span>Why Join Us?</span>
-        <h2>The Studio Experience</h2>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;">
-        <div style="background:white; padding:40px; text-align:center; transition:0.3s;" data-aos="fade-up" data-aos-delay="100">
-            <i class="fas fa-paint-brush" style="font-size:3rem; color:var(--gold); margin-bottom:20px;"></i>
-            <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:15px;">All Inclusive</h3>
-            <p style="color:#666; line-height:1.6;">We provide professional canvases, paints, aprons, and tools. Just bring your creativity.</p>
-        </div>
-        <div style="background:white; padding:40px; text-align:center; transition:0.3s;" data-aos="fade-up" data-aos-delay="200">
-            <i class="fas fa-user-astronaut" style="font-size:3rem; color:var(--gold); margin-bottom:20px;"></i>
-            <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:15px;">Expert Mentors</h3>
-            <p style="color:#666; line-height:1.6;">Learn techniques directly from established resident artists in a real studio environment.</p>
-        </div>
-        <div style="background:white; padding:40px; text-align:center; transition:0.3s;" data-aos="fade-up" data-aos-delay="300">
-            <i class="fas fa-coffee" style="font-size:3rem; color:var(--gold); margin-bottom:20px;"></i>
-            <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:15px;">Cultural Vibe</h3>
-            <p style="color:#666; line-height:1.6;">Enjoy Rwandan hospitality, music, and networking with other creatives while you work.</p>
-        </div>
-    </div>
-</section>
-
-<section class="section" id="sessions">
-    <div class="sec-header" data-aos="fade-up">
-        <span>Curated For You</span>
-        <h2>Available Workshops</h2>
-    </div>
-
-    <div style="max-width: 1100px; margin: 0 auto;">
-        <?php foreach($programs as $index => $prog): ?>
-        <div class="prog-card" data-aos="fade-up">
-            <div class="prog-img-wrap">
-                <img src="<?= htmlspecialchars($prog['image_path']) ?>" class="prog-img" alt="Class Image">
-            </div>
-            <div class="prog-info">
-                <span class="prog-cat"><?= htmlspecialchars($prog['category']) ?></span>
-                <h3 class="prog-title"><?= htmlspecialchars($prog['title']) ?></h3>
-                
-                <div class="prog-meta">
-                    <span><i class="fas fa-tag" style="color:var(--gold)"></i> <?= htmlspecialchars($prog['price']) ?></span>
-                    <span><i class="far fa-clock" style="color:var(--gold)"></i> <?= htmlspecialchars($prog['schedule']) ?></span>
+    <div class="programs-container" id="programs">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Search Programs</h3>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search by title, keyword..." onkeyup="filterCards()">
                 </div>
-
-                <p class="prog-desc"><?= htmlspecialchars($prog['description']) ?></p>
-                
-                <a href="contact.php?book=<?= urlencode($prog['title']) ?>" style="display:inline-flex; align-items:center; color:var(--navy); font-weight:700; text-decoration:none; transition:0.3s;">
-                    Book This Session <i class="fas fa-long-arrow-alt-right" style="margin-left:10px; color:var(--gold);"></i>
-                </a>
             </div>
-        </div>
-        <?php endforeach; ?>
-    </div>
-</section>
 
-<section class="section section-alt">
-    <div style="max-width: 800px; margin: 0 auto; text-align: center;" data-aos="zoom-in">
-        <h2 style="font-size: 2.5rem; font-family: 'Playfair Display', serif; color: var(--navy); margin-bottom: 20px;">
-            Ready to Start?
-        </h2>
-        <p style="font-size: 1.1rem; color: #666; margin-bottom: 40px;">
-            Bookings are required at least 2 days in advance for large groups. Individual walk-ins are welcome for daily painting sessions.
-        </p>
-        <a href="contact.php" class="btn-gold">Contact Us Now</a>
-    </div>
-</section>
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Categories</h3>
+                <ul class="category-list">
+                    <li class="category-item active" data-category="all" onclick="filterByCategory('all', this)">
+                        All Programs <span class="count-badge"><?= count($programs) ?></span>
+                    </li>
+                    <li class="category-item" data-category="Class" onclick="filterByCategory('Class', this)">
+                        Classes <span class="count-badge"><?= $categories['Class'] ?? 0 ?></span>
+                    </li>
+                    <li class="category-item" data-category="Workshop" onclick="filterByCategory('Workshop', this)">
+                        Workshops <span class="count-badge"><?= $categories['Workshop'] ?? 0 ?></span>
+                    </li>
+                    <li class="category-item" data-category="Experience" onclick="filterByCategory('Experience', this)">
+                        Experiences <span class="count-badge"><?= $categories['Experience'] ?? 0 ?></span>
+                    </li>
+                </ul>
+            </div>
 
+            <div class="pdf-widget">
+                <i class="fas fa-file-pdf fa-3x" style="margin-bottom: 16px; opacity: 0.9;"></i>
+                <h3 style="margin: 0 0 12px; color: white;">Program Catalog</h3>
+                <p style="margin-bottom: 20px; opacity: 0.9; font-size: 0.95rem;">Download our full program details as a beautifully formatted PDF.</p>
+                <button class="pdf-btn" onclick="generatePDF()">Download PDF</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <section>
+            <div class="grid-header">
+                <div class="results-count">Showing <strong id="resultCount"><?= count($programs) ?></strong> programs</div>
+                <select class="sort-select" onchange="sortCards(this.value)">
+                    <option value="title-asc">Sort by Title (A-Z)</option>
+                    <option value="title-desc">Sort by Title (Z-A)</option>
+                    <option value="price-asc">Sort by Price (Low-High)</option>
+                    <option value="price-desc">Sort by Price (High-Low)</option>
+                </select>
+            </div>
+
+            <div class="cards-grid" id="cardsContainer">
+                <?php foreach ($programs as $index => $program): ?>
+                    <article class="program-card" 
+                             data-category="<?= strtolower(htmlspecialchars($program['category'])) ?>"
+                             data-title="<?= htmlspecialchars($program['title']) ?>"
+                             data-price="<?= (int)str_replace([',', ' Rwf'], '', $program['price']) ?>"
+                             data-aos="zoom-in-up" 
+                             data-aos-delay="<?= $index * 100 ?>">
+                        <div class="card-image-container">
+                            <span class="card-category"><?= htmlspecialchars($program['category']) ?></span>
+                            <img src="<?= htmlspecialchars($program['image_path']) ?>" 
+                                 class="card-image" 
+                                 alt="<?= htmlspecialchars($program['title']) ?> - Inkingi Arts Space" 
+                                 loading="lazy">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title"><?= htmlspecialchars($program['title']) ?></h3>
+                            
+                            <div class="card-meta">
+                                <div class="meta-item">
+                                    <i class="far fa-clock"></i> <?= htmlspecialchars($program['schedule']) ?>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-tag"></i> <?= htmlspecialchars($program['price']) ?>
+                                </div>
+                            </div>
+
+                            <p class="card-description"><?= htmlspecialchars($program['description']) ?></p>
+
+                            <div class="card-footer">
+                                <span class="price"><?= htmlspecialchars($program['price']) ?></span>
+                                <a href="contact.php?book=<?= urlencode($program['title']) ?>" 
+                                   class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Hidden PDF content (Enhanced styling for print) -->
 <div id="printable-area">
-    <div style="padding: 40px; text-align: center; border: 10px solid #0a192f;">
-        <h1 style="font-size: 40px; color: #0a192f; text-transform: uppercase;">Inkingi Arts Space</h1>
-        <p style="font-size: 20px; color: #FDB913;">Official Program Guide 2026</p>
-        <br><br>
-        <div style="text-align: left;">
-        <?php foreach($programs as $prog): ?>
-            <div style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #ccc;">
-                <h2 style="color: #0a192f; margin: 0;"><?= htmlspecialchars($prog['title']) ?></h2>
-                <p style="color: #666; font-size: 14px; margin-top: 5px;"><?= htmlspecialchars($prog['category']) ?></p>
-                <p><strong>Price:</strong> <?= htmlspecialchars($prog['price']) ?> | <strong>When:</strong> <?= htmlspecialchars($prog['schedule']) ?></p>
-                <p style="font-style: italic;"><?= htmlspecialchars($prog['description']) ?></p>
+    <div style="padding: 48px; font-family: 'Poppins', sans-serif; color: #222; background: #fff; border: 2px solid var(--primary);">
+        <img src="assets/images/logo.svg" alt="Inkingi Arts Space" style="display: block; margin: 0 auto 24px; max-width: 200px;">
+        <h1 style="text-align:center; color: var(--primary); margin-bottom: 8px; font-family: 'Playfair Display', serif;">Inkingi Arts Space</h1>
+        <p style="text-align:center; color: var(--gray); margin-bottom: 48px; font-style: italic;">Programs & Workshops Catalog – <?= date('Y') ?></p>
+        <hr style="border: none; border-top: 1px dashed #ddd; margin-bottom: 48px;">
+        
+        <?php foreach ($programs as $p): ?>
+            <div style="margin-bottom: 40px; padding: 24px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin:0 0 12px; color: var(--primary); font-family: 'Playfair Display', serif;"><?= htmlspecialchars($p['title']) ?></h3>
+                <p style="margin: 0 0 8px; color:var(--red); font-weight: bold;"><?= htmlspecialchars($p['price']) ?></p>
+                <p style="margin: 0 0 16px; font-style:italic; color:var(--gray);"><i class="far fa-clock"></i> <?= htmlspecialchars($p['schedule']) ?> • <i class="fas fa-tags"></i> <?= htmlspecialchars($p['category']) ?></p>
+                <p style="margin:0; line-height: 1.6;"><?= htmlspecialchars($p['description']) ?></p>
             </div>
         <?php endforeach; ?>
-        </div>
-        <br>
-        <p style="color: #888;">Contact: +250 787 177 805 | Kigail, Rwanda</p>
+        <p style="text-align:center; margin-top: 48px; color: var(--gray); font-size: 0.9rem;">Visit us at Inkingi Arts Space, Kigali, Rwanda | www.inkingiarts.com</p>
     </div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
 
 <script>
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({ duration: 800, once: true, offset: 100 });
 
-    function downloadPDF() {
+    // Masonry Grid (for uneven card heights, inspired by gallery sites)
+    const grid = document.querySelector('.cards-grid');
+    new Masonry(grid, {
+        itemSelector: '.program-card',
+        columnWidth: '.program-card',
+        gutter: 32,
+        fitWidth: true,
+        transitionDuration: '0.3s'
+    });
+
+    // Category Filter
+    function filterByCategory(cat, element) {
+        document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+
+        const cards = document.querySelectorAll('.program-card');
+        let visible = 0;
+
+        cards.forEach(card => {
+            if (cat === 'all' || card.dataset.category === cat.toLowerCase()) {
+                card.style.display = '';
+                visible++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        document.getElementById('resultCount').textContent = visible;
+        grid.masonry('layout'); // Re-layout masonry
+    }
+
+    // Live Search
+    function filterCards() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const cards = document.querySelectorAll('.program-card');
+        let visible = 0;
+
+        cards.forEach(card => {
+            const title = card.dataset.title.toLowerCase();
+            const desc = card.querySelector('.card-description').textContent.toLowerCase();
+            const visibleByCat = card.style.display !== 'none';
+
+            if ((title.includes(query) || desc.includes(query)) && visibleByCat) {
+                card.style.display = '';
+                visible++;
+            } else if (visibleByCat) {
+                card.style.display = 'none';
+            }
+        });
+
+        document.getElementById('resultCount').textContent = visible;
+        grid.masonry('layout');
+    }
+
+    // Sorting
+    function sortCards(sortBy) {
+        const container = document.getElementById('cardsContainer');
+        const cards = Array.from(container.querySelectorAll('.program-card'));
+
+        cards.sort((a, b) => {
+            if (sortBy === 'title-asc') {
+                return a.dataset.title.localeCompare(b.dataset.title);
+            } else if (sortBy === 'title-desc') {
+                return b.dataset.title.localeCompare(a.dataset.title);
+            } else if (sortBy === 'price-asc') {
+                return a.dataset.price - b.dataset.price;
+            } else if (sortBy === 'price-desc') {
+                return b.dataset.price - a.dataset.price;
+            }
+        });
+
+        cards.forEach(card => container.appendChild(card));
+        grid.masonry('layout');
+    }
+
+    // PDF Download (Enhanced options)
+    function generatePDF() {
         const element = document.getElementById('printable-area');
         element.style.display = 'block';
-        const opt = {
+
+        const options = {
             margin: 0.5,
-            filename: 'Inkingi_Brochure.pdf',
+            filename: 'Inkingi_Programs_Catalog_' + new Date().getFullYear() + '.pdf',
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
+            html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
-        html2pdf().set(opt).from(element).save().then(() => {
+
+        html2pdf().set(options).from(element).save().then(() => {
             element.style.display = 'none';
         });
     }
 </script>
-
-<style>
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-        40% {transform: translateY(-10px);}
-        60% {transform: translateY(-5px);}
-    }
-</style>

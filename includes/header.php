@@ -1,137 +1,418 @@
- <?php include_once __DIR__ . '/tracker.php';?>
-    <div id="preloader">
-        <div class="loader-text">
-            <span class="text-yellow">I</span><span class="text-green">K</span><span class="text-red">S</span>
+<?php include_once __DIR__ . '/tracker.php'; ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inkingi Arts Space</title>
+    <!-- Global Fonts & Icons (Consistent with other pages) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- AOS for animations if needed across site -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+</head>
+<body>
+
+<!-- Preloader (Different High-Class: Elegant progress bar with logo pulse and subtle particle-like dots for artistic vibe) -->
+<div id="preloader">
+    <div class="loader">
+        <img class="loader-logo" src="assets/images/logo.svg" alt="Inkingi Arts Logo">
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+        <span class="loader-text">Unveiling Masterpieces...</span>
+        <div class="loader-dots">
+            <span></span><span></span><span></span>
         </div>
     </div>
-  <nav class="main-nav">
+</div>
+
+<!-- Navigation (Restructured: Cleaner HTML, better semantics, consistent with programs page) -->
+<header class="main-header">
+    <nav class="main-nav">
         <a href="index.php" class="nav-logo">
-            <img src="assets/images/logo.svg" alt="Ikingi Arts">
+            <img src="assets/images/logo.svg" alt="Inkingi Arts Space Logo">
         </a>
         <ul class="nav-links">
-            <li><a href="#about">About</a></li>
+            <li><a href="index.php#about">About</a></li>
             <li><a href="programs.php">Programs</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#events">Events & News</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="index.php#gallery">Gallery</a></li>
+            <li><a href="index.php#events">Events & News</a></li>
+            <li><a href="index.php#contact">Contact</a></li>
         </ul>
-        <div class="hamburger" id="hamburgerBtn">
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open Mobile Menu">
             <i class="fas fa-bars"></i>
-        </div>
+        </button>
     </nav>
+</header>
 
-    <div class="menu-overlay" id="menuOverlay"></div>
-    <div class="mobile-menu" id="mobileMenu">
-        <div style="text-align: right; margin-bottom: 40px;">
-            <i class="fas fa-times" id="closeMenuBtn" style="color: white; font-size: 2rem; cursor: pointer;"></i>
-        </div>
-        <ul>
-            <li><a href="index.php" class="mobile-link">Home</a></li>
-            <li><a href="#about" class="mobile-link">About Us</a></li>
-            <li><a href="#programs" class="mobile-link">Programs</a></li>
-            <li><a href="#gallery" class="mobile-link">Gallery</a></li>
-            <li><a href="#events" class="mobile-link">Events</a></li>
-            <li><a href="#contact" class="mobile-link">Contact</a></li>
-        </ul>
-    </div>
-    <style>
-         /* --- 4. NAVIGATION (Desktop & Mobile) --- */
+<!-- Mobile Menu (Improved: Better transitions, accessibility) -->
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+<nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="close-btn" id="closeMenuBtn" aria-label="Close Mobile Menu">
+        <i class="fas fa-times"></i>
+    </button>
+    <ul class="mobile-links">
+        <li><a href="index.php" class="mobile-link">Home</a></li>
+        <li><a href="index.php#about" class="mobile-link">About Us</a></li>
+        <li><a href="programs.php" class="mobile-link">Programs</a></li>
+        <li><a href="index.php#gallery" class="mobile-link">Gallery</a></li>
+        <li><a href="index.php#events" class="mobile-link">Events</a></li>
+        <li><a href="index.php#contact" class="mobile-link">Contact</a></li>
+    </ul>
+</nav>
+
+<style>
+    /* Global Variables (Consistent with programs.php) */
+    :root {
+        --primary: #2C3E50;
+        --accent: #FDB913; /* Renamed to --accent for simplicity */
+        --green: #009E60;
+        --red: #C8102E;
+        --light: #f8f9fa;
+        --gray: #6c757d;
+        --dark: #212529;
+        --radius: 16px;
+        --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+        --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+        --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        --font-serif: 'Playfair Display', serif;
+        --font-sans: 'Poppins', sans-serif;
+    }
+
+    body {
+        font-family: var(--font-sans);
+        background: var(--light);
+        color: var(--dark);
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* Preloader (Different High-Class: Elegant progress bar with logo pulse and subtle particle-like dots) */
+    #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--light), white);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 1.2s ease, visibility 1.2s ease;
+    }
+
+    #preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .loader {
+        text-align: center;
+        position: relative;
+        animation: loaderFadeIn 1.2s ease forwards;
+    }
+
+    @keyframes loaderFadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .loader-logo {
+        width: 120px;
+        height: auto;
+        margin-bottom: 25px;
+        animation: logoPulse 1.5s infinite ease-in-out;
+        filter: drop-shadow(0 5px 15px rgba(253,185,19,0.1));
+    }
+
+    @keyframes logoPulse {
+        0%, 100% { transform: scale(1); opacity: 0.9; }
+        50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    .loader-bar {
+        width: 250px;
+        height: 4px;
+        background: rgba(253,185,19,0.2);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .loader-progress {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--accent), var(--green));
+        animation: progressFill 3s linear infinite;
+    }
+
+    @keyframes progressFill {
+        0% { width: 0; }
+        100% { width: 100%; }
+    }
+
+    .loader-text {
+        font-family: var(--font-serif);
+        font-size: 1.2rem;
+        color: var(--primary);
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        opacity: 0.8;
+        animation: textGlow 2s infinite alternate;
+    }
+
+    @keyframes textGlow {
+        0% { text-shadow: 0 0 5px rgba(253,185,19,0.3); }
+        100% { text-shadow: 0 0 15px rgba(253,185,19,0.6); }
+    }
+
+    .loader-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .loader-dots span {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: dotBounce 1.5s infinite ease-in-out;
+    }
+
+    .loader-dots span:nth-child(2) { animation-delay: 0.3s; }
+    .loader-dots span:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes dotBounce {
+        0%, 100% { transform: translateY(0); opacity: 0.6; }
+        50% { transform: translateY(-10px); opacity: 1; }
+    }
+
+    /* Header & Nav (Restructured: Fixed on scroll if needed, better spacing) */
+    .main-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background: transparent;
+        transition: background 0.3s ease;
+    }
+
+    .main-header.scrolled {
+        position: fixed;
+        background: var(--primary);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .main-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 20px 40px;
+    }
+
+    .nav-logo img {
+        height: 60px;
+        width: auto;
+        transition: var(--transition);
+    }
+
+    .main-header.scrolled .nav-logo img {
+        height: 50px;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        position: relative;
+        transition: var(--transition);
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
+
+    /* Mobile Menu (Improved: Slide-in animation, better typography) */
+    .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 320px;
+        height: 100vh;
+        background: var(--primary);
+        z-index: 1100;
+        padding: 80px 32px 32px;
+        transition: right 0.4s var(--transition);
+        box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+    }
+
+    .mobile-menu.active {
+        right: 0;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .close-btn:hover {
+        transform: rotate(90deg);
+    }
+
+    .mobile-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .mobile-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1.6rem;
+        font-weight: 600;
+        font-family: var(--font-serif);
+        transition: var(--transition);
+    }
+
+    .mobile-link:hover {
+        color: var(--accent);
+    }
+
+    .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 1050;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+    }
+
+    .menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Responsive Design (Consistent breakpoints with programs.php) */
+    @media (max-width: 992px) {
+        .nav-links {
+            display: none;
+        }
+
+        .hamburger {
+            display: block;
+        }
+
         .main-nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; position: absolute; top: 0; left: 0; width: 100%; z-index: 100;
+            padding: 20px 24px;
         }
-        .nav-logo img { height: 50px; }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a {
-            color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; transition: var(--transition-soft);
-            position: relative;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent-yellow); transition: width 0.3s ease;
-        }
-        .nav-links a:hover::after { width: 100%; }
-        .hamburger { display: none; color: white; font-size: 1.8rem; cursor: pointer; z-index: 101; }
+    }
 
-        /* Mobile Menu Drawer */
-        .mobile-menu {
-            position: fixed; top: 0; right: -100%; width: 80%; max-width: 400px; height: 100vh;
-            background: var(--primary); z-index: 100; padding: 100px 40px;
-            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+    @media (max-width: 576px) {
+        .nav-logo img {
+            height: 50px;
         }
-        .mobile-menu.active { right: 0; }
-        .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 25px; }
-        .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 700; }
-        .menu-overlay {
-            position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 99;
-            opacity: 0; visibility: hidden; transition: 0.3s;
-        }
-        .menu-overlay.active { opacity: 1; visibility: visible; }
+    }
+</style>
 
-
-        /* --- 4. NAVIGATION (Desktop & Mobile) --- */
-        .main-nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; position: absolute; top: 0; left: 0; width: 100%; z-index: 100;
-        }
-        .nav-logo img { 
-            cursor: pointer;
-            transform: scale(1.4);
-        }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a {
-            color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; transition: var(--transition-soft);
-            position: relative;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent-yellow); transition: width 0.3s ease;
-        }
-        .nav-links a:hover::after { width: 100%; }
-        .hamburger { display: none; color: white; font-size: 1.8rem; cursor: pointer; z-index: 101; }
-
-        /* Mobile Menu Drawer */
-        .mobile-menu {
-            position: fixed; top: 0; right: -100%; width: 80%; max-width: 400px; height: 100vh;
-            background: var(--primary); z-index: 100; padding: 100px 40px;
-            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.2);
-        }
-        .mobile-menu.active { right: 0; }
-        .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 25px; }
-        .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 700; }
-        .menu-overlay {
-            position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 99;
-            opacity: 0; visibility: hidden; transition: 0.3s;
-        }
-        .menu-overlay.active { opacity: 1; visibility: visible; }
-         #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-    </style>
-    <script>
-         // --- 1. PRELOADER & MOBILE MENU ---
-        window.addEventListener('load', () => {
+<script>
+    // Preloader (High-Class: Delay for smoothness, elegant fade)
+    window.addEventListener('load', () => {
+        setTimeout(() => {
             const preloader = document.getElementById('preloader');
-            preloader.style.opacity = '0'; preloader.style.visibility = 'hidden';
-        });
+            preloader.classList.add('hidden');
+        }, 500); // Slight delay for smoothness
+    });
 
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const closeMenuBtn = document.getElementById('closeMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
+    // Mobile Menu Toggle (Improved: Accessibility, prevent scroll when open)
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const body = document.body;
 
-        function toggleMenu() {
-            mobileMenu.classList.toggle('active');
-            menuOverlay.classList.toggle('active');
+    function toggleMenu() {
+        const isActive = mobileMenu.classList.toggle('active');
+        menuOverlay.classList.toggle('active', isActive);
+        body.style.overflow = isActive ? 'hidden' : ''; // Prevent scroll
+        mobileMenu.setAttribute('aria-hidden', !isActive);
+        menuOverlay.setAttribute('aria-hidden', !isActive);
+    }
+
+    hamburgerBtn.addEventListener('click', toggleMenu);
+    closeMenuBtn.addEventListener('click', toggleMenu);
+    menuOverlay.addEventListener('click', toggleMenu);
+
+    // Close on ESC key for accessibility
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+            toggleMenu();
         }
-        hamburgerBtn.addEventListener('click', toggleMenu);
-        closeMenuBtn.addEventListener('click', toggleMenu);
-        menuOverlay.addEventListener('click', toggleMenu);
-        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+    });
 
-    </script>
+    // Header Scroll Effect (Add 'scrolled' class for sticky/fixed nav)
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('.main-header');
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Initialize AOS if used site-wide
+    AOS.init({ duration: 800, once: true });
+</script>
