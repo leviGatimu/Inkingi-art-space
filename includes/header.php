@@ -42,6 +42,7 @@
             </div>
         </a>
         <ul class="nav-links">
+             <li><a href="index.php#about">Home</a></li>
             <li><a href="index.php#about">About</a></li>
             <li><a href="programs.php">Programs</a></li>
             <li><a href="index.php#gallery">Gallery</a></li>
