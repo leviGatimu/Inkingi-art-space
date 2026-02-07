@@ -36,6 +36,10 @@
     <nav class="main-nav">
         <a href="index.php" class="nav-logo">
             <img src="assets/images/logo.svg" alt="Inkingi Arts Space Logo">
+            <div class="logo-text">
+                <h1>Inkingi</h1>
+                <p>Arts Space</p>
+            </div>
         </a>
         <ul class="nav-links">
             <li><a href="index.php#about">About</a></li>
@@ -43,7 +47,7 @@
             <li><a href="index.php#gallery">Gallery</a></li>
             <li><a href="index.php#events">Events & News</a></li>
             <li><a href="index.php#contact">Contact</a></li>
-            <li><a href="#" style="border: none; box-shadow: 0px 0px 8px grey; padding: 10px; border-radius: 5px; background-color: gold; ">Join now</a></li>
+            <li><a href="#" class="nav-join">Join now</a></li>
         </ul>
         <button class="hamburger" id="hamburgerBtn" aria-label="Open Mobile Menu">
             <i class="fas fa-bars"></i>
@@ -51,19 +55,27 @@
     </nav>
 </header>
 
-<!-- Mobile Menu (Improved: Better transitions, accessibility) -->
+<!-- Mobile Menu (Improved: Better transitions, accessibility, professional styling with icons and logo) -->
 <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <button class="close-btn" id="closeMenuBtn" aria-label="Close Mobile Menu">
         <i class="fas fa-times"></i>
     </button>
+    <div class="mobile-logo">
+        <img src="assets/images/logo.svg" alt="Inkingi Arts Space Logo">
+        <div class="logo-text">
+            <h1>Inkingi</h1>
+            <p>Arts Space</p>
+        </div>
+    </div>
     <ul class="mobile-links">
-        <li><a href="index.php" class="mobile-link">Home</a></li>
-        <li><a href="index.php#about" class="mobile-link">About Us</a></li>
-        <li><a href="programs.php" class="mobile-link">Programs</a></li>
-        <li><a href="index.php#gallery" class="mobile-link">Gallery</a></li>
-        <li><a href="index.php#events" class="mobile-link">Events</a></li>
-        <li><a href="index.php#contact" class="mobile-link">Contact</a></li>
+        <li><a href="index.php" class="mobile-link"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="index.php#about" class="mobile-link"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li><a href="programs.php" class="mobile-link"><i class="fas fa-book"></i> Programs</a></li>
+        <li><a href="index.php#gallery" class="mobile-link"><i class="fas fa-images"></i> Gallery</a></li>
+        <li><a href="index.php#events" class="mobile-link"><i class="fas fa-calendar-alt"></i> Events</a></li>
+        <li><a href="index.php#contact" class="mobile-link"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="#" class="mobile-join">Join now</a></li>
     </ul>
 </nav>
 
@@ -198,7 +210,7 @@
         50% { transform: translateY(-10px); opacity: 1; }
     }
 
-    /* Header & Nav (Restructured: Fixed on scroll if needed, better spacing) */
+    /* Header & Nav (Restructured: Fixed on scroll with blurry background, better spacing) */
     .main-header {
         position: absolute;
         top: 0;
@@ -206,12 +218,14 @@
         width: 100%;
         z-index: 1000;
         background: transparent;
-        transition: background 0.3s ease;
+        transition: background 0.3s ease, backdrop-filter 0.3s ease;
     }
 
     .main-header.scrolled {
         position: fixed;
-        background: var(--primary);
+        background: rgba(44, 62, 80, 0.9); /* Semi-transparent primary color */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         box-shadow: var(--shadow-sm);
     }
 
@@ -224,6 +238,12 @@
         padding: 20px 40px;
     }
 
+    .nav-logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+
     .nav-logo img {
         height: 60px;
         width: auto;
@@ -232,6 +252,32 @@
 
     .main-header.scrolled .nav-logo img {
         height: 50px;
+    }
+
+    .logo-text {
+        display: flex;
+        flex-direction: column;
+        margin-left: 12px;
+        line-height: 1.1;
+    }
+
+    .logo-text h1 {
+        font-family: var(--font-serif);
+        font-size: 1.4rem;
+        margin: 0;
+        color: white;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .logo-text p {
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        margin: 0;
+        color: var(--accent);
+        font-weight: 400;
+        letter-spacing: 1px;
+        text-transform: uppercase;
     }
 
     .nav-links {
@@ -267,6 +313,21 @@
         width: 100%;
     }
 
+    .nav-join {
+        border: none;
+        box-shadow: 0px 0px 8px grey;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: var(--accent);
+        color: var(--primary) !important;
+        font-weight: 600;
+    }
+
+    .nav-join:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(253,185,19,0.4);
+    }
+
     .hamburger {
         display: none;
         background: none;
@@ -274,9 +335,14 @@
         color: white;
         font-size: 1.8rem;
         cursor: pointer;
+        transition: var(--transition);
     }
 
-    /* Mobile Menu (Improved: Slide-in animation, better typography) */
+    .hamburger:hover {
+        color: var(--accent);
+    }
+
+    /* Mobile Menu (Improved: Professional styling inspired by modern designs - icons, logo, join button, subtle shadows, better spacing) */
     .mobile-menu {
         position: fixed;
         top: 0;
@@ -286,9 +352,11 @@
         height: 100vh;
         background: var(--primary);
         z-index: 1100;
-        padding: 80px 32px 32px;
+        padding: 40px 32px;
         transition: right 0.4s var(--transition);
         box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+        display: flex;
+        flex-direction: column;
     }
 
     .mobile-menu.active {
@@ -309,28 +377,88 @@
 
     .close-btn:hover {
         transform: rotate(90deg);
+        color: var(--accent);
+    }
+
+    .mobile-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 48px;
+        flex-direction: column;
+    }
+
+    .mobile-logo img {
+        height: 80px;
+        width: auto;
+        margin-bottom: 8px;
+    }
+
+    .mobile-logo .logo-text h1 {
+        font-size: 1.8rem;
+        color: white;
+    }
+
+    .mobile-logo .logo-text p {
+        font-size: 1rem;
+        color: var(--accent);
     }
 
     .mobile-links {
         list-style: none;
         padding: 0;
-        margin: 0;
+        margin: 0 auto;
         display: flex;
         flex-direction: column;
-        gap: 32px;
+        gap: 24px;
+        width: 100%;
+        flex-grow: 1;
     }
 
     .mobile-link {
         color: white;
         text-decoration: none;
-        font-size: 1.6rem;
-        font-weight: 600;
-        font-family: var(--font-serif);
+        font-size: 1.4rem;
+        font-weight: 500;
+        font-family: var(--font-sans);
         transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: var(--radius);
+        background: rgba(255,255,255,0.05);
+        box-shadow: var(--shadow-sm);
     }
 
     .mobile-link:hover {
         color: var(--accent);
+        background: rgba(255,255,255,0.1);
+        transform: translateX(5px);
+    }
+
+    .mobile-link i {
+        font-size: 1.2rem;
+        color: inherit;
+    }
+
+    .mobile-join {
+        color: var(--primary);
+        background: var(--accent);
+        text-decoration: none;
+        font-size: 1.4rem;
+        font-weight: 600;
+        text-align: center;
+        padding: 16px;
+        border-radius: var(--radius);
+        transition: var(--transition);
+        margin-top: auto;
+        box-shadow: var(--shadow-md);
+    }
+
+    .mobile-join:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(253,185,19,0.3);
     }
 
     .menu-overlay {
@@ -363,6 +491,14 @@
 
         .main-nav {
             padding: 20px 24px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
         }
     }
 
@@ -408,12 +544,12 @@
         }
     });
 
-    // Header Scroll Effect (Add 'scrolled' class for sticky/fixed nav)
+    // Header Scroll Effect (Add 'scrolled' class for sticky/fixed nav with blur)
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.main-header');
         header.classList.toggle('scrolled', window.scrollY > 50);
     });
 
-    // Initialize AOS if used site-wide
-    AOS.init({ duration: 800, once: true });
+    // Initialize AOS if used site-wide (for added interactivity)
+    AOS.init({ duration: 800, once: true, easing: 'ease-in-out-back' });
 </script>
