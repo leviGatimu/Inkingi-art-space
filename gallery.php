@@ -107,7 +107,7 @@ $artists = $stmt->fetchAll(PDO::FETCH_ASSOC);
     .hero-header {
         height: 80vh;
         min-height: 600px;
-        background: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=900&h=500&s=1') no-repeat center/cover;
+        background: url('https://images.unsplash.com/photo-1569783721854-33a99b4c0bae?q=80&w=1128&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center/cover;
         position: relative;
         display: flex;
         align-items: center;
@@ -445,5 +445,3 @@ $artists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     AOS.init({ duration: 1000, once: true });
 </script>
-
-<?php include 'includes/footer.php'; ?>

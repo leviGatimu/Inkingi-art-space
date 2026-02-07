@@ -28,15 +28,9 @@ $stmt = $pdo->prepare("SELECT * FROM artworks WHERE artist_id = ? ORDER BY date_
 $stmt->execute([$artist_id]);
 $artworks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Initialize messages (prevents undefined variable warning)
+// Messages (prevents undefined variable warning)
 $message = "";
 $messageType = "info";
-
-// Example: Profile updated message (you can set this after form submit)
-if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
-    $message = "Profile updated successfully!";
-    $messageType = "success";
-}
 ?>
 
 <!DOCTYPE html>
@@ -45,23 +39,23 @@ if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($artist['name']) ?> | Inkingi Artist Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" type="image/png" href="../assets/images/logo.svg">
     <style>
         :root {
-            --bg: #0a0e17;
-            --card: rgba(22, 27, 34, 0.92);
-            --text: #e6e6e6;
-            --text-muted: #8892b0;
+            --bg: #0a0c14;
+            --canvas: #11151f;
+            --card: rgba(20, 24, 32, 0.94);
+            --text: #f0f4f8;
+            --text-muted: #a1b0c2;
             --accent: #FDB913;
-            --accent-hover: #e6a50a;
-            --green: #64ffda;
-            --red: #ff5f57;
-            --border: rgba(48, 54, 61, 0.6);
-            --glow: rgba(253, 185, 19, 0.12);
-            --radius: 16px;
-            --transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --accent-glow: rgba(253, 185, 19, 0.25);
+            --green: #00d4a8;
+            --red: #ff5f6b;
+            --border: rgba(48, 54, 61, 0.45);
+            --radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -71,19 +65,23 @@ if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 25%, var(--accent-glow) 0%, transparent 30%),
+                radial-gradient(circle at 85% 75%, rgba(0,212,168,0.08) 0%, transparent 40%);
+            background-attachment: fixed;
         }
 
-        /* Common Artist Header (reusable across all artist pages) */
+        /* Common Header */
         .artist-header {
-            background: linear-gradient(135deg, rgba(15,15,26,0.95), rgba(22,27,34,0.95));
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: linear-gradient(to bottom, rgba(10,12,20,0.98), rgba(17,21,31,0.98));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
-            padding: 20px 40px;
+            padding: 16px 24px;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.45);
         }
 
         .header-inner {
@@ -97,51 +95,56 @@ if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 14px;
         }
 
         .logo-area img {
-            height: 50px;
-            transition: transform 0.3s;
+            height: 52px;
+            filter: drop-shadow(0 4px 12px rgba(253,185,19,0.35));
+            transition: transform 0.4s ease;
         }
 
         .logo-area img:hover {
-            transform: scale(1.08);
+            transform: scale(1.12) rotate(8deg);
         }
 
         .artist-name {
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             font-weight: 600;
-            color: white;
+            background: linear-gradient(90deg, var(--accent), #ffcc66);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-actions {
             display: flex;
-            gap: 20px;
+            gap: 18px;
             align-items: center;
         }
 
         .nav-btn {
-            background: rgba(253,185,19,0.15);
+            background: rgba(253,185,19,0.12);
             color: var(--accent);
-            border: 1px solid rgba(253,185,19,0.3);
+            border: 1px solid rgba(253,185,19,0.28);
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 500;
             text-decoration: none;
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .nav-btn:hover {
             background: var(--accent);
-            color: #0f0f1a;
-            transform: translateY(-2px);
+            color: #0a0c14;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 35px rgba(253,185,19,0.4);
         }
 
         .logout-btn {
-            background: rgba(255,95,87,0.15);
+            background: rgba(255,95,87,0.12);
             color: var(--red);
-            border: 1px solid rgba(255,95,87,0.3);
+            border: 1px solid rgba(255,95,87,0.28);
         }
 
         .logout-btn:hover {
@@ -149,11 +152,94 @@ if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
             color: white;
         }
 
-        /* Main Content Area */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 320px;
+            height: 100vh;
+            background: var(--card);
+            backdrop-filter: blur(16px);
+            z-index: 1100;
+            padding: 80px 30px 30px;
+            transition: right 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: -15px 0 50px rgba(0,0,0,0.6);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 2.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-close:hover {
+            transform: rotate(90deg) scale(1.15);
+        }
+
+        .mobile-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .mobile-link {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .mobile-link:hover {
+            color: var(--accent);
+            padding-left: 12px;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Dashboard Content */
         .dashboard-container {
             max-width: 1400px;
             margin: 40px auto;
-            padding: 0 40px;
+            padding: 0 24px;
         }
 
         .profile-hero {
@@ -247,10 +333,36 @@ if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
             font-size: 1rem;
         }
 
+        .action-buttons {
+            text-align: center;
+            margin: 40px 0 60px;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent), #ffd166);
+            color: #0a0c14;
+            padding: 16px 60px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(253,185,19,0.3);
+            text-decoration: none;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 0 20px 60px rgba(253,185,19,0.5);
+        }
+
         .artworks-section h2 {
             color: white;
             margin-bottom: 30px;
             font-size: 2rem;
+            text-align: center;
         }
 
         .artwork-grid {
@@ -331,23 +443,61 @@ if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
             padding: 80px 0;
             font-size: 1.2rem;
         }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hamburger { display: block; }
+            .nav-actions { display: none; }
+            .profile-content { flex-direction: column; text-align: center; }
+            .profile-avatar { margin: 0 auto; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .artwork-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 576px) {
+            .header-inner { padding: 0 16px; }
+            .dashboard-container { padding: 0 16px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Common Artist Header (reusable on all artist pages) -->
+    <!-- Common Artist Header -->
     <header class="artist-header">
         <div class="header-inner">
             <div class="logo-area">
                 <img src="../assets/images/logo.svg" alt="Inkingi Logo">
                 <span class="artist-name"><?= htmlspecialchars($artist['name']) ?></span>
             </div>
+
+            <!-- Desktop Nav -->
             <div class="nav-actions">
-                <a href="artists_profile.php" class="nav-btn">Edit Profile</a>
+                <a href="edit_profile.php" class="nav-btn">Edit Profile</a>
+                <a href="artists_upload.php" class="nav-btn" style="background: var(--green); color: #0a0c14;">Upload Artwork</a>
                 <a href="logout.php" class="nav-btn logout-btn">Logout</a>
             </div>
+
+            <!-- Hamburger -->
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-close" id="mobileClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-links">
+            <a href="artists_dashboard.php" class="mobile-link">Dashboard</a>
+            <a href="edit_profile.php" class="mobile-link">Edit Profile</a>
+            <a href="artists_upload.php" class="mobile-link">Upload Artwork</a>
+            <a href="logout.php" class="mobile-link" style="color: var(--red);">Logout</a>
+        </div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
 
     <div class="dashboard-container">
         <!-- Profile Hero -->
@@ -385,13 +535,20 @@ if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
             </div>
         </div>
 
+        <!-- Upload Call to Action -->
+        <?php if (empty($artworks)): ?>
+            <div class="action-buttons">
+                <a href="artists_upload.php" class="btn-action">
+                    <i class="fas fa-upload"></i> Upload Your First Artwork
+                </a>
+            </div>
+        <?php endif; ?>
+
         <!-- Your Artworks -->
         <section class="artworks-section">
             <h2>Your Artworks</h2>
             <?php if (empty($artworks)): ?>
-                <p class="no-art">You haven’t uploaded any artworks yet.<br><br>
-                    <a href="#upload-section" style="color:var(--accent); text-decoration:none; font-weight:600;">Upload your first piece →</a>
-                </p>
+                <p class="no-art">Your gallery is empty.<br>Start sharing your creations today.</p>
             <?php else: ?>
                 <div class="artwork-grid">
                     <?php foreach ($artworks as $art): ?>
@@ -410,8 +567,32 @@ if (isset($_GET['updated']) && $_GET['updated'] === 'profile') {
                 </div>
             <?php endif; ?>
         </section>
-
     </div>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const mobileClose = document.getElementById('mobileClose');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        mobileClose.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    </script>
 
 </body>
 </html>
