@@ -17,17 +17,10 @@
 </head>
 <body>
 
-<!-- Preloader (Different High-Class: Elegant progress bar with logo pulse and subtle particle-like dots for artistic vibe) -->
+<!-- Simple & Normal Preloader -->
 <div id="preloader">
     <div class="loader">
-        <img class="loader-logo" src="assets/images/logo.svg" alt="Inkingi Arts Logo">
-        <div class="loader-bar">
-            <div class="loader-progress"></div>
-        </div>
-        <span class="loader-text">Unveiling Masterpieces...</span>
-        <div class="loader-dots">
-            <span></span><span></span><span></span>
-        </div>
+        <img src="assets/images/logo.svg" alt="Inkingi Arts Logo" class="loader-logo">
     </div>
 </div>
 
@@ -84,7 +77,7 @@
     /* Global Variables (Consistent with programs.php) */
     :root {
         --primary: #2C3E50;
-        --accent: #FDB913; /* Renamed to --accent for simplicity */
+        --accent: #FDB913;
         --green: #009E60;
         --red: #C8102E;
         --light: #f8f9fa;
@@ -107,20 +100,17 @@
         overflow-x: hidden;
     }
 
-    /* Preloader (Different High-Class: Elegant progress bar with logo pulse and subtle particle-like dots) */
+    /* Simple & Normal Preloader (clean, average style) */
     #preloader {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, var(--light), white);
+        inset: 0;
+        background: #ffffff;
         z-index: 9999;
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         opacity: 1;
-        transition: opacity 1.2s ease, visibility 1.2s ease;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
     #preloader.hidden {
@@ -128,87 +118,33 @@
         visibility: hidden;
     }
 
-    .loader {
+    .loader-container {
         text-align: center;
-        position: relative;
-        animation: loaderFadeIn 1.2s ease forwards;
-    }
-
-    @keyframes loaderFadeIn {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
     }
 
     .loader-logo {
-        width: 120px;
+        width: 140px;
         height: auto;
-        margin-bottom: 25px;
-        animation: logoPulse 1.5s infinite ease-in-out;
-        filter: drop-shadow(0 5px 15px rgba(253,185,19,0.1));
+        margin-bottom: 30px;
+        animation: logoPulse 2s infinite ease-in-out;
     }
 
     @keyframes logoPulse {
-        0%, 100% { transform: scale(1); opacity: 0.9; }
-        50% { transform: scale(1.05); opacity: 1; }
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.08); }
     }
 
-    .loader-bar {
-        width: 250px;
-        height: 4px;
-        background: rgba(253,185,19,0.2);
-        border-radius: 2px;
-        overflow: hidden;
-        margin-bottom: 15px;
-        position: relative;
-    }
-
-    .loader-progress {
-        height: 100%;
-        width: 0;
-        background: linear-gradient(90deg, var(--accent), var(--green));
-        animation: progressFill 3s linear infinite;
-    }
-
-    @keyframes progressFill {
-        0% { width: 0; }
-        100% { width: 100%; }
+    .loader-brand {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        color: #2C3E50;
+        margin-bottom: 10px;
     }
 
     .loader-text {
-        font-family: var(--font-serif);
-        font-size: 1.2rem;
-        color: var(--primary);
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        opacity: 0.8;
-        animation: textGlow 2s infinite alternate;
-    }
-
-    @keyframes textGlow {
-        0% { text-shadow: 0 0 5px rgba(253,185,19,0.3); }
-        100% { text-shadow: 0 0 15px rgba(253,185,19,0.6); }
-    }
-
-    .loader-dots {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .loader-dots span {
-        width: 8px;
-        height: 8px;
-        background: var(--accent);
-        border-radius: 50%;
-        animation: dotBounce 1.5s infinite ease-in-out;
-    }
-
-    .loader-dots span:nth-child(2) { animation-delay: 0.3s; }
-    .loader-dots span:nth-child(3) { animation-delay: 0.6s; }
-
-    @keyframes dotBounce {
-        0%, 100% { transform: translateY(0); opacity: 0.6; }
-        50% { transform: translateY(-10px); opacity: 1; }
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1rem;
+        color: #6c757d;
     }
 
     /* Header & Nav (Restructured: Fixed on scroll with blurry background, better spacing) */
@@ -224,7 +160,7 @@
 
     .main-header.scrolled {
         position: fixed;
-        background: rgba(44, 62, 80, 0.9); /* Semi-transparent primary color */
+        background: rgba(44, 62, 80, 0.9);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         box-shadow: var(--shadow-sm);
@@ -343,7 +279,7 @@
         color: var(--accent);
     }
 
-    /* Mobile Menu (Improved: Professional styling inspired by modern designs - icons, logo, join button, subtle shadows, better spacing) */
+    /* Mobile Menu (Improved: Better transitions, accessibility, professional styling with icons and logo) */
     .mobile-menu {
         position: fixed;
         top: 0;
@@ -511,12 +447,16 @@
 </style>
 
 <script>
-    // Preloader (High-Class: Delay for smoothness, elegant fade)
+    // Preloader - Simple & Clean Fade Out
     window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        
         setTimeout(() => {
-            const preloader = document.getElementById('preloader');
             preloader.classList.add('hidden');
-        }, 500); // Slight delay for smoothness
+            setTimeout(() => {
+                preloader.remove();
+            }, 800);
+        }, 600);
     });
 
     // Mobile Menu Toggle (Improved: Accessibility, prevent scroll when open)
