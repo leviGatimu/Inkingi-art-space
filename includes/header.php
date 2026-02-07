@@ -43,6 +43,7 @@
             <li><a href="index.php#gallery">Gallery</a></li>
             <li><a href="index.php#events">Events & News</a></li>
             <li><a href="index.php#contact">Contact</a></li>
+            <li><a href="#" style="border: none; box-shadow: 0px 0px 8px grey; padding: 10px; border-radius: 5px; background-color: gold; ">Join now</a></li>
         </ul>
         <button class="hamburger" id="hamburgerBtn" aria-label="Open Mobile Menu">
             <i class="fas fa-bars"></i>

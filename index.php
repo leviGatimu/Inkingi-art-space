@@ -563,12 +563,7 @@
         <?php include 'includes/footer.php'; ?>
     </div>
 
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-        <img id="lightbox-image" src="" alt="">
-    </div>
-
+ 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         // Initialize AOS
