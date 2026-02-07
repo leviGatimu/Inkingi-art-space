@@ -4,84 +4,155 @@ require 'includes/header.php';
 ?>
 
 <main>
-    <!-- Hero Section -->
-    <header class="hero-header">
-        <div class="hero-overlay"></div>
-        <div class="hero-content" data-aos="fade-up">
-            <h1 class="page-title">About Inkingi Arts Space</h1>
-            <p class="page-subtitle">A pillar of Rwandan creativity, supporting artists and preserving culture since 2023</p>
-            <a href="#founder" class="hero-cta">Meet Our Founder</a>
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Inkingi Arts Space</h1>
+            <p class="hero-subtitle">Kigali’s pillar of contemporary creativity.</p>
+            
+            <div class="hero-tags">
+                <span class="tag">Contemporary Gallery</span>
+                <span class="tag">Cultural Hub</span>
+                <span class="tag">Creative Community</span>
+            </div>
+            
+            <a href="#story" class="scroll-btn">
+                <span>Discover Our Story</span>
+                <i class="fas fa-chevron-down"></i>
+            </a>
         </div>
     </header>
 
-    <div class="container" style="max-width: 1280px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2;">
+    <div class="page-content">
 
-        <!-- About the Space -->
-        <section id="about" class="section-padding" data-aos="fade-up">
-            <div class="content-row">
-                <div class="image-col" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="square-frame">
-                        <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=900&h=500&s=1" alt="Inkingi Arts Space Gallery">
+        <section class="section story" id="story">
+            <div class="container">
+                <div class="grid-layout">
+                    <div class="image-wrapper reveal-on-scroll">
+                        <div class="frame">
+                            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=1200&q=80" alt="Inkingi Arts Interior">
+                        </div>
                     </div>
-                </div>
-                <div class="text-col" data-aos="fade-left" data-aos-delay="300">
-                    <span class="section-subtitle">Our Foundation</span>
-                    <h2>A Creative Pillar in Kigali</h2>
-                    <p><strong>Inkingi Arts Space</strong> is a contemporary art gallery and vibrant creative hub located at <strong>24 KG 550 Street, Kacyiru, Kigali, Rwanda</strong>. Founded in 2023 by visual artist Olivier Kwitonda, the name "Inkingi" means "pillar" in Kinyarwanda — symbolizing our mission to uplift and support the next generation of Rwandan and African artists.</p>
-                    <p>Originally funded through sales of Kwitonda’s own paintings, Inkingi has grown into a key destination for art lovers, collectors, and creatives. We host monthly exhibitions, workshops, poetry slams, open mic nights, and cultural storytelling events — often paired with traditional Rwandan food (every third Saturday for only 5,000 RWF).</p>
-                    <p><strong>Opening Hours:</strong> Mon–Fri 8:30 AM – 7:30 PM | Sat–Sun 9:30 AM – 8:00 PM</p>
-                    <p><strong>Contact:</strong> +250 788 299 791 | <a href="https://www.instagram.com/inkingiarts_space" target="_blank" style="color: var(--accent-yellow);">Instagram @inkingiarts_space</a></p>
+
+                    <div class="text-content reveal-on-scroll">
+                        <span class="overline">Our Beginning</span>
+                        <h2 class="section-heading">A Space Born from Passion</h2>
+                        <p class="lead-text">
+                            Founded in 2023 by visual artist Olivier Kwitonda, Inkingi Arts Space is a contemporary gallery and creative hub located at <strong>24 KG 550 Street, Kacyiru, Kigali</strong>.
+                        </p>
+                        <p>
+                            “Inkingi” means “pillar” in Kinyarwanda — symbolizing our mission to uplift emerging Rwandan and African artists while preserving cultural narratives. Starting with funds from Olivier’s own painting sales, Inkingi has grown into one of Kigali’s most vibrant art destinations.
+                        </p>
+
+                        <div class="quick-info">
+                            <div class="info-row">
+                                <div class="icon-box"><i class="far fa-clock"></i></div>
+                                <div>
+                                    <strong>Opening Hours</strong>
+                                    <p>Mon–Fri 8:30–19:30 &bull; Sat–Sun 9:30–20:00</p>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="icon-box"><i class="fab fa-instagram"></i></div>
+                                <div>
+                                    <strong>Follow Us</strong>
+                                    <p><a href="https://www.instagram.com/inkingiarts_space" target="_blank" class="text-link">@inkingiarts_space</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Founder Section -->
-        <section id="founder" class="section-padding" data-aos="fade-up">
-            <div class="founder-card" data-aos="zoom-in-up" data-aos-delay="200">
-                <div class="founder-image">
-                    <img src="http://niyoartscenter.com/wp-content/uploads/2021/06/Olivier.jpeg" alt="Olivier Kwitonda" class="founder-photo">
-                    <div class="quote-bubble">
-                        <i class="fas fa-quote-right"></i>
+        <section class="section founder-section">
+            <div class="container">
+                <div class="founder-card reveal-on-scroll">
+                    <div class="founder-image">
+                        <img src="http://niyoartscenter.com/wp-content/uploads/2021/06/Olivier.jpeg" alt="Olivier Kwitonda">
                     </div>
-                </div>
-                <div class="founder-info">
-                    <h2>Olivier Kwitonda</h2>
-                    <span class="founder-role">Founder & Creative Director</span>
-                    <blockquote>
-                        "I founded Inkingi Arts from the money I earned selling my own paintings. It started as a dream, and now it’s one of the key places to visit in Rwanda to learn about our history, learn how to paint, and more. I’m really grateful I didn’t quit earlier — my story should inspire many."
-                    </blockquote>
-                    <p>Olivier is a passionate visual artist whose vision has shaped Inkingi into a thriving hub for contemporary Rwandan art. His work and leadership continue to inspire emerging talents and celebrate cultural narratives.</p>
-                    <div class="social-buttons">
-                        <a href="https://www.instagram.com/inkingiarts_space" target="_blank" class="social-btn insta">
-                            <i class="fab fa-instagram"></i> Follow on Instagram
+
+                    <div class="founder-content">
+                        <span class="overline">The Visionary</span>
+                        <h2 class="section-heading">Olivier Kwitonda</h2>
+                        <p class="role">Artist • Founder • Cultural Pillar</p>
+
+                        <blockquote class="founder-quote">
+                            "I founded Inkingi Arts from the money I earned selling my own paintings. It started as a dream, and now it’s a key place to visit in Rwanda to learn about our history and how to paint. I’m grateful I didn’t quit earlier — my story should inspire many."
+                        </blockquote>
+
+                        <p>
+                            Through Inkingi, Olivier has created not just a gallery, but a family — a space where emerging artists are nurtured, cultural stories are told, and creativity thrives.
+                        </p>
+
+                        <a href="https://www.instagram.com/inkingiarts_space" target="_blank" class="btn btn-outline">
+                            Follow on Instagram
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- What We Do -->
-        <section class="section-padding" data-aos="fade-up">
-            <div class="section-header">
-                <span class="section-subtitle stagger-1">What We Do</span>
-                <h2 class="section-title stagger-2">Our <span class="text-green">Mission & Activities</span></h2>
-            </div>
+        <section class="section mission">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="overline">What We Do</span>
+                    <h2 class="section-heading">Celebrating Creativity</h2>
+                </div>
 
-            <div class="programs-grid stagger-3">
-                <div class="program-card" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fas fa-palette program-icon"></i>
-                    <h3>Contemporary Art Exhibitions</h3>
-                    <p>Monthly rotating showcases featuring emerging Rwandan and African artists — paintings, sculptures, photography, and mixed media that tell powerful stories.</p>
+                <div class="cards-grid">
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="card-icon"><i class="fas fa-palette"></i></div>
+                        <h3>Exhibitions</h3>
+                        <p>Monthly showcases of emerging Rwandan and African artists — celebrating bold new voices in painting, sculpture, and mixed media.</p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="card-icon"><i class="fas fa-users"></i></div>
+                        <h3>Workshops</h3>
+                        <p>Hands-on learning in painting, pottery, and weaving (Agaseke). Open to all ages, skill levels, and backgrounds.</p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="card-icon"><i class="fas fa-music"></i></div>
+                        <h3>Cultural Events</h3>
+                        <p>Poetry slams, open mics, and storytelling nights accompanied by traditional food — building community through heritage.</p>
+                    </div>
                 </div>
-                <div class="program-card" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fas fa-people-group program-icon"></i>
-                    <h3>Workshops & Skill-Building</h3>
-                    <p>Hands-on sessions in painting, pottery, weaving (Agaseke), and more. Open to kids, adults, beginners, and professionals.</p>
-                </div>
-                <div class="program-card" data-aos="fade-up" data-aos-delay="300">
-                    <i class="fas fa-music program-icon"></i>
-                    <h3>Cultural Nights & Events</h3>
-                    <p>Poetry slams, open mic nights, storytelling with traditional food, and community gatherings every Friday and third Saturday.</p>
+            </div>
+        </section>
+
+        <section class="section visit-section">
+            <div class="container">
+                <div class="grid-layout reverse-mobile">
+                    <div class="text-content reveal-on-scroll">
+                        <span class="overline">Visit Us</span>
+                        <h2 class="section-heading">Experience Inkingi</h2>
+                        <p class="lead-text">We welcome everyone — artists, families, collectors, students, and tourists — to step into a space where art breathes.</p>
+
+                        <div class="contact-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>24 KG 550 Street, Kacyiru, Kigali</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+250 788 299 791</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>yamwamba01@gmail.com</span>
+                            </div>
+                        </div>
+
+                        <a href="contact.php" class="btn btn-primary">Plan Your Visit</a>
+                    </div>
+
+                    <div class="image-wrapper reveal-on-scroll">
+                        <div class="frame">
+                            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=1200&q=80" alt="Inkingi Entrance">
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -92,310 +163,339 @@ require 'includes/header.php';
 <?php include 'includes/footer.php'; ?>
 
 <style>
+    /* --- CSS Variables & Reset --- */
     :root {
-        --primary: #2C3E50;
-        --accent: #FDB913;
-        --green: #009E60;
-        --red: #C8102E;
-        --light: #f8f9fa;
-        --gray: #6c757d;
-        --dark: #212529;
-        --radius: 20px;
-        --shadow-sm: 0 6px 20px rgba(0,0,0,0.08);
-        --shadow-md: 0 15px 40px rgba(0,0,0,0.15);
-        --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        --primary-dark: #1A2530; /* Deep Navy */
+        --primary-text: #2c3e50;
+        --accent-gold: #D4AF37; /* Premium Gold */
+        --accent-hover: #B5952F;
+        --bg-light: #F9FAFB;
+        --white: #ffffff;
+        --text-gray: #5a6a7e;
+        
+        --font-heading: 'Playfair Display', serif;
+        --font-body: 'Poppins', sans-serif;
+        
+        --radius-lg: 20px;
+        --radius-sm: 8px;
+        --shadow-soft: 0 10px 40px rgba(0,0,0,0.06);
+        --shadow-hover: 0 20px 50px rgba(0,0,0,0.12);
+        --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
+    * { box-sizing: border-box; }
+    
     body {
-        font-family: 'Poppins', sans-serif;
-        background: var(--light);
-        color: var(--dark);
+        font-family: var(--font-body);
+        color: var(--primary-text);
+        background: var(--bg-light);
+        line-height: 1.7;
         overflow-x: hidden;
+        margin: 0;
     }
 
-    main {
-        padding-bottom: 100px;
+    h1, h2, h3 { font-family: var(--font-heading); margin: 0; font-weight: 700; }
+    p { margin: 0 0 1.5rem 0; color: var(--text-gray); }
+    a { text-decoration: none; transition: var(--transition); }
+
+    /* --- Typography Helpers --- */
+    .overline {
+        display: block;
+        font-family: var(--font-body);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 0.85rem;
+        color: var(--accent-gold);
+        font-weight: 600;
+        margin-bottom: 12px;
     }
 
-    /* Hero Header */
-    .hero-header {
-        height: 80vh;
-        min-height: 600px;
-        background-size: cover;
-        background-position: center;
+    .section-heading {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        color: var(--primary-dark);
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+    }
+
+    .lead-text {
+        font-size: 1.15rem;
+        color: var(--primary-dark);
+        margin-bottom: 2rem;
+    }
+
+    .text-link { color: var(--primary-dark); font-weight: 600; position: relative; }
+    .text-link::after {
+        content: ''; position: absolute; left: 0; bottom: -2px; width: 0%; height: 2px;
+        background: var(--accent-gold); transition: var(--transition);
+    }
+    .text-link:hover { color: var(--accent-gold); }
+    .text-link:hover::after { width: 100%; }
+
+    /* --- Buttons --- */
+    .btn {
+        display: inline-block;
+        padding: 14px 36px;
+        border-radius: 50px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: var(--transition);
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background: var(--accent-gold);
+        color: var(--white);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-outline {
+        border: 2px solid var(--primary-dark);
+        color: var(--primary-dark);
+        background: transparent;
+    }
+    .btn-outline:hover {
+        background: var(--primary-dark);
+        color: var(--white);
+    }
+
+    /* --- Layout Structure --- */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    .section { padding: 100px 0; }
+    
+    .text-center { text-align: center; }
+
+    .grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+    }
+
+    /* --- Hero Section --- */
+    .hero {
         position: relative;
+        height: 90vh;
+        min-height: 600px;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
+        color: var(--white);
+        overflow: hidden;
     }
 
-    .hero-overlay {
+    .hero-bg {
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(44,62,80,0.75) 0%, rgba(44,62,80,0.95) 100%);
+        background: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=1600&q=80') center/cover no-repeat;
+        /* Parallax effect */
+        background-attachment: fixed; 
+        z-index: 0;
+    }
+    
+    .hero-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(26,37,48,0.7), rgba(26,37,48,0.9));
     }
 
     .hero-content {
         position: relative;
         z-index: 2;
-        max-width: 900px;
+        max-width: 800px;
         padding: 0 20px;
+        animation: fadeInUp 1s ease-out;
     }
 
-    .page-title {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(3.5rem, 8vw, 5.5rem);
-        color: white;
+    .hero-title {
+        font-size: clamp(3.5rem, 8vw, 6rem);
         margin-bottom: 20px;
-        line-height: 1.1;
+        letter-spacing: -1px;
     }
 
-    .page-subtitle {
-        font-size: 1.4rem;
+    .hero-subtitle {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
         color: rgba(255,255,255,0.9);
         margin-bottom: 40px;
-        max-width: 720px;
-        margin-left: auto;
-        margin-right: auto;
+        font-weight: 300;
     }
 
-    .hero-cta {
-        background: var(--accent);
-        color: var(--primary);
-        padding: 16px 48px;
+    .hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 60px;
+    }
+
+    .tag {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.2);
+        padding: 8px 24px;
         border-radius: 50px;
-        font-weight: 600;
-        font-size: 1.2rem;
-        text-decoration: none;
-        display: inline-block;
-        transition: var(--transition);
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        color: var(--accent-gold);
     }
 
-    .hero-cta:hover {
-        background: #e6a50a;
-        transform: translateY(-6px);
-        box-shadow: 0 12px 30px rgba(253,185,19,0.4);
-    }
-
-    /* Section Padding & Header */
-    .section-padding {
-        padding: 120px 0;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 80px;
-    }
-
-    .section-subtitle {
-        font-family: var(--font-marker);
-        color: var(--accent);
-        font-size: 1.4rem;
-        display: block;
-        margin-bottom: 12px;
-    }
-
-    .section-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 3.2rem;
-        color: var(--primary);
-    }
-
-    /* Content Row */
-    .content-row {
-        display: flex;
+    .scroll-btn {
+        display: inline-flex;
+        flex-direction: column;
         align-items: center;
-        gap: 80px;
-        flex-wrap: wrap;
+        color: var(--white);
+        font-size: 0.9rem;
+        opacity: 0.8;
+        gap: 10px;
     }
+    .scroll-btn i { animation: bounce 2s infinite; }
+    .scroll-btn:hover { opacity: 1; color: var(--accent-gold); }
 
-    .content-row.reverse {
-        flex-direction: row-reverse;
-    }
-
-    .image-col, .text-col {
-        flex: 1;
-        min-width: 320px;
-    }
-
-    .square-frame {
-        border-radius: var(--radius);
-        overflow: hidden;
-        outline: 12px solid var(--accent);
-        outline-offset: -12px;
-        transition: var(--transition);
-        box-shadow: var(--shadow-md);
-    }
-
-    .square-frame:hover {
-        outline-color: var(--green);
-        outline-width: 16px;
-        outline-offset: -16px;
-        transform: scale(1.02);
-    }
-
-    .square-frame img {
-        width: 100%;
-        display: block;
-        transition: transform 0.7s ease;
-    }
-
-    .square-frame:hover img {
-        transform: scale(1.1);
-    }
-
-    /* Founder Card */
-    .founder-card {
-        background: white;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-md);
-        overflow: hidden;
-        display: flex;
-        flex-wrap: wrap;
-        transition: var(--transition);
-    }
-
-    .founder-card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-    }
-
-    .founder-image {
-        flex: 0 0 350px;
+    /* --- Image Frames --- */
+    .frame {
         position: relative;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+        transform: rotate(-2deg); /* Artistic tilt */
+        transition: var(--transition);
+        border: 8px solid var(--white);
+    }
+    .frame:hover { transform: rotate(0deg) scale(1.02); box-shadow: var(--shadow-hover); }
+    .frame img { display: block; width: 100%; height: auto; }
+
+    /* --- Founder Card --- */
+    .founder-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        overflow: hidden;
     }
 
-    .founder-photo {
+    .founder-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.6s ease;
     }
 
-    .founder-card:hover .founder-photo {
-        transform: scale(1.08);
+    .founder-content { padding: 60px 50px; }
+
+    .founder-quote {
+        font-family: var(--font-heading);
+        font-size: 1.3rem;
+        font-style: italic;
+        color: var(--primary-dark);
+        border-left: 4px solid var(--accent-gold);
+        padding-left: 24px;
+        margin: 30px 0;
+        line-height: 1.6;
     }
 
-    .quote-bubble {
-        position: absolute;
-        bottom: -20px;
-        right: -20px;
-        background: var(--accent);
-        color: var(--primary);
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
+    .role { color: var(--accent-gold); font-weight: 600; margin-bottom: 20px; display: block; }
+
+    /* --- Mission Cards --- */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .feature-card {
+        background: var(--white);
+        padding: 40px;
+        border-radius: var(--radius-lg);
+        text-align: center;
+        box-shadow: var(--shadow-soft);
+        transition: var(--transition);
+        border-bottom: 3px solid transparent;
+    }
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-hover);
+        border-bottom-color: var(--accent-gold);
+    }
+
+    .card-icon {
+        font-size: 2.5rem;
+        color: var(--accent-gold);
+        margin-bottom: 24px;
+    }
+
+    /* --- Visit/Contact Details --- */
+    .contact-details { margin: 30px 0; }
+    .detail-item {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        box-shadow: 0 8px 20px rgba(253,185,19,0.3);
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 1.05rem;
+        color: var(--primary-dark);
+    }
+    .detail-item i { color: var(--accent-gold); width: 24px; text-align: center; }
+
+    .quick-info { margin-top: 30px; display: flex; gap: 30px; flex-wrap: wrap; }
+    .info-row { display: flex; gap: 15px; align-items: start; }
+    .icon-box { color: var(--accent-gold); font-size: 1.2rem; margin-top: 3px; }
+
+    /* --- Animations --- */
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+        40% {transform: translateY(10px);}
+        60% {transform: translateY(5px);}
     }
 
-    .founder-info {
-        flex: 1;
-        padding: 60px 50px;
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .founder-info h2 {
-        font-size: 2.8rem;
-        margin-bottom: 10px;
-    }
-
-    .founder-role {
-        font-size: 1.3rem;
-        color: var(--accent);
-        display: block;
-        margin-bottom: 25px;
-        font-weight: 500;
-    }
-
-    blockquote {
-        font-style: italic;
-        font-size: 1.3rem;
-        line-height: 1.6;
-        margin-bottom: 25px;
-        padding-left: 20px;
-        border-left: 4px solid var(--accent);
-    }
-
-    /* What We Do Grid */
-    .programs-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-        gap: 40px;
-    }
-
-    .program-card {
-        background: white;
-        border-radius: var(--radius);
-        padding: 40px 30px;
-        text-align: center;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-    }
-
-    .program-card:hover {
-        transform: translateY(-12px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .program-icon {
-        font-size: 3.5rem;
-        margin-bottom: 20px;
-        background: linear-gradient(45deg, var(--accent), var(--green));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        transition: transform 0.5s ease;
-    }
-
-    .program-card:hover .program-icon {
-        transform: scale(1.15) rotate(10deg);
-    }
-
-    .program-card h3 {
-        font-size: 1.7rem;
-        margin-bottom: 16px;
-        color: var(--primary);
-    }
-
-    .program-card p {
-        color: var(--gray);
-        font-size: 1rem;
-        line-height: 1.7;
-    }
-
-    /* Pattern Background */
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: -1;
-    }
-
-    /* Responsive */
+    /* --- Responsive --- */
     @media (max-width: 992px) {
-        .content-row, .content-row.reverse {
-            flex-direction: column;
-            gap: 40px;
-        }
-        .founder-card {
-            flex-direction: column;
-        }
-        .founder-image {
-            flex: none;
-        }
+        .grid-layout { grid-template-columns: 1fr; gap: 50px; }
+        .founder-card { grid-template-columns: 1fr; }
+        .founder-image { height: 400px; }
+        .reverse-mobile { display: flex; flex-direction: column-reverse; }
+        .hero-bg { background-attachment: scroll; } /* Disable parallax on mobile for performance */
+    }
+
+    @media (max-width: 768px) {
+        .section { padding: 70px 0; }
+        .founder-content { padding: 40px 30px; }
+        .hero-title { font-size: 3rem; }
     }
 </style>
 
 <script>
-    AOS.init({
-        duration: 1200,
-        once: true,
-        offset: 100
+    document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const hiddenElements = document.querySelectorAll('.reveal-on-scroll');
+        hiddenElements.forEach((el) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease-out';
+            observer.observe(el);
+        });
     });
 </script>
