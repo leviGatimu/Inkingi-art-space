@@ -1,15 +1,17 @@
 <?php
-// programs.php - Cleaned & Fixed Version
+// programs.php - Polished Version
 require 'includes/db_connect.php';
 require 'includes/header.php';
 
-// FETCH PROGRAMS
+// FETCH PROGRAMS (Simulated logic maintained for reliability)
 try {
     $stmt = $pdo->query("SELECT id, title, category, price, schedule, description, image_path FROM programs ORDER BY id DESC");
     $programs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
+    // Fallback data for demonstration
     $programs = [
         [
+            'id' => 1,
             'title' => 'Art Painting Class',
             'category' => 'Class',
             'price' => '20,000 Rwf',
@@ -18,6 +20,7 @@ try {
             'image_path' => 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=900&h=500&s=1'
         ],
         [
+            'id' => 2,
             'title' => 'Saturday Pottery',
             'category' => 'Workshop',
             'price' => '25,000 Rwf',
@@ -26,684 +29,533 @@ try {
             'image_path' => 'https://mindtrip.ai/attractions/ee8a/0069/df4a/7290/dd06/9631/4be1/8414'
         ],
         [
+            'id' => 3,
             'title' => 'Rwandan Cooking',
             'category' => 'Experience',
             'price' => '20,000 Rwf',
             'schedule' => 'Daily (Booking Req)',
             'description' => 'Interactive cooking session with Ikoma Art. Learn to prepare authentic dishes and enjoy the shared meal.',
             'image_path' => 'https://images.mindtrip.ai/attractions/4ef2/2dc8/a855/4b57/a0dc/9298/eca1/8017'
+        ],
+        [
+            'id' => 4,
+            'title' => 'Kids Creative Camp',
+            'category' => 'Class',
+            'price' => '15,000 Rwf',
+            'schedule' => 'Weekends: 9am - 12pm',
+            'description' => 'A fun morning of mixed media art designed specifically to unlock creativity in children.',
+            'image_path' => 'https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg?auto=compress&cs=tinysrgb&w=800'
         ]
     ];
 }
 
-$categories = ['Class' => 0, 'Workshop' => 0, 'Experience' => 0, 'Other' => 0];
+// Calculate Categories
+$categories = ['Class' => 0, 'Workshop' => 0, 'Experience' => 0];
+$otherCount = 0;
 foreach ($programs as $p) {
-    $cat = $p['category'] ?? 'Other';
-    $categories[$cat] = ($categories[$cat] ?? 0) + 1;
+    $cat = ucfirst(strtolower($p['category']));
+    if (array_key_exists($cat, $categories)) {
+        $categories[$cat]++;
+    } else {
+        $otherCount++;
+    }
 }
 ?>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
-<style>
-    :root {
-        --primary: #2C3E50;
-        --accent: #FDB913;
-        --green: #009E60;
-        --red: #C8102E;
-        --light: #f8f9fa;
-        --gray: #6c757d;
-        --dark: #212529;
-        --radius: 16px;
-        --shadow-sm: 0 4px 12px rgba(0,0,0,0.08);
-        --shadow-md: 0 12px 32px rgba(0,0,0,0.12);
-        --transition: all 0.35s ease;
-    }
-
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: var(--light);
-        color: var(--dark);
-        margin: 0;
-        padding: 0;
-        line-height: 1.6;
-    }
-
-    #particles-js {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        opacity: 0.15;
-        pointer-events: none;
-    }
-
-    main {
-        padding-bottom: 120px;
-    }
-
-    /* Hero - Simplified */
-    .hero-header {
-        background: var(--primary);
-        color: white;
-        text-align: center;
-        padding: 140px 24px 100px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-header::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=900&h=500&s=1') center/cover;
-        opacity: 0.25;
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 900px;
-        margin: 0 auto;
-    }
-
-    .page-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 4.2rem;
-        margin-bottom: 20px;
-        font-weight: 900;
-    }
-
-    .page-subtitle {
-        font-size: 1.35rem;
-        opacity: 0.9;
-        margin-bottom: 40px;
-        max-width: 720px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .hero-cta {
-        display: inline-block;
-        background: var(--accent);
-        color: var(--primary);
-        font-weight: 700;
-        font-size: 1.15rem;
-        padding: 16px 48px;
-        border-radius: 50px;
-        text-decoration: none;
-        box-shadow: 0 8px 24px rgba(253,185,19,0.35);
-        transition: all 0.4s ease;
-    }
-
-    .hero-cta:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 16px 40px rgba(253,185,19,0.5);
-        background: #ffca28;
-    }
-
-    /* Programs Container */
-    .programs-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 80px 30px 0;
-        display: grid;
-        grid-template-columns: 340px 1fr;
-        gap: 60px;
-    }
-
-    /* Sidebar */
-    .sidebar {
-        position: sticky;
-        top: 100px;
-        align-self: start;
-        background: white;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-md);
-        padding: 32px;
-    }
-
-    .sidebar-widget {
-        margin-bottom: 40px;
-    }
-
-    .widget-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.6rem;
-        color: var(--primary);
-        margin-bottom: 20px;
-        font-weight: 700;
-    }
-
-    .widget-title i {
-        color: var(--accent);
-        margin-right: 10px;
-    }
-
-    .search-box {
-        position: relative;
-    }
-
-    .search-box i {
-        position: absolute;
-        left: 18px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--accent);
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 14px 14px 14px 50px;
-        border: 1px solid #ddd;
-        border-radius: 50px;
-        font-size: 1rem;
-    }
-
-    .search-input:focus {
-        outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(253,185,19,0.15);
-    }
-
-    .category-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .category-item {
-        padding: 12px 16px;
-        margin-bottom: 8px;
-        cursor: pointer;
-        border-radius: 10px;
-        transition: all 0.3s;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .category-item:hover,
-    .category-item.active {
-        background: rgba(253,185,19,0.1);
-        color: var(--primary);
-        font-weight: 600;
-    }
-
-    .count-badge {
-        background: #eee;
-        color: #555;
-        font-size: 0.85rem;
-        padding: 4px 10px;
-        border-radius: 20px;
-    }
-
-    .category-item.active .count-badge {
-        background: var(--accent);
-        color: white;
-    }
-
-    /* Grid Header */
-    .grid-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 40px;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .results-count {
-        font-weight: 500;
-        color: var(--gray);
-    }
-
-    .sort-select {
-        padding: 12px 20px;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        background: white;
-        font-size: 1rem;
-        cursor: pointer;
-    }
-
-    /* Cards - FIXED SAME SIZE */
-    .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-        gap: 50px 40px;
-        align-items: stretch;
-    }
-
-    .program-card {
-        background: white;
-        border-radius: var(--radius);
-        overflow: hidden;
-        box-shadow: var(--shadow-sm);
-        transition: all 0.4s ease;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        min-height: 640px;
-    }
-
-    .program-card:hover {
-        transform: translateY(-12px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .card-image-container {
-        position: relative;
-        width: 100%;
-        padding-top: 66.67%; /* 3:2 ratio */
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-
-    .card-image {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.7s ease;
-    }
-
-    .program-card:hover .card-image {
-        transform: scale(1.08);
-    }
-
-    .card-category {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: var(--accent);
-        color: white;
-        font-weight: 700;
-        font-size: 0.9rem;
-        padding: 8px 16px;
-        border-radius: 50px;
-        text-transform: uppercase;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    [data-category="class"] .card-category { background: var(--cat-class); }
-    [data-category="workshop"] .card-category { background: var(--cat-workshop); }
-    [data-category="experience"] .card-category { background: var(--cat-experience); }
-    [data-category="other"] .card-category { background: var(--cat-other); }
-
-    .card-body {
-        padding: 32px 28px;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .card-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.9rem;
-        margin-bottom: 16px;
-        color: var(--primary);
-        line-height: 1.3;
-        font-weight: 700;
-    }
-
-    .card-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 18px;
-        margin-bottom: 20px;
-        font-size: 0.98rem;
-        color: var(--gray);
-    }
-
-    .meta-item i {
-        color: var(--green);
-        margin-right: 6px;
-    }
-
-    .card-description {
-        flex-grow: 1;
-        color: #444;
-        font-size: 1.02rem;
-        line-height: 1.7;
-        margin-bottom: 28px;
-    }
-
-    .card-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: auto;
-        padding-top: 20px;
-        border-top: 1px solid #eee;
-    }
-
-    .price {
-        font-size: 1.45rem;
-        font-weight: 700;
-        color: var(--red);
-    }
-
-    .btn-book {
-        background: var(--primary);
-        color: white;
-        padding: 12px 28px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.35s ease;
-    }
-
-    .btn-book:hover {
-        background: #1e2a38;
-        transform: translateY(-2px);
-    }
-
-    /* FAQ Section */
-    .faq-section {
-        max-width: 1100px;
-        margin: 100px auto;
-        padding: 0 30px;
-    }
-
-    .faq-section h2 {
-        text-align: center;
-        font-family: 'Playfair Display', serif;
-        font-size: 3rem;
-        margin-bottom: 60px;
-        color: var(--primary);
-    }
-
-    .faq-item {
-        margin-bottom: 16px;
-        border-radius: 12px;
-        overflow: hidden;
-        background: white;
-        box-shadow: var(--shadow-sm);
-    }
-
-    .faq-question {
-        width: 100%;
-        padding: 20px 32px;
-        text-align: left;
-        background: none;
-        border: none;
-        font-size: 1.18rem;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .faq-question::after {
-        content: '\f078';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        transition: transform 0.4s;
-    }
-
-    .faq-item.active .faq-question::after {
-        transform: rotate(180deg);
-    }
-
-    .faq-answer {
-        max-height: 0;
-        overflow: hidden;
-        padding: 0 32px;
-        transition: all 0.4s ease;
-        background: #fafafa;
-    }
-
-    .faq-item.active .faq-answer {
-        max-height: 600px;
-        padding: 28px 32px;
-    }
-
-    @media (max-width: 992px) {
-        .programs-container {
-            grid-template-columns: 1fr;
-            padding: 60px 24px 0;
-        }
-        .sidebar {
-            position: static;
-        }
-        .hero-header {
-            padding: 100px 20px 80px;
-        }
-        .page-title {
-            font-size: 3.2rem;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .cards-grid {
-            grid-template-columns: 1fr;
-            gap: 40px;
-        }
-        .program-card {
-            min-height: 600px;
-        }
-        .card-image-container {
-            padding-top: 75%;
-        }
-    }
-</style>
-
 <main>
-    <div id="particles-js"></div>
-
-    <header class="hero-header">
-        <div class="hero-content">
-            <h1 class="page-title">Programs & Workshops</h1>
-            <p class="page-subtitle">Discover creativity through our vibrant classes, workshops and cultural experiences at Inkingi Arts Space.</p>
-            <a href="#programs" class="hero-cta">Explore Programs</a>
+    <header class="page-hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content" data-aos="fade-up">
+            <h1 class="hero-title">Programs & Workshops</h1>
+            <p class="hero-subtitle">Discover your creative voice through our curated classes, immersive workshops, and cultural experiences.</p>
         </div>
     </header>
 
-    <div class="programs-container" id="programs">
-        <aside class="sidebar">
-            <div class="sidebar-widget">
-                <h3 class="widget-title"><i class="fas fa-search"></i> Search Programs</h3>
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search by title..." onkeyup="filterCards()">
+    <div class="main-layout container">
+        
+        <aside class="sidebar" data-aos="fade-right" data-aos-delay="100">
+            <div class="sidebar-sticky">
+                
+                <div class="widget search-widget">
+                    <h3 class="widget-title">Search</h3>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Find a program..." onkeyup="applyFilters()">
+                    </div>
                 </div>
-            </div>
 
-            <div class="sidebar-widget">
-                <h3 class="widget-title"><i class="fas fa-palette"></i> Categories</h3>
-                <ul class="category-list">
-                    <li class="category-item active" data-category="all" onclick="filterByCategory('all', this)">
-                        All <span class="count-badge"><?= count($programs) ?></span>
-                    </li>
-                    <li class="category-item" data-category="Class" onclick="filterByCategory('Class', this)">
-                        Classes <span class="count-badge"><?= $categories['Class'] ?? 0 ?></span>
-                    </li>
-                    <li class="category-item" data-category="Workshop" onclick="filterByCategory('Workshop', this)">
-                        Workshops <span class="count-badge"><?= $categories['Workshop'] ?? 0 ?></span>
-                    </li>
-                    <li class="category-item" data-category="Experience" onclick="filterByCategory('Experience', this)">
-                        Experiences <span class="count-badge"><?= $categories['Experience'] ?? 0 ?></span>
-                    </li>
-                </ul>
+                <div class="widget category-widget">
+                    <h3 class="widget-title">Categories</h3>
+                    <ul class="category-list">
+                        <li class="cat-item active" onclick="setCategory('all', this)">
+                            <span>All Programs</span>
+                            <span class="badge"><?= count($programs) ?></span>
+                        </li>
+                        <?php foreach ($categories as $cat => $count): ?>
+                        <li class="cat-item" onclick="setCategory('<?= strtolower($cat) ?>', this)">
+                            <span><?= $cat ?></span>
+                            <span class="badge"><?= $count ?></span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <div class="help-box">
+                    <i class="far fa-question-circle"></i>
+                    <h4>Need Help?</h4>
+                    <p>Not sure which class is right for you?</p>
+                    <a href="contact.php" class="text-link">Contact Us</a>
+                </div>
             </div>
         </aside>
 
-        <section>
-            <div class="grid-header">
-                <div class="results-count">Showing <strong id="resultCount"><?= count($programs) ?></strong> programs</div>
-                <select class="sort-select" onchange="sortCards(this.value)">
-                    <option value="title-asc">Title (A-Z)</option>
-                    <option value="title-desc">Title (Z-A)</option>
-                    <option value="price-asc">Price (Low to High)</option>
-                    <option value="price-desc">Price (High to Low)</option>
-                </select>
+        <section class="content-area">
+            
+            <div class="toolbar" data-aos="fade-down" data-aos-delay="200">
+                <p class="results-text">Showing <strong id="resultCount"><?= count($programs) ?></strong> experiences</p>
+                <div class="sort-wrapper">
+                    <span>Sort by:</span>
+                    <select id="sortSelect" onchange="applyFilters()">
+                        <option value="newest">Newest First</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="title-asc">Name: A-Z</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="cards-grid" id="cardsContainer">
-                <?php foreach ($programs as $index => $program): ?>
-                    <article class="program-card" 
-                             data-category="<?= strtolower(htmlspecialchars($program['category'])) ?>"
-                             data-title="<?= htmlspecialchars($program['title']) ?>"
-                             data-price="<?= (int)str_replace([',', ' Rwf'], '', $program['price']) ?>"
-                             data-aos="fade-up" 
-                             data-aos-delay="<?= $index * 120 ?>">
-                        <div class="card-image-container">
-                            <span class="card-category"><?= htmlspecialchars($program['category']) ?></span>
-                            <img src="<?= htmlspecialchars($program['image_path']) ?>" 
-                                 class="card-image" 
-                                 alt="<?= htmlspecialchars($program['title']) ?>">
-                        </div>
-                        <div class="card-body">
+            <div class="program-grid" id="programGrid">
+                <?php foreach ($programs as $index => $program): 
+                    $priceRaw = (int)str_replace([',', ' Rwf', ' '], '', $program['price']);
+                    $catSlug = strtolower(htmlspecialchars($program['category']));
+                ?>
+                <article class="program-card" 
+                         data-category="<?= $catSlug ?>" 
+                         data-price="<?= $priceRaw ?>" 
+                         data-title="<?= htmlspecialchars($program['title']) ?>"
+                         data-aos="fade-up" 
+                         data-aos-delay="<?= 100 + ($index * 50) ?>">
+                    
+                    <div class="card-media">
+                        <span class="cat-tag"><?= htmlspecialchars($program['category']) ?></span>
+                        <img src="<?= htmlspecialchars($program['image_path']) ?>" alt="<?= htmlspecialchars($program['title']) ?>">
+                        <div class="overlay"></div>
+                    </div>
+
+                    <div class="card-details">
+                        <div class="card-header">
                             <h3 class="card-title"><?= htmlspecialchars($program['title']) ?></h3>
-                            
-                            <div class="card-meta">
-                                <div class="meta-item"><i class="far fa-clock"></i> <?= htmlspecialchars($program['schedule']) ?></div>
-                                <div class="meta-item"><i class="fas fa-tag"></i> <?= htmlspecialchars($program['price']) ?></div>
-                            </div>
-
-                            <p class="card-description"><?= htmlspecialchars($program['description']) ?></p>
-
-                            <div class="card-footer">
-                                <span class="price"><?= htmlspecialchars($program['price']) ?></span>
-                                <a href="contact.php?book=<?= urlencode($program['title']) ?>" class="btn-book">Book Now</a>
+                            <div class="meta-row">
+                                <span><i class="far fa-clock"></i> <?= htmlspecialchars($program['schedule']) ?></span>
                             </div>
                         </div>
-                    </article>
+                        
+                        <p class="card-desc"><?= htmlspecialchars($program['description']) ?></p>
+                        
+                        <div class="card-footer">
+                            <div class="price-block">
+                                <span class="label">Price</span>
+                                <span class="value"><?= htmlspecialchars($program['price']) ?></span>
+                            </div>
+                            <a href="contact.php?book=<?= urlencode($program['title']) ?>" class="btn-book">
+                                Book Now
+                            </a>
+                        </div>
+                    </div>
+                </article>
                 <?php endforeach; ?>
             </div>
+
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No programs found</h3>
+                <p>Try adjusting your search or category filters.</p>
+                <button onclick="resetFilters()" class="btn-outline">Clear Filters</button>
+            </div>
+
         </section>
     </div>
 
-    <!-- FAQ -->
-    <section class="faq-section">
-        <h2>Frequently Asked Questions</h2>
-        <div class="faq-accordion">
-            <div class="faq-item">
-                <button class="faq-question">What materials are provided in classes?</button>
-                <div class="faq-answer">
-                    <p>We provide all necessary materials including canvas, paints, brushes, clay, tools etc. You only need to bring your creativity!</p>
+    <section class="section-faq">
+        <div class="container-narrow">
+            <h2 class="section-heading">Frequently Asked Questions</h2>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        What materials do I need to bring?
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="accordion-body">
+                        <p>For most classes (Painting, Pottery), we provide all necessary materials including canvas, paints, aprons, and tools. Just bring yourself! For specialized workshops, specific requirements will be listed.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question">Is previous experience required?</button>
-                <div class="faq-answer">
-                    <p>No — our programs are suitable for complete beginners as well as advanced artists.</p>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Do I need previous art experience?
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="accordion-body">
+                        <p>Not at all! Our "Class" and "Experience" categories are designed for all skill levels, from complete beginners to seasoned artists looking for a creative space.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question">How do I book a program?</button>
-                <div class="faq-answer">
-                    <p>Click "Book Now" on any program card or contact us directly. Early booking is recommended.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question">Are children welcome?</button>
-                <div class="faq-answer">
-                    <p>Yes! Many programs are family-friendly and suitable for children aged 6+.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question">What is your cancellation policy?</button>
-                <div class="faq-answer">
-                    <p>Free cancellation up to 24 hours before the session. Please contact us for any changes.</p>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Can I book a private session?
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="accordion-body">
+                        <p>Yes, we offer private bookings for team building, birthday parties, or 1-on-1 tuition. Please contact us directly via email to arrange a private schedule.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
 </main>
 
 <?php include 'includes/footer.php'; ?>
 
-<script>
-    // Particles - subtle
-    particlesJS('particles-js', {
-        particles: {
-            number: { value: 30, density: { enable: true, value_area: 800 } },
-            color: { value: ['#FDB913', '#009E60', '#C8102E'] },
-            shape: { type: 'circle' },
-            opacity: { value: 0.4, random: true },
-            size: { value: 4, random: true },
-            move: { enable: true, speed: 1.2, random: true }
-        },
-        interactivity: {
-            events: { onhover: { enable: true, mode: 'grab' } }
-        }
-    });
+<style>
+    /* --- CSS Variables (Matching previous page) --- */
+    :root {
+        --primary-dark: #1A2530;
+        --accent-gold: #D4AF37;
+        --accent-hover: #B5952F;
+        --bg-light: #F9FAFB;
+        --white: #ffffff;
+        --text-gray: #5a6a7e;
+        --font-heading: 'Playfair Display', serif;
+        --font-body: 'Poppins', sans-serif;
+        --radius: 12px;
+        --shadow-soft: 0 10px 30px rgba(0,0,0,0.05);
+        --shadow-hover: 0 20px 40px rgba(0,0,0,0.1);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
 
+    /* --- Base --- */
+    body {
+        font-family: var(--font-body);
+        background: var(--bg-light);
+        color: var(--primary-dark);
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-heading); margin: 0; font-weight: 700; }
+    
+    .container { max-width: 1300px; margin: 0 auto; padding: 0 24px; }
+    .container-narrow { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+    /* --- Hero --- */
+    .page-hero {
+        position: relative;
+        height: 60vh;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--white);
+        margin-bottom: 60px;
+    }
+
+    .hero-bg {
+        position: absolute;
+        inset: 0;
+        background: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=1600&q=80') center/cover;
+        background-attachment: fixed;
+    }
+
+    .hero-bg::after {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(to bottom, rgba(26,37,48,0.6), rgba(26,37,48,0.9));
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 700px; padding: 20px; }
+    .hero-title { font-size: clamp(3rem, 6vw, 4.5rem); margin-bottom: 16px; }
+    .hero-subtitle { font-size: 1.2rem; opacity: 0.9; font-weight: 300; }
+
+    /* --- Layout --- */
+    .main-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 60px;
+        padding-bottom: 100px;
+        align-items: start;
+    }
+
+    /* --- Sidebar --- */
+    .sidebar-sticky { position: sticky; top: 120px; }
+    
+    .widget { margin-bottom: 40px; }
+    .widget-title { font-size: 1.4rem; margin-bottom: 20px; color: var(--primary-dark); }
+
+    .search-box {
+        position: relative;
+        background: var(--white);
+        border: 1px solid #eee;
+        border-radius: 50px;
+        padding: 5px 20px;
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+    }
+    .search-box:focus-within { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
+    .search-box input { border: none; outline: none; width: 100%; padding: 10px; font-family: inherit; font-size: 0.95rem; }
+    .search-box i { color: var(--accent-gold); }
+
+    .category-list { list-style: none; padding: 0; margin: 0; }
+    .cat-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: var(--transition);
+        color: var(--text-gray);
+    }
+    .cat-item:hover, .cat-item.active { color: var(--accent-gold); transform: translateX(5px); }
+    .cat-item.active { font-weight: 600; border-bottom-color: var(--accent-gold); }
+    
+    .badge {
+        background: #eee; color: #666; font-size: 0.75rem;
+        padding: 2px 10px; border-radius: 20px; transition: var(--transition);
+    }
+    .cat-item.active .badge { background: var(--accent-gold); color: white; }
+
+    .help-box {
+        background: var(--primary-dark);
+        color: white;
+        padding: 30px;
+        border-radius: var(--radius);
+        text-align: center;
+    }
+    .help-box i { font-size: 2rem; color: var(--accent-gold); margin-bottom: 15px; }
+    .text-link { color: var(--accent-gold); text-decoration: underline; font-weight: 600; }
+
+    /* --- Toolbar --- */
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    .sort-wrapper select {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: inherit;
+        color: var(--primary-dark);
+        cursor: pointer;
+    }
+
+    /* --- Grid & Cards --- */
+    .program-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 30px;
+    }
+
+    .program-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .program-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .card-media {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+    }
+    .card-media img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+    .program-card:hover .card-media img { transform: scale(1.08); }
+    
+    .cat-tag {
+        position: absolute;
+        top: 15px; right: 15px;
+        background: rgba(255,255,255,0.95);
+        color: var(--primary-dark);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 50px;
+        z-index: 2;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .card-details { padding: 25px; display: flex; flex-direction: column; flex: 1; }
+    .card-title { font-size: 1.5rem; margin-bottom: 10px; line-height: 1.3; }
+    .meta-row { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 15px; }
+    .meta-row i { color: var(--accent-gold); margin-right: 5px; }
+    
+    .card-desc {
+        color: #666; font-size: 0.95rem; margin-bottom: 25px;
+        display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+
+    .card-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .price-block { display: flex; flex-direction: column; }
+    .price-block .label { font-size: 0.75rem; text-transform: uppercase; color: #aaa; font-weight: 600; }
+    .price-block .value { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); }
+
+    .btn-book {
+        background: var(--accent-gold);
+        color: var(--white);
+        padding: 10px 24px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        font-size: 0.9rem;
+    }
+    .btn-book:hover { background: var(--accent-hover); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
+
+    .btn-outline {
+        padding: 10px 24px; border: 1px solid #ddd; background: transparent; 
+        cursor: pointer; border-radius: 50px; margin-top: 20px;
+    }
+
+    .no-results { text-align: center; padding: 60px; color: #999; width: 100%; grid-column: 1/-1; }
+    .no-results i { font-size: 3rem; margin-bottom: 20px; display: block; opacity: 0.5; }
+
+    /* --- FAQ --- */
+    .section-faq { padding: 100px 0; background: white; }
+    .section-heading { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
+    
+    .accordion-item { border-bottom: 1px solid #eee; }
+    .accordion-header {
+        width: 100%; text-align: left; padding: 25px 0;
+        background: none; border: none; cursor: pointer;
+        font-family: var(--font-body); font-size: 1.1rem; font-weight: 600;
+        display: flex; justify-content: space-between; align-items: center;
+        color: var(--primary-dark); transition: color 0.3s;
+    }
+    .accordion-header:hover { color: var(--accent-gold); }
+    .accordion-header i { transition: transform 0.3s; color: var(--accent-gold); }
+    .accordion-item.active .accordion-header i { transform: rotate(45deg); }
+    
+    .accordion-body {
+        max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;
+        color: var(--text-gray); padding-right: 40px;
+    }
+    .accordion-item.active .accordion-body { max-height: 200px; padding-bottom: 25px; }
+
+    /* --- Responsive --- */
+    @media (max-width: 992px) {
+        .main-layout { grid-template-columns: 1fr; gap: 40px; }
+        .sidebar-sticky { position: static; }
+        .sidebar { order: -1; } /* Move sidebar to top */
+        .page-hero { height: 50vh; }
+    }
+</style>
+
+<script>
+    // Initialize Animations
     AOS.init({ duration: 800, once: true });
 
-    // Category Filter
-    function filterByCategory(cat, element) {
-        document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
-        element.classList.add('active');
+    // --- Unified Filtering Logic ---
+    let currentCategory = 'all';
+    let currentSearch = '';
 
-        const cards = document.querySelectorAll('.program-card');
-        let visible = 0;
+    function setCategory(cat, element) {
+        currentCategory = cat;
+        
+        // Update UI classes
+        document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
+        if(element) element.classList.add('active');
 
+        applyFilters();
+    }
+
+    function resetFilters() {
+        document.getElementById('searchInput').value = '';
+        setCategory('all', document.querySelector('.cat-item:first-child'));
+    }
+
+    function applyFilters() {
+        currentSearch = document.getElementById('searchInput').value.toLowerCase();
+        const sortValue = document.getElementById('sortSelect').value;
+        const container = document.getElementById('programGrid');
+        const cards = Array.from(document.querySelectorAll('.program-card'));
+        let visibleCount = 0;
+
+        // 1. Filter
         cards.forEach(card => {
-            if (cat === 'all' || card.dataset.category === cat.toLowerCase()) {
-                card.style.display = '';
-                visible++;
+            const cardCat = card.dataset.category;
+            const cardTitle = card.dataset.title.toLowerCase();
+            
+            const matchesCategory = currentCategory === 'all' || cardCat === currentCategory;
+            const matchesSearch = cardTitle.includes(currentSearch);
+
+            if (matchesCategory && matchesSearch) {
+                card.style.display = 'flex';
+                visibleCount++;
             } else {
                 card.style.display = 'none';
             }
         });
 
-        document.getElementById('resultCount').textContent = visible;
-    }
+        // 2. Sort (Only sort visible cards technically, but sorting all is fine)
+        const sortedCards = cards.sort((a, b) => {
+            const priceA = parseInt(a.dataset.price);
+            const priceB = parseInt(b.dataset.price);
+            const titleA = a.dataset.title;
+            const titleB = b.dataset.title;
 
-    // Search
-    function filterCards() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const cards = document.querySelectorAll('.program-card');
-        let visible = 0;
-
-        cards.forEach(card => {
-            const title = card.dataset.title.toLowerCase();
-            const desc = card.querySelector('.card-description').textContent.toLowerCase();
-
-            if (title.includes(query) || desc.includes(query)) {
-                if (card.style.display !== 'none') {
-                    visible++;
-                }
-            } else {
-                card.style.display = 'none';
-            }
+            if (sortValue === 'price-asc') return priceA - priceB;
+            if (sortValue === 'price-desc') return priceB - priceA;
+            if (sortValue === 'title-asc') return titleA.localeCompare(titleB);
+            // Default newest (simulated by DOM order usually, or ID if we had it)
+            return 0; 
         });
 
-        document.getElementById('resultCount').textContent = visible;
+        // Re-append sorted cards
+        sortedCards.forEach(card => container.appendChild(card));
+
+        // 3. UI Updates
+        document.getElementById('resultCount').textContent = visibleCount;
+        document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+        
+        // Refresh AOS layout if needed
+        setTimeout(() => AOS.refresh(), 100);
     }
 
-    // Sorting
-    function sortCards(sortBy) {
-        const container = document.getElementById('cardsContainer');
-        const cards = Array.from(container.children);
+    // --- Accordion Logic ---
+    document.querySelectorAll('.accordion-header').forEach(button => {
+        button.addEventListener('click', () => {
+            const item = button.parentElement;
+            
+            // Close others (optional - strictly one open at a time)
+            document.querySelectorAll('.accordion-item').forEach(i => {
+                if (i !== item) i.classList.remove('active');
+            });
 
-        cards.sort((a, b) => {
-            if (sortBy === 'title-asc') return a.dataset.title.localeCompare(b.dataset.title);
-            if (sortBy === 'title-desc') return b.dataset.title.localeCompare(a.dataset.title);
-            if (sortBy === 'price-asc') return a.dataset.price - b.dataset.price;
-            if (sortBy === 'price-desc') return b.dataset.price - a.dataset.price;
-            return 0;
-        });
-
-        cards.forEach(card => container.appendChild(card));
-    }
-
-    // FAQ Accordion
-    document.querySelectorAll('.faq-question').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const parent = btn.parentElement;
-            parent.classList.toggle('active');
+            item.classList.toggle('active');
         });
     });
 </script>
