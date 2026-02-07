@@ -45,10 +45,10 @@
              <li><a href="index.php#about">Home</a></li>
             <li><a href="about.php">About</a></li>
             <li><a href="programs.php">Programs</a></li>
-            <li><a href="index.php#gallery">Gallery</a></li>
+            <li><a href="gallery.php">Gallery</a></li>
             <li><a href="index.php#events">Events & News</a></li>
             <li><a href="index.php#contact">Contact</a></li>
-            <li><a href="#" class="nav-join">Join now</a></li>
+            <li><a href="artist/artist_login.php" class="nav-join">Artist login</a></li>
         </ul>
         <button class="hamburger" id="hamburgerBtn" aria-label="Open Mobile Menu">
             <i class="fas fa-bars"></i>

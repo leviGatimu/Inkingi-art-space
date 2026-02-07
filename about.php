@@ -39,7 +39,7 @@ require 'includes/header.php';
         <section id="founder" class="section-padding" data-aos="fade-up">
             <div class="founder-card" data-aos="zoom-in-up" data-aos-delay="200">
                 <div class="founder-image">
-                    <img src="https://miro.medium.com/v2/1*0IWFbOo0PXroBB_gIm9Iew.jpeg" alt="Olivier Kwitonda" class="founder-photo">
+                    <img src="http://niyoartscenter.com/wp-content/uploads/2021/06/Olivier.jpeg" alt="Olivier Kwitonda" class="founder-photo">
                     <div class="quote-bubble">
                         <i class="fas fa-quote-right"></i>
                     </div>
