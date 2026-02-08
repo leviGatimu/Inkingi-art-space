@@ -2,456 +2,407 @@
 require 'includes/db_connect.php';
 require 'includes/header.php';
 
-// Fetch all events/news posts from DB
+// Fetch all posts from DB
 try {
     $stmt = $pdo->query("SELECT * FROM posts ORDER BY date DESC");
-    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $all_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    $posts = [];
+    $all_posts = [];
 }
+
+// Sidebar logic: Get the latest 3-4 posts for the widget
+$latest_widget_posts = array_slice($all_posts, 0, 4);
 ?>
 
-<main>
-    <!-- Hero – Elegant & Immersive -->
-    <header class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">Events & News</h1>
-            <p class="hero-subtitle">Stay updated with Inkingi’s latest happenings, exhibitions, workshops, and cultural stories</p>
-            <div class="hero-tags">
-                <span>Exhibitions</span>
-                <span>Workshops</span>
-                <span>Cultural Nights</span>
-            </div>
-            <a href="#events" class="scroll-cue">
-                <span>Explore Latest</span>
-                <i class="fas fa-chevron-down"></i>
-            </a>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<header class="page-hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container hero-container">
+        <div class="breadcrumbs">
+            <a href="index.php">Inkingi Arts Space</a> <i class="fas fa-chevron-right"></i> <span class="current">Events & Gallery</span>
         </div>
-    </header>
+        <h1 class="hero-heading">EVENTS & PHOTOS</h1>
+    </div>
+</header>
 
-    <div class="content">
-
-        <!-- Events & News Grid -->
-        <section class="section events" id="events">
-            <div class="container">
-                <div class="section-header">
-                    <span class="label">Latest Updates</span>
-                    <h2 class="title">Events, Exhibitions & Stories</h2>
-                </div>
-
-                <div class="filter-tabs">
-                    <button class="tab-btn active" data-filter="all">All</button>
-                    <button class="tab-btn" data-filter="events">Events</button>
-                    <button class="tab-btn" data-filter="photos">Photos</button>
-                </div>
-
-                <div class="events-grid">
-                    <?php if (empty($posts)): ?>
-                        <p class="no-posts">No events or news yet. Check back soon!</p>
-                    <?php else: ?>
-                        <?php foreach ($posts as $post): ?>
-                            <div class="event-card" data-category="<?= strtolower($post['category']) ?>" data-aos="fade-up">
-                                <div class="event-image">
-                                    <img src="<?= htmlspecialchars($post['image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>">
-                                </div>
-                                <div class="event-info">
-                                    <span class="event-date"><?= date('F d, Y', strtotime($post['date'])) ?></span>
-                                    <h3 class="event-title"><?= htmlspecialchars($post['title']) ?></h3>
-                                    <p class="event-excerpt"><?= nl2br(htmlspecialchars(substr($post['content'], 0, 150))) ?>...</p>
-                                    <div class="event-tags">
-                                        <span class="tag"><?= htmlspecialchars($post['category']) ?></span>
-                                    </div>
-                                </div>
-                                <a href="post.php?id=<?= $post['id'] ?>" class="event-link">Read More <i class="fas fa-arrow-right"></i></a>
+<main class="events-page-container">
+    <div class="container">
+        
+        <div class="page-layout">
+            
+            <div class="main-content">
+                <?php if (!empty($all_posts)): ?>
+                    <?php foreach ($all_posts as $post): ?>
+                    <article class="event-list-item">
+                        <div class="item-image">
+                            <img src="<?= htmlspecialchars($post['image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>">
+                            <div class="icon-overlay">
+                                <i class="fas fa-camera"></i>
                             </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
+                        </div>
+                        <div class="item-details">
+                            <h2 class="item-title">
+                                <a href="post.php?id=<?= $post['id'] ?>"><?= htmlspecialchars($post['title']) ?></a>
+                            </h2>
+                            <p class="item-excerpt">
+                                <?= htmlspecialchars(substr(strip_tags($post['content'] ?? ''), 0, 150)) ?>...
+                            </p>
+                        </div>
+                    </article>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
-        </section>
 
+            <aside class="sidebar">
+                
+                <div class="widget search-widget">
+                    <form action="" method="GET">
+                        <input type="text" placeholder="Search..." name="s">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+
+                <div class="widget latest-widget">
+                    <h3 class="widget-header">LATEST UPDATES</h3>
+                    <div class="widget-list">
+                        <?php if(!empty($latest_widget_posts)): ?>
+                            <?php foreach ($latest_widget_posts as $post): ?>
+                            <div class="widget-item">
+                                <div class="w-thumb">
+                                    <a href="post.php?id=<?= $post['id'] ?>">
+                                        <img src="<?= htmlspecialchars($post['image']) ?>" alt="Thumb">
+                                    </a>
+                                </div>
+                                <div class="w-content">
+                                    <span class="w-date"><?= date('M d, Y', strtotime($post['date'])) ?></span>
+                                    <h4 class="w-title">
+                                        <a href="post.php?id=<?= $post['id'] ?>"><?= htmlspecialchars($post['title']) ?></a>
+                                    </h4>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="widget categories-widget">
+                    <h3 class="widget-header">CATEGORIES</h3>
+                    <ul class="cat-list">
+                        <li><a href="#">Exhibitions</a></li>
+                        <li><a href="#">Workshops</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Residencies</a></li>
+                    </ul>
+                </div>
+
+            </aside>
+
+        </div>
     </div>
 </main>
 
 <?php include 'includes/footer.php'; ?>
 
 <style>
+    /* --- CSS Variables --- */
     :root {
-        --primary: #2C3E50;
-        --accent: #FDB913;
-        --green: #009E60;
-        --red: #C8102E;
-        --light: #f8f9fa;
-        --gray: #6c757d;
-        --dark: #212529;
-        --radius: 24px;
-        --shadow-sm: 0 8px 24px rgba(0,0,0,0.08);
-        --shadow-md: 0 20px 60px rgba(0,0,0,0.15);
-        --transition: all 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+        --primary: #3b4d61; /* Slate Blue from your image */
+        --accent: #FDB913; /* Gold/Yellow Accent for Art feel */
+        --text-dark: #222222;
+        --text-gray: #666666;
+        --border-color: #e5e5e5;
+        --bg-light: #f9f9f9;
+        --white: #ffffff;
     }
 
     body {
         font-family: 'Poppins', sans-serif;
-        background: var(--light);
-        color: var(--dark);
-        overflow-x: hidden;
+        background-color: var(--white);
+        color: var(--text-dark);
+        margin: 0;
     }
 
-    main {
-        padding-bottom: 140px;
+    a { text-decoration: none; color: inherit; transition: 0.3s; }
+    ul { list-style: none; padding: 0; margin: 0; }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
     }
 
-    /* Hero */
-    .hero {
-        height: 100vh;
-        min-height: 720px;
-        background: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/c3/32/f3/ivuka-arts-centre.jpg?w=1600&q=80') center/cover no-repeat;
+    /* --- HERO SECTION --- */
+    .page-hero-section {
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .hero-bg {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, rgba(44,62,80,0.78), rgba(44,62,80,0.96));
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 960px;
-        padding: 0 30px;
-    }
-
-    .hero-title {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(4.5rem, 10vw, 8rem);
+        /* Art Gallery Background Image */
+        background-image: url('https://images.unsplash.com/photo-1765375382570-d87a9bc70c25?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-size: cover;
+        background-position: center;
+        padding: 160px 0 80px; /* High top padding to clear fixed header */
         color: white;
-        line-height: 1;
-        margin-bottom: 20px;
-        letter-spacing: -3px;
-    }
-
-    .hero-subtitle {
-        font-size: clamp(1.6rem, 4vw, 2.4rem);
-        color: rgba(255,255,255,0.92);
-        margin-bottom: 50px;
-    }
-
-    .hero-tags {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px 24px;
         margin-bottom: 60px;
     }
 
-    .hero-tags span {
-        background: rgba(253,185,19,0.18);
-        color: #FDB913;
-        padding: 10px 22px;
-        border-radius: 50px;
-        font-size: 1rem;
-        backdrop-filter: blur(6px);
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(59, 77, 97, 0.85); /* Slate Blue Overlay */
     }
 
-    .scroll-cue {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        color: white;
-        font-size: 1.2rem;
+    .hero-container {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 10px;
+        text-transform: uppercase;
         font-weight: 500;
-        text-decoration: none;
-        transition: var(--transition);
+        letter-spacing: 1px;
     }
-
-    .scroll-cue:hover {
+    .breadcrumbs i { font-size: 0.7rem; margin: 0 10px; opacity: 0.7; }
+    .breadcrumbs a {
+        color: inherit;
+    }
+    .breadcrumbs a:hover {
         color: var(--accent);
-        transform: translateY(8px);
     }
+    .breadcrumbs .current { color: var(--accent); }
 
-    /* Container */
-    .container {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0 30px;
-    }
-
-    .section {
-        padding: 140px 0;
-    }
-
-    .section-label {
-        font-family: 'Poppins', sans-serif;
-        color: var(--accent);
-        font-size: 1.35rem;
-        font-weight: 500;
-        letter-spacing: 2.5px;
-        display: block;
-        margin-bottom: 16px;
-    }
-
-    .section-title {
-        font-family: 'Playfair Display', serif;
+    /* Hero Heading */
+    .hero-heading {
+        font-family: 'Oswald', sans-serif;
         font-size: 4rem;
-        color: var(--primary);
-        margin-bottom: 48px;
+        color: white;
+        text-transform: uppercase;
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -1px;
         line-height: 1.1;
     }
 
-    .intro {
-        font-size: 1.4rem;
-        line-height: 1.75;
-        color: #444;
-        margin-bottom: 40px;
-        max-width: 780px;
+    /* --- MAIN LAYOUT --- */
+    .events-page-container {
+        padding-bottom: 100px;
     }
 
-    /* Story */
-    .story-grid {
+    .page-layout {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 80px;
-        align-items: center;
+        grid-template-columns: 2fr 1fr; /* 66% / 33% Split */
+        gap: 60px;
     }
 
-    .story-image .frame {
-        border-radius: var(--radius);
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        border: 14px solid white;
-        outline: 1px solid #eee;
-        transition: var(--transition);
-    }
-
-    .story-image .frame:hover {
-        transform: scale(1.02);
-        box-shadow: var(--shadow-lg);
-    }
-
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 30px;
-        margin-top: 50px;
-    }
-
-    .info-item {
+    /* --- LEFT COLUMN --- */
+    .main-content {
         display: flex;
-        gap: 20px;
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    .event-list-item {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr; /* Image wider than text */
+        gap: 30px;
         align-items: flex-start;
     }
 
-    .info-item i {
-        font-size: 2.2rem;
-        color: var(--accent);
-        margin-top: 4px;
-    }
-
-    .info-item strong {
-        display: block;
-        font-size: 1.15rem;
-        margin-bottom: 8px;
-    }
-
-    /* Founder */
-    .founder-card {
-        background: white;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-md);
-        display: grid;
-        grid-template-columns: 400px 1fr;
+    .item-image {
+        position: relative;
         overflow: hidden;
-        transition: var(--transition);
+        border-radius: 4px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    .founder-card:hover {
-        transform: translateY(-12px);
-        box-shadow: var(--shadow-lg);
+    .item-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        aspect-ratio: 4/3;
+        transition: transform 0.5s ease;
     }
 
-    .founder-photo {
+    .event-list-item:hover .item-image img {
+        transform: scale(1.05);
+    }
+
+    .icon-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: var(--accent);
+        color: var(--primary);
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    .item-details {
+        padding-top: 5px;
+    }
+
+    .item-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.8rem;
+        color: var(--primary);
+        text-transform: uppercase;
+        line-height: 1.3;
+        margin: 0 0 15px 0;
+        font-weight: 700;
+    }
+
+    .item-title a:hover {
+        color: var(--accent);
+    }
+
+    .item-excerpt {
+        color: var(--text-gray);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .widget-header {
+        background-color: var(--primary);
+        color: white;
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+    /* Search Widget */
+    .search-widget form {
+        position: relative;
+        background: #f4f4f4;
+    }
+    
+    .search-widget input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        padding: 15px 50px 15px 20px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.95rem;
+        color: #555;
+        outline: none;
+    }
+    
+    .search-widget button {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: none;
+        color: #888;
+        font-size: 1.1rem;
+        cursor: pointer;
+    }
+
+    /* Latest Widget */
+    .widget-list {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .widget-item {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .w-thumb {
+        width: 90px;
+        flex-shrink: 0;
+        height: 70px;
+        overflow: hidden;
+    }
+
+    .w-thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: 0.3s;
+    }
+    
+    .widget-item:hover .w-thumb img {
+        opacity: 0.8;
     }
 
-    .founder-content {
-        padding: 80px 70px;
-    }
-
-    .founder-label {
-        color: var(--accent);
-        font-size: 1.35rem;
-        font-weight: 500;
-        margin-bottom: 16px;
-        display: block;
-    }
-
-    .founder-name {
-        font-size: 3.2rem;
-        margin-bottom: 12px;
-    }
-
-    .founder-role {
-        font-size: 1.45rem;
-        color: var(--gray);
-        margin-bottom: 40px;
-    }
-
-    .founder-quote {
-        font-style: italic;
-        font-size: 1.45rem;
-        line-height: 1.75;
-        margin-bottom: 35px;
-        padding-left: 28px;
-        border-left: 6px solid var(--accent);
-    }
-
-    .founder-bio {
-        font-size: 1.15rem;
-        line-height: 1.8;
-        color: #444;
-    }
-
-    .social-link {
-        background: var(--accent);
-        color: var(--primary);
-        padding: 16px 40px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 14px;
-        transition: var(--transition);
-        margin-top: 40px;
-    }
-
-    .social-link:hover {
-        background: #e6a50a;
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(253,185,19,0.35);
-    }
-
-    /* Mission */
-    .mission-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-        gap: 40px;
-    }
-
-    .mission-card {
-        background: white;
-        border-radius: var(--radius);
-        padding: 50px 40px;
-        text-align: center;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-    }
-
-    .mission-card:hover {
-        transform: translateY(-12px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .mission-icon {
-        font-size: 4rem;
-        color: var(--accent);
-        margin-bottom: 30px;
-    }
-
-    .mission-card h3 {
-        font-size: 1.9rem;
-        margin-bottom: 20px;
-        color: var(--primary);
-    }
-
-    .mission-card p {
-        color: var(--gray);
-        font-size: 1.1rem;
-        line-height: 1.8;
-    }
-
-    /* Visit */
-    .visit-layout {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 100px;
-        align-items: center;
-    }
-
-    .visit-info {
-        display: grid;
-        gap: 40px;
-        margin-top: 40px;
-    }
-
-    .detail-item {
+    .w-content {
         display: flex;
-        gap: 24px;
-        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .detail-item i {
-        font-size: 2.4rem;
+    .w-date {
+        font-size: 0.75rem;
         color: var(--accent);
-        margin-top: 6px;
-    }
-
-    .detail-item strong {
-        display: block;
-        font-size: 1.2rem;
-        margin-bottom: 8px;
-    }
-
-    .btn-main {
-        background: var(--accent);
-        color: var(--primary);
-        padding: 18px 52px;
-        border-radius: 50px;
-        text-decoration: none;
+        text-transform: uppercase;
         font-weight: 600;
-        font-size: 1.25rem;
-        display: inline-block;
-        transition: var(--transition);
-        margin-top: 40px;
+        margin-bottom: 5px;
+        letter-spacing: 0.5px;
     }
 
-    .btn-main:hover {
-        background: #e6a50a;
-        transform: translateY(-6px);
-        box-shadow: 0 18px 50px rgba(253,185,19,0.35);
+    .w-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1rem;
+        color: var(--primary);
+        line-height: 1.3;
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .w-title a:hover { color: var(--accent); }
+
+
+    /* Categories Widget */
+    .cat-list li {
+        border-bottom: 1px solid #eee;
+    }
+    .cat-list li:last-child { border-bottom: none; }
+
+    .cat-list li a {
+        display: block;
+        padding: 12px 0;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        font-weight: 400;
+    }
+
+    .cat-list li a:hover {
+        color: var(--accent);
+        padding-left: 5px; /* Slight movement effect */
     }
 
     /* Responsive */
     @media (max-width: 992px) {
-        .story-grid, .visit-layout {
-            grid-template-columns: 1fr;
-            gap: 70px;
-        }
-        .founder-card {
-            grid-template-columns: 1fr;
-        }
-        .section { padding: 120px 0; }
+        .page-layout { grid-template-columns: 1fr; }
+        .hero-heading { font-size: 3rem; }
     }
-
+    
     @media (max-width: 768px) {
-        .hero-title { font-size: 4.5rem; }
-        .section-title { font-size: 3rem; }
+        .event-list-item { grid-template-columns: 1fr; }
+        .item-image img { aspect-ratio: 16/9; }
+        .page-hero-section { padding: 130px 0 60px; }
     }
 </style>
-
-<script>
-    AOS.init({
-        duration: 1200,
-        once: true,
-        offset: 120,
-        easing: 'ease-out-cubic'
-    });
-</script>

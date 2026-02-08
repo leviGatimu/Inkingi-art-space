@@ -341,6 +341,137 @@
     transform: perspective(1000px) rotatex(5deg) rotateY(5deg)  scale(1.18); 
     box-shadow: 0px 15px 35px rgba(253, 185, 19, 0.4); 
 }
+/* ──────────────────────────────────────────────
+   SMOOTH AUTO-SCROLLING GALLERY CAROUSEL
+─────────────────────────────────────────────── */
+.gallery-scroller {
+    overflow: hidden;
+    width: 100%;
+    padding: 40px 0;
+    margin: 0 -30px; /* extend to edges */
+}
+
+.gallery-track {
+    display: flex;
+    animation: scroll 60s linear infinite;
+    width: max-content;
+}
+
+.gallery-item {
+    flex: 0 0 auto;
+    width: 380px;
+    padding: 0 20px;
+}
+
+.gallery-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    background: white;
+    height: 480px;
+    cursor: pointer;
+}
+
+.gallery-card:hover {
+    transform: translateY(-12px);
+    box-shadow: var(--shadow-md);
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.gallery-card:hover img {
+    transform: scale(1.08);
+}
+
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.85) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 30px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.gallery-card:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.gallery-artist {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.gallery-track:hover {
+    animation-play-state: paused;
+}
+
+/* CTA Button */
+.gallery-cta {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.btn-main {
+    background: var(--accent);
+    color: var(--primary);
+    padding: 16px 48px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.25rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: var(--transition);
+    box-shadow: 0 10px 30px rgba(253,185,19,0.3);
+}
+
+.btn-main:hover {
+    background: #e6a50a;
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(253,185,19,0.45);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .gallery-item {
+        width: 340px;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-item {
+        width: 300px;
+        padding: 0 12px;
+    }
+    .hero-title {
+        font-size: 4.5rem;
+    }
+}
     </style>
 </head>
 
@@ -494,69 +625,358 @@
             </div>
         </section>
 
-        <section class="section-padding" id="gallery" data-aos="fade-up" data-aos-duration="1000">
-            <div class="section-header" data-aos="zoom-in" data-aos-delay="200">
-                <span class="section-subtitle stagger-1">Visual Journey</span>
-                <h2 class="section-title stagger-2">Latest <span class="text-yellow">Masterpieces</span></h2>
-            </div>
-            
-            <div class="gallery-grid stagger-3">
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300"><img src="https://images.mindtrip.ai/attractions/ee8a/0069/df4a/7290/dd06/9631/4be1/8414" alt="Inkingi Art Exhibition"></div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="400"><img src="https://mindtrip.ai/cdn-cgi/image/format=webp,w=720/https://tcdn.mindtrip.ai/images/556448/13nqp5p.png" alt="Inkingi Arts Event Setup"></div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="500"><img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80" alt="Art 3"></div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="600"><img src="https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&q=80" alt="Art 4"></div>
-            </div>
-            
-            <div class="stagger-3" style="text-align: center; margin-top: 60px;" data-aos="fade-up" data-aos-delay="700">
-                <a href="about.php" class="btn-main">Discover Our Story <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
-            </div>
-        </section>
+        <?php
+// Fetch artworks from DB (same as gallery.php but limited + ordered)
+$stmt = $pdo->prepare("SELECT a.*, r.name AS artist_name 
+                       FROM artworks a 
+                       LEFT JOIN artists r ON a.artist_id = r.id 
+                       ORDER BY a.date_uploaded DESC 
+                       LIMIT 12");
+$stmt->execute();
+$artworks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
-        <section class="section-padding" id="events" style="background: white; border-top: 1px solid rgba(0,0,0,0.05);" data-aos="fade-down" data-aos-duration="1000">
-            <div class="section-header" data-aos="zoom-in" data-aos-delay="200">
-                 <span class="section-subtitle stagger-1">Join Us</span>
-                <h2 class="section-title stagger-2">Our <span class="text-red">Programs</span></h2>
-            </div>
-            <div class="events-grid stagger-3">
-                <div class="event-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="event-date">
-                        <span class="day">15</span><span class="month">OCT</span>
-                    </div>
-                    <div class="event-details">
-                        <h4>Kigali Poetry Slam</h4>
-                        <div class="event-meta">
-                            <span><i class="far fa-clock"></i> 7:00 PM</span>
-                            <span><i class="fas fa-map-marker-alt"></i> Main Hall</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="event-card" data-aos="fade-up" data-aos-delay="400">
-                     <div class="event-date" style="background: var(--accent-yellow); color: var(--text-dark);">
-                        <span class="day">22</span><span class="month">OCT</span>
-                    </div>
-                    <div class="event-details">
-                        <h4>"Roots" Exhibition Opening</h4>
-                        <div class="event-meta">
-                            <span><i class="far fa-clock"></i> 6:30 PM</span>
-                            <span><i class="fas fa-map-marker-alt"></i> Gallery A</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="event-card" data-aos="fade-up" data-aos-delay="500">
-                     <div class="event-date" style="background: var(--primary);">
-                        <span class="day">01</span><span class="month">NOV</span>
-                    </div>
-                    <div class="event-details">
-                        <h4>Agaseke Weaving Workshop</h4>
-                        <div class="event-meta">
-                            <span><i class="far fa-clock"></i> 10:00 AM</span>
-                            <span><i class="fas fa-map-marker-alt"></i> Studio 2</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section class="section-padding" id="gallery" data-aos="fade-up" data-aos-duration="1000">
+    <div class="section-header" data-aos="zoom-in" data-aos-delay="200">
+        <span class="section-subtitle stagger-1">Visual Journey</span>
+        <h2 class="section-title stagger-2">Latest <span class="text-yellow">Masterpieces</span></h2>
+    </div>
 
+    <?php if (empty($artworks)): ?>
+        <p style="text-align:center; color:var(--text-muted); font-size:1.3rem; padding: 60px 0;">
+            No artworks yet — check back soon!
+        </p>
+    <?php else: ?>
+        <!-- Smooth Auto-Scrolling Carousel -->
+        <div class="gallery-scroller">
+            <div class="gallery-track">
+                <!-- First set -->
+                <?php foreach ($artworks as $art): ?>
+                    <div class="gallery-item">
+                        <div class="gallery-card">
+                            <img src="<?= htmlspecialchars($art['image_path']) ?>" 
+                                 alt="<?= htmlspecialchars($art['title']) ?>" 
+                                 loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3 class="gallery-title"><?= htmlspecialchars($art['title']) ?></h3>
+                                <p class="gallery-artist">by <?= htmlspecialchars($art['artist_name'] ?? 'Unknown Artist') ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+                <!-- Duplicate set for seamless loop -->
+                <?php foreach ($artworks as $art): ?>
+                    <div class="gallery-item">
+                        <div class="gallery-card">
+                            <img src="<?= htmlspecialchars($art['image_path']) ?>" 
+                                 alt="<?= htmlspecialchars($art['title']) ?>" 
+                                 loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3 class="gallery-title"><?= htmlspecialchars($art['title']) ?></h3>
+                                <p class="gallery-artist">by <?= htmlspecialchars($art['artist_name'] ?? 'Unknown Artist') ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <div class="gallery-cta" data-aos="fade-up" data-aos-delay="700">
+            <a href="gallery.php" class="btn-main">
+                View Full Gallery <i class="fas fa-arrow-right" style="margin-left: 12px;"></i>
+            </a>
+        </div>
+    <?php endif; ?>
+</section>
+
+        <section class="section-padding" id="events" style="background: white; border-top: 1px solid rgba(0,0,0,0.05); border-radius: 15px;" data-aos="fade-down" data-aos-duration="1000">
+            <?php
+// Fetch latest 4 posts for the homepage section
+try {
+    $stmt = $pdo->query("SELECT * FROM posts ORDER BY date DESC LIMIT 4");
+    $home_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    $home_posts = [];
+}
+
+// Logic: 1st post is "Featured" (Left), Next 3 are "List" (Right)
+$featured_post = !empty($home_posts) ? $home_posts[0] : null;
+$list_posts = array_slice($home_posts, 1, 3);
+?>
+
+<section class="home-events-section">
+    <div class="container">
+        
+        <div class="section-header-flex">
+            <h2 class="section-title">LATEST EVENTS & GALLERY</h2>
+            <a href="events.php" class="view-all-btn">
+                View All <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <?php if ($featured_post): ?>
+        <div class="events-home-grid">
+            
+            <article class="featured-card">
+                <div class="f-image">
+                    <a href="post.php?id=<?= $featured_post['id'] ?>">
+                        <img src="<?= htmlspecialchars($featured_post['image']) ?>" alt="<?= htmlspecialchars($featured_post['title']) ?>">
+                    </a>
+                    <div class="f-date-badge">
+                        <span class="day"><?= date('d', strtotime($featured_post['date'])) ?></span>
+                        <span class="month"><?= date('M', strtotime($featured_post['date'])) ?></span>
+                    </div>
+                </div>
+                <div class="f-content">
+                    <span class="f-category">
+                        <?= htmlspecialchars($featured_post['category'] ?? 'Art Gallery') ?>
+                    </span>
+                    <h3 class="f-title">
+                        <a href="post.php?id=<?= $featured_post['id'] ?>"><?= htmlspecialchars($featured_post['title']) ?></a>
+                    </h3>
+                    <p class="f-excerpt">
+                        <?= htmlspecialchars(substr(strip_tags($featured_post['content'] ?? ''), 0, 120)) ?>...
+                    </p>
+                </div>
+            </article>
+
+            <div class="recent-list">
+                <?php foreach ($list_posts as $post): ?>
+                <article class="recent-item">
+                    <div class="r-thumb">
+                        <a href="post.php?id=<?= $post['id'] ?>">
+                            <img src="<?= htmlspecialchars($post['image']) ?>" alt="Thumb">
+                        </a>
+                    </div>
+                    <div class="r-content">
+                        <span class="r-date"><?= date('F j, Y', strtotime($post['date'])) ?></span>
+                        <h4 class="r-title">
+                            <a href="post.php?id=<?= $post['id'] ?>"><?= htmlspecialchars($post['title']) ?></a>
+                        </h4>
+                    </div>
+                </article>
+                <?php endforeach; ?>
+            </div>
+
+        </div>
+        <?php else: ?>
+            <p style="text-align:center; color:#666;">No events currently scheduled.</p>
+        <?php endif; ?>
+
+    </div>
+</section>
+
+<style>
+    /* --- CSS Variables (Ensure these match your main stylesheet) --- */
+    :root {
+        --primary: #3b4d61; /* Slate Blue */
+        --accent: #FDB913; /* Gold */
+        --text-dark: #222222;
+        --text-gray: #666666;
+        --bg-light: #f9f9f9;
+    }
+
+    /* --- Section Styles --- */
+    .home-events-section {
+        padding: 80px 0;
+        background-color: #fff;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Header */
+    .section-header-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 15px;
+    }
+
+    .section-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 2.2rem;
+        color: var(--primary);
+        text-transform: uppercase;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .view-all-btn {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--text-dark);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.3s;
+    }
+
+    .view-all-btn:hover {
+        color: var(--accent);
+    }
+
+    /* Grid Layout */
+    .events-home-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr; /* Large Left, List Right */
+        gap: 40px;
+        align-items: flex-start;
+    }
+
+    /* --- Featured Card (Left) --- */
+    .featured-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .f-image {
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+    .f-image img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+        display: block;
+    }
+
+    .featured-card:hover .f-image img {
+        transform: scale(1.05);
+    }
+
+    .f-date-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: var(--accent);
+        color: var(--primary);
+        padding: 8px 12px;
+        text-align: center;
+        min-width: 50px;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .f-date-badge .day { display: block; font-size: 1.2rem; font-weight: 700; line-height: 1; }
+    .f-date-badge .month { display: block; font-size: 0.8rem; text-transform: uppercase; font-weight: 500; }
+
+    .f-category {
+        color: var(--accent);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .f-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.8rem;
+        margin: 5px 0 10px;
+        line-height: 1.2;
+    }
+
+    .f-title a { color: var(--primary); text-decoration: none; transition: 0.3s; }
+    .f-title a:hover { color: var(--accent); }
+
+    .f-excerpt {
+        color: var(--text-gray);
+        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    /* --- Recent List (Right) --- */
+    .recent-list {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .recent-item {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .recent-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .r-thumb {
+        width: 120px;
+        height: 90px;
+        flex-shrink: 0;
+        overflow: hidden;
+        border-radius: 4px;
+    }
+
+    .r-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.3s;
+    }
+
+    .recent-item:hover .r-thumb img {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+
+    .r-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .r-date {
+        font-size: 0.75rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .r-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.1rem;
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    .r-title a { color: var(--primary); text-decoration: none; transition: 0.3s; }
+    .r-title a:hover { color: var(--accent); }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .events-home-grid {
+            grid-template-columns: 1fr;
+        }
+        .section-header-flex {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+    }
+</style>
+        </section>
+                    
     </main>
 
     <div id="contact">
