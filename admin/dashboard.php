@@ -39,12 +39,13 @@ try {
 </head>
 <body>
 
-    <aside class="sidebar">
+     <aside class="sidebar">
         <div class="brand">INKINGI <span>CMS</span></div>
         <nav>
             <a href="dashboard.php" class="nav-link active"><i class="fas fa-th-large"></i> Dashboard</a>
-            <a href="edit_footer.php" class="nav-link"><i class="fa-regular fa-calendar-check"></i></i> Edit Footer</a>
-            <a href="admin_programs.php" class="nav-link"><i class="fa-solid fa-grip"></i></i> Edit programs</a>
+            <a href="artists_admin.php" class="nav-link "><i class="fas fa-users"></i> Artists</a>
+            <a href="edit_footer.php" class="nav-link"><i class="fa-regular fa-calendar-check"></i> Edit Footer</a>
+            <a href="admin_programs.php" class="nav-link"><i class="fa-solid fa-grip"></i> Edit programs</a>
             <a href="events_admin.php" class="nav-link"><i class="fas fa-map-marker-alt"></i> Add event</a>
             <a href="../index.php" target="_blank" class="nav-link"><i class="fas fa-external-link-alt"></i> View Site</a>
             <a href="logout.php" class="nav-link" style="margin-top:auto; color:#ff5f57;"><i class="fas fa-sign-out-alt"></i> Logout</a>
