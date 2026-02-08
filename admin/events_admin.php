@@ -9,7 +9,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 require '../includes/db_connect.php';
 
-// Handle Form Logic
+// --- Logic Handling ---
 $message = "";
 $messageType = "";
 
@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date = trim($_POST['date'] ?? date('Y-m-d'));
         $image_path = '';
 
+        // Image upload logic
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = __DIR__ . '/../uploads/posts/';
             $uploadWebPath = 'uploads/posts/';
@@ -43,12 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $pdo->prepare("INSERT INTO posts (title, content, category, image, date) VALUES (?, ?, ?, ?, ?)");
                 $stmt->execute([$title, $content, $category, $image_path, $date]);
-                $message = "Event published successfully!";
+                $message = "Entry published successfully!";
                 $messageType = "success";
             } catch (Exception $e) {
                 $message = "Database Error: " . $e->getMessage();
                 $messageType = "error";
             }
+        } else {
+            $message = "Title and Content are required.";
+            $messageType = "error";
         }
     }
 
@@ -75,207 +79,122 @@ $posts = $pdo->query("SELECT * FROM posts ORDER BY date DESC")->fetchAll(PDO::FE
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Inkingi Admin | Events</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Inkingi Admin | Events Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/admin-style.css"> 
-    <link rel="icon" type="image/png" href="../assets/images/logo.svg">
     
     <style>
-        /* Exact overrides to match your Screenshot colors if admin-style.css varies slightly */
+        /* --- DASHBOARD CSS (Provided) --- */
         :root {
-            --bg-dark: #060818;       /* The deep navy background */
-            --sidebar-bg: #0b101a;    /* Slightly lighter navy for sidebar */
-            --card-bg: #101522;       /* Card background */
-            --gold: #FDB913;          /* Inkingi Gold */
-            --text-white: #ffffff;
-            --text-muted: #8892b0;
-            --border: #1e293b;
+            --navy-dark: #020c1b;
+            --navy-light: #112240;
+            --accent: #64ffda; /* Teal */
+            --gold: #FDB913;
+            --text: #ccd6f6;
+            --border: 1px solid rgba(255,255,255,0.1);
+            --red: #ff5f57;
         }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            display: flex;
-        }
+        * { box-sizing: border-box; outline: none; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--navy-dark); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
-        /* Sidebar Styling (Matching Dashboard Code) */
-        .sidebar {
-            width: 250px;
-            background: var(--sidebar-bg);
-            height: 100vh;
-            padding: 20px;
-            position: fixed;
-            border-right: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            flex-direction: column;
+        /* SIDEBAR */
+        .sidebar { width: 260px; background: var(--navy-light); border-right: var(--border); display: flex; flex-direction: column; padding: 30px; flex-shrink: 0;}
+        .brand { font-family: 'Permanent Marker', cursive; font-size: 1.8rem; color: var(--gold); margin-bottom: 50px; }
+        .nav-link { 
+            display: flex; align-items: center; gap: 15px; padding: 15px; color: #8892b0; text-decoration: none; 
+            border-radius: 10px; transition: 0.3s; margin-bottom: 5px; 
         }
+        .nav-link:hover, .nav-link.active { background: rgba(253, 185, 19, 0.1); color: var(--gold); }
+        .nav-link i { width: 20px; text-align: center; }
 
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--gold);
-            margin-bottom: 40px;
-            letter-spacing: 1px;
-        }
-        .brand span { color: white; }
+        /* MAIN AREA */
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .header h1 { margin: 0; font-size: 2rem; color: #fff; }
 
-        .nav-link {
-            display: flex;
-            align-items: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 12px 15px;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            transition: 0.3s;
-        }
-        
-        .nav-link i { width: 25px; }
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(253, 185, 19, 0.1); /* Gold tint */
-            color: var(--gold);
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 250px;
-            padding: 40px;
-        }
-
-        .header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        h1 { font-size: 2rem; margin: 0; }
-        .sub-text { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
-
-        /* Forms & Cards (Matching "Quick Actions" look) */
-        .admin-card {
-            background: var(--card-bg);
-            border: 1px solid var(--gold); /* Gold border like dashboard cards */
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+        /* EDITOR FORM STYLE */
+        .editor-container { background: var(--navy-light); padding: 40px; border-radius: 20px; border: var(--border); margin-bottom: 50px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .full-width { grid-column: span 2; }
-
-        label {
-            display: block;
-            color: var(--text-white);
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
+        .form-group { margin-bottom: 25px; }
+        .form-label { display: block; margin-bottom: 10px; color: var(--gold); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         .form-control {
-            width: 100%;
-            padding: 12px;
-            background: #060818;
-            border: 1px solid #2d3748;
-            border-radius: 8px;
-            color: white;
-            font-family: inherit;
+            width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px; color: #fff; border-radius: 8px; font-family: inherit; font-size: 1rem;
         }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--gold);
+        .form-control:focus { border-color: var(--gold); }
+        
+        .btn-save {
+            background: var(--accent); color: var(--navy-dark); padding: 15px 40px; border: none;
+            border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 1rem; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
         }
-
-        /* Buttons (Matching Dashboard Buttons) */
-        .btn-gold {
-            background: var(--gold);
-            color: #000;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .btn-gold:hover { transform: translateY(-2px); opacity: 0.9; }
+        .btn-save:hover { box-shadow: 0 0 20px rgba(100, 255, 218, 0.4); transform: scale(1.02); }
 
         .btn-back {
-            background: rgba(255,255,255,0.05);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: 0.3s;
+            color: #8892b0; text-decoration: none; font-size: 0.9rem; transition: 0.3s; display: flex; align-items: center; gap: 8px;
         }
-        .btn-back:hover { color: white; background: rgba(255,255,255,0.1); }
+        .btn-back:hover { color: var(--accent); }
 
-        /* List Items */
-        .post-item {
-            background: var(--card-bg);
-            border: 1px solid #1e293b;
-            padding: 20px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
+        /* POSTS GRID (Using Page Card Style) */
+        .page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .page-card {
+            background: var(--navy-light); border: var(--border); border-radius: 16px; padding: 25px;
+            transition: 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column;
         }
+        .page-card:hover { transform: translateY(-5px); border-color: var(--accent); }
         
-        .post-info h4 { margin: 0 0 5px 0; font-size: 1.1rem; }
-        .post-meta { font-size: 0.85rem; color: var(--text-muted); }
-        .post-cat { color: var(--gold); font-weight: 600; margin-right: 10px; }
-
-        .action-btn {
-            background: transparent;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 8px;
-            transition: 0.3s;
+        .card-thumb {
+            width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;
+            background: #0b162a;
         }
-        .action-btn:hover { color: #ff0000; transform: scale(1.1); }
+        .page-card h3 { color: #fff; margin: 0 0 5px 0; font-size: 1.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-meta { color: var(--gold); font-size: 0.85rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .card-actions { margin-top: auto; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+        
+        .btn-delete {
+            background: transparent; color: var(--red); border: 1px solid var(--red);
+            padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-size: 0.85rem;
+        }
+        .btn-delete:hover { background: var(--red); color: white; }
 
-        .alert { padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid transparent; }
-        .alert.success { background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: #10b981; }
-        .alert.error { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: #ef4444; }
+        /* ALERTS */
+        .alert { padding: 15px; border-radius: 10px; margin-bottom: 30px; font-weight: 500; border: 1px solid transparent; }
+        .alert.success { background: rgba(100, 255, 218, 0.1); color: var(--accent); border-color: var(--accent); }
+        .alert.error { background: rgba(255, 95, 87, 0.1); color: var(--red); border-color: var(--red); }
+
+        /* Form file input fix */
+        input[type="file"]::file-selector-button {
+            background: var(--navy-dark); color: var(--text); border: 1px solid var(--gold);
+            padding: 8px 15px; border-radius: 5px; margin-right: 15px; cursor: pointer; transition: 0.3s;
+        }
+        input[type="file"]::file-selector-button:hover { background: var(--gold); color: var(--navy-dark); }
 
     </style>
 </head>
 <body>
 
-     <aside class="sidebar">
+   <aside class="sidebar">
         <div class="brand">INKINGI <span>CMS</span></div>
         <nav>
-            <a href="dashboard.php" class="nav-link active"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="dashboard.php" class="nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
             <a href="edit_footer.php" class="nav-link"><i class="fa-regular fa-calendar-check"></i></i> Edit Footer</a>
             <a href="admin_programs.php" class="nav-link"><i class="fa-solid fa-grip"></i></i> Edit programs</a>
-            <a href="events_admin.php" class="nav-link"><i class="fas fa-map-marker-alt"></i> Add event</a>
+            <a href="events_admin.php" class="nav-link active"><i class="fas fa-map-marker-alt"></i> Add event</a>
             <a href="../index.php" target="_blank" class="nav-link"><i class="fas fa-external-link-alt"></i> View Site</a>
             <a href="logout.php" class="nav-link" style="margin-top:auto; color:#ff5f57;"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
     </aside>
 
+
     <main class="main-content">
         
-        <div class="header-flex">
+        <div class="header">
             <div>
-                <h1>Manage Events & Gallery</h1>
-                <p class="sub-text">Add, edit, or remove content from the Events page.</p>
+                <h1>Manage Events & News</h1>
+                <p style="color: #8892b0; margin-top: 5px;">Create and manage content for the Events & Photos page.</p>
             </div>
             <a href="dashboard.php" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
         </div>
@@ -286,20 +205,20 @@ $posts = $pdo->query("SELECT * FROM posts ORDER BY date DESC")->fetchAll(PDO::FE
             </div>
         <?php endif; ?>
 
-        <div class="admin-card">
-            <h3 style="margin-bottom: 25px; color: white; font-weight:600;"><i class="fas fa-plus-circle" style="color: var(--gold);"></i> Create New Entry</h3>
+        <div class="editor-container">
+            <h2 style="color:white; margin-bottom:30px; font-size: 1.5rem;">Create New Entry</h2>
             
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="add_post" value="1">
                 
                 <div class="form-grid">
                     <div class="form-group full-width">
-                        <label>Title</label>
-                        <input type="text" name="title" class="form-control" placeholder="e.g. Summer Art Workshop" required>
+                        <label class="form-label">Event / News Title</label>
+                        <input type="text" name="title" class="form-control" placeholder="e.g. Summer Art Exhibition Opening" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Category</label>
+                        <label class="form-label">Category</label>
                         <select name="category" class="form-control">
                             <option value="Events">Event</option>
                             <option value="Photos">Photo Gallery</option>
@@ -309,56 +228,67 @@ $posts = $pdo->query("SELECT * FROM posts ORDER BY date DESC")->fetchAll(PDO::FE
                     </div>
 
                     <div class="form-group">
-                        <label>Date</label>
+                        <label class="form-label">Date</label>
                         <input type="date" name="date" class="form-control" value="<?= date('Y-m-d') ?>">
                     </div>
 
                     <div class="form-group full-width">
-                        <label>Description / Content</label>
-                        <textarea name="content" class="form-control" rows="5" placeholder="Details about the event..."></textarea>
+                        <label class="form-label">Description / Content</label>
+                        <textarea name="content" class="form-control" rows="6" placeholder="Write the details about the event here..."></textarea>
                     </div>
 
                     <div class="form-group full-width">
-                        <label>Upload Image</label>
+                        <label class="form-label">Featured Image</label>
                         <input type="file" name="image" class="form-control">
                     </div>
                 </div>
 
-                <div style="margin-top: 25px; text-align: right;">
-                    <button type="submit" class="btn-gold">Publish Event</button>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-paper-plane"></i> Publish Event
+                    </button>
                 </div>
             </form>
         </div>
 
-        <h3 style="margin-bottom: 20px; margin-top:40px;">Existing Entries</h3>
-
-        <div class="posts-list">
-            <?php if (empty($posts)): ?>
-                <p style="color: var(--text-muted);">No events found.</p>
-            <?php else: ?>
+        <h2 style="color: white; margin-bottom: 25px; font-size: 1.5rem;">Existing Entries</h2>
+        
+        <?php if (empty($posts)): ?>
+            <div style="text-align: center; color: #8892b0; padding: 50px; background: rgba(255,255,255,0.05); border-radius: 15px;">
+                <i class="fas fa-folder-open" style="font-size: 2rem; margin-bottom: 10px;"></i><br>
+                No entries found.
+            </div>
+        <?php else: ?>
+            <div class="page-grid">
                 <?php foreach ($posts as $post): ?>
-                    <div class="post-item">
-                        <div class="post-info">
-                            <h4><?= htmlspecialchars($post['title']) ?></h4>
-                            <div class="post-meta">
-                                <span class="post-cat"><?= htmlspecialchars($post['category']) ?></span> 
-                                <span style="color: #666;">|</span> 
-                                <?= date('M d, Y', strtotime($post['date'])) ?>
+                    <div class="page-card">
+                        <?php if ($post['image']): ?>
+                            <img src="../<?= htmlspecialchars($post['image']) ?>" class="card-thumb" alt="Event Image">
+                        <?php else: ?>
+                            <div class="card-thumb" style="display:flex; align-items:center; justify-content:center; color:#555;">
+                                <i class="fas fa-image fa-2x"></i>
                             </div>
+                        <?php endif; ?>
+
+                        <div class="card-meta">
+                            <?= htmlspecialchars($post['category']) ?> &bull; <?= date('M d', strtotime($post['date'])) ?>
                         </div>
-                        <div class="post-actions">
-                            <form method="POST" onsubmit="return confirm('Delete this event?');" style="margin:0;">
+                        <h3><?= htmlspecialchars($post['title']) ?></h3>
+                        
+                        <div class="card-actions">
+                            <span style="color: #8892b0; font-size: 0.85rem;">ID: #<?= $post['id'] ?></span>
+                            <form method="POST" onsubmit="return confirm('Permanently delete this item?');" style="margin:0;">
                                 <input type="hidden" name="delete_post" value="1">
                                 <input type="hidden" name="delete_id" value="<?= $post['id'] ?>">
-                                <button type="submit" class="action-btn" title="Delete">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button type="submit" class="btn-delete">
+                                    <i class="fas fa-trash-alt"></i> Delete
                                 </button>
                             </form>
                         </div>
                     </div>
                 <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+            </div>
+        <?php endif; ?>
 
     </main>
 
