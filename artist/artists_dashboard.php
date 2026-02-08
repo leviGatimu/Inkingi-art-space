@@ -474,8 +474,7 @@ $messageType = "info";
             <div class="nav-actions">
                 <a href="edit_profile.php" class="nav-btn">Edit Profile</a>
                 <a href="artists_upload.php" class="nav-btn" style="background: var(--green); color: #0a0c14;">Upload Artwork</a>
-                <a href="artists_upload.php" class="nav-btn" style="background: var(--green); color: #0a0c14;">Add a new event</a>
-                <a href="logout.php" class="nav-btn logout-btn">Logout</a>
+                <a href="logout.php" class="nav-btn logout-btnS">Logout</a>
             </div>
 
             <!-- Hamburger -->
