@@ -38,8 +38,7 @@
              <li><a href="index.php#about">Home</a></li>
             <li><a href="about.php">About</a></li>
             <li><a href="programs.php">Programs</a></li>
-            <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="index.php#events">Events & News</a></li>
+            <li><a href="events.php">Events & News</a></li>
             <li><a href="contact.php">Contact</a></li>
             <li><a href="artist/artist_login.php" class="nav-join">Artist login</a></li>
         </ul>
